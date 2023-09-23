@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
+    @if (IsSectionDefined("_MessageBox")) // eğer bir view sayfasında böyle bir tanımlama varsa ,MessageBox secrion'ını kullanıyorsa yani
+    {
+        @RenderSection("_MessageBox",false)
+    }
+    else
+    {
+        // eğer üsteki tanımlama yoksa view sayfalarında bu alert box ile uyarı mesajı gösterilir
+        <div class="alert alert-warning text-center mb-0">
+            Welcome !
+        </div>
+    }
+
+
+    <partial name="_Navbar"></partial>
+    
+    @if (IsSectionDefined("Jumbotron"))
+    {
+        @RenderSection("Jumbotron")
+    }
+
+   
+    <main>
+        <div class="container">
+
+            @if (IsSectionDefined("Categories"))
+            {
+                <div class="row mt-4">
+
+                    <div class="col-md-3">
+                        @RenderSection("Categories",false)
+                    </div>
+
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                @RenderBody()
+            }
+
+        </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+    @RenderSection("Scripts",false)
+
+</body>
+</html>

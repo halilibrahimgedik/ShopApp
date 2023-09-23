@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShopApp.WebUI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShopApp.WebUI.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    @if (IsSectionDefined("_MessageBox")) // eğer bir view sayfasında böyle bir tanımlama varsa ,MessageBox secrion'ını kullanıyorsa yani
+    {
+        @RenderSection("_MessageBox",false)
+    }
+    else
+    {
+        // eğer üsteki tanımlama yoksa view sayfalarında bu alert box ile uyarı mesajı gösterilir
+        <div class="alert alert-warning text-center mb-0">
+            Welcome !
+        </div>
+    }
+
+    <partial name="_Navbar"></partial>
+
+    @if (IsSectionDefined("Jumbotron"))
+    {
+        @RenderSection("Jumbotron")
+    }
+
+    <main>
+        <div class="container">
+
+            @if (IsSectionDefined("Categories"))
+            {
+                <div class="row mt-4">
+
+                    <div class="col-md-3">
+                        @RenderSection("Categories",false)
+                    </div>
+
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                @RenderBody()
+            }
+
+        </div>
+    </main>
+
+    <footer class="border-top footer text-white bg-danger">
+        <div class="container">
+            &copy; 2023 - ShopApp.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
