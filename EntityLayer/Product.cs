@@ -20,5 +20,7 @@ namespace EntityLayer
 
         public bool IsApproved { get; set; }
 
+        public int CategoryId { get; set; }
+
     }
 }

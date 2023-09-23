@@ -15,9 +15,9 @@ namespace DataAccessLayer.Concrete
         {
             _categories = new List<Category>()
             {
-                new(){Name = "Telefonlar",Description = "Telefon Kategorisi"},
-                new(){Name = "Bilgisayar",Description = "Telefon Kategorisi"},
-                new(){Name = "Elektronik",Description = "Telefon Kategorisi"},
+                new(){Id=1, Name = "Telefonlar",Description = "Telefon Kategorisi"},
+                new(){Id=2,Name = "Bilgisayar",Description = "Telefon Kategorisi"},
+                new(){Id=3,Name = "Elektronik",Description = "Telefon Kategorisi"},
             };
         }
 

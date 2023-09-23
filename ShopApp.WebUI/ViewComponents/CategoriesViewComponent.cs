@@ -1,4 +1,5 @@
-﻿using EntityLayer;
+﻿using DataAccessLayer.Concrete;
+using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShopApp.WebUI.ViewComponents
@@ -7,14 +8,12 @@ namespace ShopApp.WebUI.ViewComponents
     {
         public IViewComponentResult Invoke()
         {
-            var categories = new List<Category>()
+            if (RouteData.Values["action"].ToString().ToLower() == "list")
             {
-                new(){Name = "Telefonlar",Description = "Telefon Kategorisi"},
-                new(){Name = "Bilgisayar",Description = "Telefon Kategorisi"},
-                new(){Name = "Elektronik",Description = "Telefon Kategorisi"},
-            };
-
-            return View(categories);
+                ViewBag.SelectedCategory = RouteData?.Values["id"]; // ? null olup olmadığınıda kontrol ediyor
+            }
+            
+            return View(CategoryRepository.Categories);
         }
     }
 }

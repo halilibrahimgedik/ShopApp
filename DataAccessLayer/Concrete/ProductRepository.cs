@@ -15,11 +15,18 @@ namespace DataAccessLayer.Concrete
         {
             _products = new List<Product>()
             {
-                new Product {Id=1,Name="Iphone 15",Price=55000,Description="çok iyi telefon", ImageUrl="/img/iphone-green.jpg",IsApproved=true},
-                new Product {Id=2,Name="Iphone 15",Price=53000,Description="çok iyi telefon", ImageUrl="/img/iphone-blue.jpg",IsApproved=true},
-                new Product {Id=3,Name="Iphone 15",Price=52000,Description="iyi telefon", ImageUrl="/img/iphone-black.jpg",IsApproved=true},
-                new Product {Id=4,Name="Iphone 15",Price=51000,Description="çok iyi telefon", ImageUrl="/img/iphone-pink.jpg",IsApproved=true},
-                new Product {Id=5,Name="Iphone 15",Price=52000,Description="çok iyi telefon", ImageUrl="/img/iphone-yellow.jpg",IsApproved=true}
+                new Product {Id=1,Name="Iphone 15",Price=55000,Description="çok iyi telefon", ImageUrl="iphone-green.jpg",IsApproved=true, CategoryId=1},
+                new Product {Id=2,Name="Iphone 15",Price=53000,Description="çok iyi telefon", ImageUrl="iphone-blue.jpg",IsApproved=true,CategoryId=1},
+                new Product {Id=3,Name="Iphone 15",Price=52000,Description="iyi telefon", ImageUrl="iphone-black.jpg",IsApproved=true, CategoryId=1},
+                new Product {Id=4,Name="Iphone 15",Price=51000,Description="çok iyi telefon", ImageUrl="iphone-pink.jpg",IsApproved=true, CategoryId=1},
+                new Product {Id=5,Name="Iphone 15",Price=52000,Description="çok iyi telefon", ImageUrl="iphone-yellow.jpg",IsApproved=true, CategoryId=1},
+
+                new Product {Id=1,Name="Bilgisayar",Price=55000,Description="çok iyi Bilgisayar", ImageUrl="iphone-green.jpg",IsApproved=true, CategoryId=2},
+                new Product {Id=2,Name="Bilgisayar",Price=53000,Description="çok iyi Bilgisayar", ImageUrl="iphone-blue.jpg",IsApproved=true,CategoryId=2},
+                new Product {Id=3,Name="Bilgisayar",Price=52000,Description="iyi Bilgisayar", ImageUrl="iphone-black.jpg",IsApproved=true, CategoryId=2},
+                new Product {Id=4,Name="Bilgisayar",Price=51000,Description="çok iyi Bilgisayar", ImageUrl="iphone-pink.jpg",IsApproved=true, CategoryId=2},
+                new Product {Id=5,Name="Bilgisayar",Price=52000,Description="çok iyi Bilgisayar", ImageUrl="iphone-yellow.jpg",IsApproved=true, CategoryId=2}
+
             };
         }
 

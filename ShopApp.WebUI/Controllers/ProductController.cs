@@ -8,33 +8,31 @@ namespace ShopApp.WebUI.Controllers
 {
     public class ProductController : Controller
     {
-
-
-        public IActionResult List()
+        // product/list => tüm ürünleri getirecek (bu yüzden int? id) id nullable olmalı yoksa 0 değeri gelir hata alırız
+        //product/list /2 gibi id parametersi varsa o parametre categoryId sini denk gelicek ve o kategoriye ait ürünler listeleyeceğiz
+        public IActionResult List(int? id)
         {
-            //List<Product> products = new()
-            //{
-            //    new Product {Name="Iphone 15",Price=55000,Description="çok iyi telefon", ImageUrl="/img/iphone-green.jpg",IsApproved=true},
-            //    new Product {Name="Iphone 15",Price=53000,Description="çok iyi telefon", ImageUrl="/img/iphone-blue.jpg",IsApproved=true},
-            //    new Product {Name="Iphone 15",Price=52000,Description="iyi telefon", ImageUrl="/img/iphone-black.jpg",IsApproved=true},
-            //    new Product {Name="Iphone 15",Price=51000,Description="çok iyi telefon", ImageUrl="/img/iphone-pink.jpg",IsApproved=true},
-            //    new Product {Name="Iphone 15",Price=52000,Description="çok iyi telefon", ImageUrl="/img/iphone-yellow.jpg",IsApproved=true}
-            //};
+            var products = ProductRepository.Products;
 
-            //var categories = new List<Category>()
-            //{
-            //    new(){Name = "Telefonlar",Description = "Telefon Kategorisi"},
-            //    new(){Name = "Bilgisayar",Description = "Telefon Kategorisi"},
-            //    new(){Name = "Elektronik",Description = "Telefon Kategorisi"},
-            //};
-            
+            if (id != null)
+            {  // yani bir parameter gelmiştir CategoryId gelmiş bize
+               products = ProductRepository.Products.Where(x => x.CategoryId == id).ToList(); 
+            }
+
             var productVM = new ProductCategoriesVM()
             {
                 Categories = CategoryRepository.Categories,
-                Products = ProductRepository.Products,
+                Products = products
             };
 
             return View(productVM);
         }
+
+        public IActionResult Details(int id)
+        {
+            var p = ProductRepository.GetProductById(id);
+            return View(p);
+        }
+
     }
 }

@@ -1,10 +1,14 @@
 ﻿@model Product
 
-<div class="card my-4">
-    <img class="card-img-top img-fluid mx-auto" src="@Model.ImageUrl" alt="" style="max-width: 70%; max-height: 24rem;object-fit:fill;">
+<div class="card my-4 py-2">
+
+    <img class="card-img-top img-fluid mx-auto" src=~/img/@Model.ImageUrl alt="" style="max-width: 73%; max-height: 24rem;object-fit:fill;">
+
     <div class="card-body">
         <h5 class="card-title">@Model.Name</h5>
         <p class="card-text">@Model.Description</p>
-        <a href="" class="btn btn-primary">İncele</a>
+
+        <a asp-action="Details" asp-controller="Product" asp-route-id="@Model.Id" class="btn btn-primary">İncele</a>
+
     </div>
 </div>   
