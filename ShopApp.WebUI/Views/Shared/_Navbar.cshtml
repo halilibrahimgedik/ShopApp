@@ -1,6 +1,7 @@
 ﻿
 <div class="navbar bg-danger navbar-dark navbar-expand-sm">
     <div class="container">
+
         <ul class="navbar-nav">
 
             <li class="nav-item">
@@ -12,8 +13,14 @@
             </li>
 
             <li class="nav-item">
-                <a href="#" class="nav-link">Link 3</a>
+                <a asp-action="AddProduct" asp-controller="Product" class="nav-link">Add Product</a>
             </li>
         </ul>
+
+        <form asp-action="List" asp-controller="Product" method="post" class="form-inline">
+            <input name="queryString" type="text" class="form-control" placeholder="Search" />
+            <button type="submit" class="btn btn-outline-light mr-0 ml-1">Search</button>
+        </form>
+
     </div>
 </div>

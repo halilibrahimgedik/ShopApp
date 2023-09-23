@@ -11,25 +11,25 @@
 
 </head>
 <body>
+    <header>
+        @if (IsSectionDefined("_MessageBox")) // eğer bir view sayfasında böyle bir tanımlama varsa ,MessageBox secrion'ını kullanıyorsa yani
+        {
+            @RenderSection("_MessageBox",false)
+        }
+        else
+        {
+            // eğer üsteki tanımlama yoksa view sayfalarında bu alert box ile uyarı mesajı gösterilir
+            <div class="alert alert-warning text-center mb-0">
+                Welcome !
+            </div>
+        }
 
-    @if (IsSectionDefined("_MessageBox")) // eğer bir view sayfasında böyle bir tanımlama varsa ,MessageBox secrion'ını kullanıyorsa yani
-    {
-        @RenderSection("_MessageBox",false)
-    }
-    else
-    {
-        // eğer üsteki tanımlama yoksa view sayfalarında bu alert box ile uyarı mesajı gösterilir
-        <div class="alert alert-warning text-center mb-0">
-            Welcome !
-        </div>
-    }
+        <partial name="_Navbar"></partial>
 
-    <partial name="_Navbar"></partial>
 
-    @if (IsSectionDefined("Jumbotron"))
-    {
-        @RenderSection("Jumbotron")
-    }
+        @RenderSection("Jumbotron",false)
+    </header>
+
 
     <main>
         <div class="container" style="margin-bottom:6rem;">
@@ -55,6 +55,7 @@
 
         </div>
     </main>
+
 
     <footer class="border-top footer text-white bg-danger position-absolute" style="bottom:0%">
         <div class="container">
