@@ -18,5 +18,7 @@ namespace BusinessLayer.Abstract
         void Add(Product t);
 
         List<Product> GetAll();
+
+        Product GetproductDetails(int id);
     }
 }

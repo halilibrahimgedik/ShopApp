@@ -9,6 +9,8 @@ namespace DataAccessLayer.Abstract
 {
     public interface IProductRepository : IRepository<Product>
     {
+        Product GetproductDetails(int id);
+
         List<Product> GetPopulerProducts();
     }
 }

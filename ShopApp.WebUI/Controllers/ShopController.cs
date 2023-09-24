@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Abstract;
+using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
 using ShopApp.WebUI.Models.ViewModels;
 
@@ -41,14 +42,20 @@ namespace ShopApp.WebUI.Controllers
             {
                 return NotFound();
             }
-            var p = _productService.GetById((int)id);
+            // burada product ile beraber Categorileri'de çektik
+            Product p = _productService.GetproductDetails((int)id);
 
             if(p == null)
             {
                 return NotFound();
             }
 
-            return View(p);
+            var productDetailVM = new ProductDetailVM()
+            {
+                Product = p,
+                Categories = p.Categories.Select(c=>c.Category).ToList()
+            };
+            return View(productDetailVM);
         }
 
 

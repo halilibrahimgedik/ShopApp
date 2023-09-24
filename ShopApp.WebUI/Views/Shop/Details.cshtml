@@ -1,18 +1,23 @@
-﻿@model Product
+﻿@model ProductDetailVM
 
 
 <div class="row">
     <div class="col-md-3">
-        <img src="~/img/@Model.ImageUrl" class="img-fluid">
+        <img src="~/img/@Model.Product.ImageUrl" class="img-fluid">
     </div>
     <div class="col-md-9 mt-5 p-5">
 
-        <h1 class="card-title mb-3">@Model.Name</h1> <hr />
-        <a href="#" class="btn btn-link p-0 mb-3">Telefon | Elektronik</a>
+        <h1 class="card-title mb-3">@Model.Product.Name</h1> <hr />
+
+        @foreach (var category in Model.Categories)
+        {
+            <a href="#" class="btn btn-link p-0 mb-3">@category.Name </a>
+        }
+  
         <div class="mb-3">
 
             <h4 class="text-success mb-3">
-                @Model.Price TL
+                @Model.Product.Price TL
             </h4>
 
             <button type="submit" class="btn btn-danger btn-lg">
@@ -27,7 +32,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <p class="card-text p-3 mt-2">@Model.Description</p>
+        <p class="card-text p-3 mt-2">@Model.Product.Description</p>
     </div>
 </div>
 

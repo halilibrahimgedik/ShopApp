@@ -15,5 +15,17 @@ namespace DataAccessLayer.Concrete.EfCore
         {
             throw new NotImplementedException();
         }
+
+        public Product GetproductDetails(int id)
+        {
+            using (var context = new ShopAppContext())
+            {
+                return context.Products
+                          .Where(p => p.Id == id)
+                          .Include(p => p.Categories)   // ProductCategori tablosuna geçtik
+                          .ThenInclude(c => c.Category) // Product Category'den Category.tablosuna geçiş yapıyoruz
+                          .FirstOrDefault();
+            };
+        }
     }
 }

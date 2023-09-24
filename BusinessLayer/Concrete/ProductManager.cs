@@ -38,6 +38,12 @@ namespace BusinessLayer.Concrete
             return _productRepository.GetById(id);
         }
 
+        // ürünlerle birlikte kategorileride getirir
+        public Product GetproductDetails(int id)
+        {
+            return _productRepository.GetproductDetails(id);
+        }
+
         public void Update(Product t)
         {
             _productRepository.Update(t);
