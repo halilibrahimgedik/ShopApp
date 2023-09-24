@@ -39,9 +39,14 @@ namespace BusinessLayer.Concrete
         }
 
         // ürünlerle birlikte kategorileride getirir
-        public Product GetproductDetails(int id)
+        public Product GetProductDetails(int id)
         {
-            return _productRepository.GetproductDetails(id);
+            return _productRepository.GetProductDetails(id);
+        }
+
+        public List<Product> ListProductsByCategory(string name)
+        {
+            return _productRepository.ListProductsByCategory(name);
         }
 
         public void Update(Product t)

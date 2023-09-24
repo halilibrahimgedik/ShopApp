@@ -16,7 +16,7 @@ namespace DataAccessLayer.Concrete.EfCore
             throw new NotImplementedException();
         }
 
-        public Product GetproductDetails(int id)
+        public Product GetProductDetails(int id)
         {
             using (var context = new ShopAppContext())
             {
@@ -26,6 +26,22 @@ namespace DataAccessLayer.Concrete.EfCore
                           .ThenInclude(c => c.Category) // Product Category'den Category.tablosuna geçiş yapıyoruz
                           .FirstOrDefault();
             };
+        }
+
+        public List<Product> ListProductsByCategory(string name)
+        {
+            using (var context =new ShopAppContext())
+            {
+                var products = context.Products.AsQueryable();
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    products = products.Include(p => p.Categories).ThenInclude(pc => pc.Category)
+                                        .Where(p => p.Categories.Any(c => c.Category.Name.ToLower() == name.ToLower()));
+                }
+
+                return products.ToList();
+            }
         }
     }
 }

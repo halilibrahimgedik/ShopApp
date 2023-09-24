@@ -17,20 +17,12 @@ namespace ShopApp.WebUI.Controllers
         }
 
 
-        public IActionResult List(int id)
+        public IActionResult List(string category)
         {
-            if (id != 0)
-            {
-                /*var products = _categoryService.GetProductsByCategory(id);*/ // Gelen id ile Ürünlerimiz id'si uyuşuyorsa onları listeler
-            }
-            else
-            {
-                var products = _productService.GetAll();
-            }
-            
+
             var productListVM = new ProductListVM()
             {
-                Products = _productService.GetAll(),
+                Products = _productService.ListProductsByCategory(category)
             };
 
             return View(productListVM);
@@ -43,7 +35,7 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
             // burada product ile beraber Categorileri'de çektik
-            Product p = _productService.GetproductDetails((int)id);
+            Product p = _productService.GetProductDetails((int)id);
 
             if(p == null)
             {

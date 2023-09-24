@@ -18,7 +18,7 @@ namespace ShopApp.WebUI.ViewComponents
         {
             if (RouteData.Values["action"].ToString().ToLower() == "list")
             {
-                ViewBag.SelectedCategory = RouteData?.Values["id"]; // ? null olup olmadığınıda kontrol ediyor
+                ViewBag.SelectedCategory = RouteData?.Values["category"]; // ? null olup olmadığınıda kontrol ediyor
             }
 
             return View(_categoryService.GetAll());
