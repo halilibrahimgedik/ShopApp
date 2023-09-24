@@ -8,6 +8,11 @@ namespace EntityLayer
 {
     public class Product
     {
+        public Product()
+        {
+            Categories = new List<ProductCategory>();
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -20,7 +25,7 @@ namespace EntityLayer
 
         public bool IsApproved { get; set; }
 
-        public int? CategoryId { get; set; }
+        public List<ProductCategory> Categories { get; set; }
 
     }
 }

@@ -1,7 +1,15 @@
+using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
+using DataAccessLayer.Concrete.EfCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Dependency Injection
+builder.Services.AddScoped<IProductRepository, EfCoreProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
 
 var app = builder.Build();
 

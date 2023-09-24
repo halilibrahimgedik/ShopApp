@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Concrete;
+﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
 using ShopApp.WebUI.Models;
@@ -9,33 +10,29 @@ namespace ShopApp.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProductRepository productRepository)
         {
-            _logger = logger;
+            _productRepository = productRepository;
         }
+
+
 
         public IActionResult Index()
         {
-           
-
             var productCategoriesVM = new ProductCategoriesVM()
             {
-                Products = ProductRepository.Products
+                Products = _productRepository.GetAll()
             };
 
             return View(productCategoriesVM);
-
         }
 
         public IActionResult Details()
         {
 
-
             return View();
         }
-
-
     }
 }
