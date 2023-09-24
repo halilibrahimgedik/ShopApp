@@ -2,11 +2,11 @@
 
 <div class="list-group">
 
-    <a asp-action="List" asp-controller="Product" asp-route-id="" class="list-group-item list-group-item-action">Tüm Kategoriler</a>
+    <a asp-action="List" asp-controller="Shop" asp-route-id="" class="list-group-item list-group-item-action">Tüm Kategoriler</a>
 
     @foreach (var category in Model)
     {
-        <a asp-action="List" asp-controller="Product" asp-route-id="@category.Id"
+        <a asp-action="List" asp-controller="Shop" asp-route-id="@category.Id"
            class="list-group-item list-group-item-action 
            @(ViewBag.SelectedCategory == category.Id.ToString()? "active":"")">
         @category.Name

@@ -81,27 +81,27 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 1, "çok iyi telefon", "/img/iphone-green.jpg", true, "Iphone 15", 55000.0 });
+                values: new object[] { 1, "çok iyi telefon", "iphone-green.jpg", true, "Iphone 15", 55000.0 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 2, "çok iyi telefon", "/img/iphone-blue.jpg", true, "Iphone 15", 53000.0 });
+                values: new object[] { 2, "çok iyi telefon", "iphone-blue.jpg", true, "Iphone 15", 53000.0 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 3, "iyi telefon", "/img/iphone-black.jpg", true, "Iphone 15", 52000.0 });
+                values: new object[] { 3, "iyi telefon", "iphone-black.jpg", true, "Iphone 15", 52000.0 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 4, "çok iyi telefon", "/img/iphone-pink.jpg", true, "Iphone 15", 51000.0 });
+                values: new object[] { 4, "çok iyi telefon", "iphone-pink.jpg", true, "Iphone 15", 51000.0 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 5, "çok iyi telefon", "/img/iphone-yellow.jpg", true, "Iphone 15", 52000.0 });
+                values: new object[] { 5, "çok iyi telefon", "iphone-yellow.jpg", true, "Iphone 15", 52000.0 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -151,7 +151,17 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 2 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 1, 3 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 3 });
 
             migrationBuilder.InsertData(
                 table: "ProductCategory",
@@ -161,7 +171,17 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 4 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 1, 5 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 5 });
 
             migrationBuilder.InsertData(
                 table: "ProductCategory",
@@ -171,7 +191,17 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 6 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 2, 7 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 7 });
 
             migrationBuilder.InsertData(
                 table: "ProductCategory",
@@ -181,12 +211,32 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 8 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 2, 9 });
 
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 9 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 2, 10 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 10 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 11 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_CategoryId",

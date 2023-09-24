@@ -33,7 +33,7 @@ namespace BusinessLayer.Concrete
             return _productRepository.GetAll();
         }
 
-        public Product GetById(int? id)
+        public Product GetById(int id)
         {
             return _productRepository.GetById(id);
         }

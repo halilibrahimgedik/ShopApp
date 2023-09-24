@@ -35,7 +35,7 @@ namespace DataAccessLayer.Concrete.EfCore
             }
         }
 
-        public T GetById(int? id)
+        public T GetById(int id)
         {
             using (var context = new ShopAppContext())
             {

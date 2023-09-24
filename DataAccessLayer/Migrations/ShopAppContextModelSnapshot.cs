@@ -89,7 +89,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             Description = "çok iyi telefon",
-                            ImageUrl = "/img/iphone-green.jpg",
+                            ImageUrl = "iphone-green.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
                             Price = 55000.0
@@ -98,7 +98,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 2,
                             Description = "çok iyi telefon",
-                            ImageUrl = "/img/iphone-blue.jpg",
+                            ImageUrl = "iphone-blue.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
                             Price = 53000.0
@@ -107,7 +107,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 3,
                             Description = "iyi telefon",
-                            ImageUrl = "/img/iphone-black.jpg",
+                            ImageUrl = "iphone-black.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
                             Price = 52000.0
@@ -116,7 +116,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 4,
                             Description = "çok iyi telefon",
-                            ImageUrl = "/img/iphone-pink.jpg",
+                            ImageUrl = "iphone-pink.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
                             Price = 51000.0
@@ -125,7 +125,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 5,
                             Description = "çok iyi telefon",
-                            ImageUrl = "/img/iphone-yellow.jpg",
+                            ImageUrl = "iphone-yellow.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
                             Price = 52000.0
@@ -254,6 +254,56 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             ProductId = 1,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            CategoryId = 3
+                        },
+                        new
+                        {
+                            ProductId = 11,
                             CategoryId = 3
                         });
                 });

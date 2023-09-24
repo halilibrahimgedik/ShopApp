@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface IProductService
     {
-        Product GetById(int? id);
+        Product GetById(int id);
 
         void Delete(Product t);
 
