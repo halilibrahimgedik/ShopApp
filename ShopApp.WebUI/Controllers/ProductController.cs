@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Abstract;
+﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +11,13 @@ namespace ShopApp.WebUI.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductRepository _productRepository;
+        private readonly ICategoryService _categoryService;
+        private readonly IProductService _productService;
 
-        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
+            _productService = productService;
         }
 
 
@@ -24,11 +25,11 @@ namespace ShopApp.WebUI.Controllers
         //product/list /2 gibi id parametersi varsa o parametre categoryId sini denk gelicek ve o kategoriye ait ürünler listeleyeceğiz
         public IActionResult List(int? id, string queryString)
         {
-            var products = _productRepository.GetAll();
+            var products = _productService.GetAll();
 
             if (id != null)
             {  // yani bir parameter gelmiştir CategoryId gelmiş bize
-                //products = _productRepository.GetAll().Where(x => x.CategoryId == id).ToList();
+                //products = _productService.GetAll().Where(x => x.CategoryId == id).ToList();
             }
             // Search den Gelen QueryString'e göre ürünlerimizi filtreler
             if (!string.IsNullOrEmpty(queryString))
@@ -39,7 +40,7 @@ namespace ShopApp.WebUI.Controllers
 
             var productVM = new ProductCategoriesVM()
             {
-                Categories = _categoryRepository.GetAll(),
+                Categories = _categoryService.GetAll(),
                 Products = products
             };
 
@@ -48,14 +49,14 @@ namespace ShopApp.WebUI.Controllers
 
         public IActionResult Details(int id)
         {
-            var p = _productRepository.GetById(id);
+            var p = _productService.GetById(id);
             return View(p);
         }
 
         [HttpGet]
         public IActionResult AddProduct()
         {
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
+            ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
             return View(new AddProductVM());
         }
         [HttpPost]
@@ -73,7 +74,7 @@ namespace ShopApp.WebUI.Controllers
                     //CategoryId = productVM.CategoryId
                 };
 
-                _productRepository.Add(product);
+                _productService.Add(product);
 
                 return RedirectToAction("List");
             }
@@ -84,8 +85,8 @@ namespace ShopApp.WebUI.Controllers
         [HttpGet]
         public IActionResult EditProduct(int id)
         {
-            var product = _productRepository.GetById(id);
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "Id", "Name");
+            var product = _productService.GetById(id);
+            ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
             return View(product);
         }
         [HttpPost]
@@ -93,7 +94,7 @@ namespace ShopApp.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productRepository.Update(p);
+                _productService.Update(p);
                 return RedirectToAction("List");
             }
 
@@ -104,8 +105,8 @@ namespace ShopApp.WebUI.Controllers
         {
             if (id != null)
             {
-                var p = _productRepository.GetById(id);
-                _productRepository.Delete(p);
+                var p = _productService.GetById(id);
+                _productService.Delete(p);
             }
             return RedirectToAction("List");
         }
