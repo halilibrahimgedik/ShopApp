@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ShopAppContext))]
-    partial class ShopAppContextModelSnapshot : ModelSnapshot
+    [Migration("20230925081638_NewDataSeedDatas")]
+    partial class NewDataSeedDatas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.22");
@@ -101,10 +103,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<double?>("Price")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
@@ -117,8 +115,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-green.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 55000.0,
-                            Url = "iphone15"
+                            Price = 55000.0
                         },
                         new
                         {
@@ -127,8 +124,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-blue.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 53000.0,
-                            Url = "iphone15"
+                            Price = 53000.0
                         },
                         new
                         {
@@ -137,8 +133,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-black.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 52000.0,
-                            Url = "iphone15"
+                            Price = 52000.0
                         },
                         new
                         {
@@ -147,8 +142,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-pink.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 51000.0,
-                            Url = "iphone15"
+                            Price = 51000.0
                         },
                         new
                         {
@@ -157,8 +151,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-yellow.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 52000.0,
-                            Url = "iphone15"
+                            Price = 52000.0
                         },
                         new
                         {
@@ -167,8 +160,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "lenovo-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 55000.0,
-                            Url = ""
+                            Price = 55000.0
                         },
                         new
                         {
@@ -177,8 +169,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "lenovo-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 53000.0,
-                            Url = ""
+                            Price = 53000.0
                         },
                         new
                         {
@@ -187,8 +178,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
+                            Price = 52000.0
                         },
                         new
                         {
@@ -197,8 +187,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "hp-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 51000.0,
-                            Url = ""
+                            Price = 51000.0
                         },
                         new
                         {
@@ -207,8 +196,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "hp-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
+                            Price = 52000.0
                         },
                         new
                         {
@@ -217,8 +205,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
+                            Price = 52000.0
                         },
                         new
                         {
@@ -227,8 +214,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Atomik Alıkanlıklar",
-                            Price = 320.0,
-                            Url = ""
+                            Price = 320.0
                         },
                         new
                         {
@@ -237,8 +223,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Atomik Alıkanlıklar",
-                            Price = 340.0,
-                            Url = ""
+                            Price = 340.0
                         },
                         new
                         {
@@ -247,8 +232,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Atomik Alıkanlıklar",
-                            Price = 360.0,
-                            Url = ""
+                            Price = 360.0
                         },
                         new
                         {
@@ -257,8 +241,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Bosch Buzdolabı",
-                            Price = 20250.0,
-                            Url = ""
+                            Price = 20250.0
                         },
                         new
                         {
@@ -267,8 +250,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Arçelik Bulaşık Makinesi",
-                            Price = 15750.0,
-                            Url = ""
+                            Price = 15750.0
                         });
                 });
 

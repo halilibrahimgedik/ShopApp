@@ -37,10 +37,24 @@ app.UseRouting();
 app.UseAuthorization();
 
 
+
+// localhost/about    
+app.MapControllerRoute(
+    name: "about",
+    pattern: "about",
+    defaults: new { controller = "Shop", action = "about" }
+);
+
+
 app.MapControllerRoute(
     name: "products",
     pattern: "products/{category?}", //
-    defaults: new { controller = "Shop", action = "List" });
+    defaults: new { controller = "Shop", action = "list" });
+
+app.MapControllerRoute(
+    name: "productdetails",
+    pattern: "{url}", //
+    defaults: new { controller = "Shop", action = "details" });
 
 app.MapControllerRoute(
     name: "default",

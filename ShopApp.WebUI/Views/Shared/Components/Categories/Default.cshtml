@@ -6,9 +6,9 @@
 
     @foreach (var category in Model)
     {
-        <a asp-action="List" asp-controller="Shop" asp-route-category="@category.Name"
+        <a asp-action="List" asp-controller="Shop" asp-route-category="@category.Url"
            class="list-group-item list-group-item-action 
-           @(ViewBag.SelectedCategory == category.Name.ToString()? "active":"")">
+           @(ViewBag.SelectedCategory == category.Url ? "active":"")">
         @category.Name
         </a>
     }

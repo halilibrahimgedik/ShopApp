@@ -19,8 +19,10 @@ namespace BusinessLayer.Abstract
 
         List<Product> GetAll();
 
-        Product GetProductDetails(int id);
+        Product GetProductDetails(string url);
 
-        List<Product> ListProductsByCategory(string name);
+        List<Product> ListProductsByCategory(string name, int page, int pageSize);
+
+        int GetCountByCategory(string category);
     }
 }

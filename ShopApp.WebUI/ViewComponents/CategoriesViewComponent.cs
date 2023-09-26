@@ -16,9 +16,9 @@ namespace ShopApp.WebUI.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            if (RouteData.Values["action"].ToString().ToLower() == "list")
+            if (RouteData.Values["action"] != null)
             {
-                ViewBag.SelectedCategory = RouteData?.Values["category"]; // ? null olup olmadığınıda kontrol ediyor
+                ViewBag.SelectedCategory = RouteData.Values["category"];
             }
 
             return View(_categoryService.GetAll());

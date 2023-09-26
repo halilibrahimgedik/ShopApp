@@ -4,15 +4,18 @@
 
     <img class="card-img-top img-fluid mx-auto" src=~/img/@Model.ImageUrl alt="" style="max-width: 90%;height:16rem;object-fit:scale-down;">
 
-    <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
+    <div class="card-body mt-1 text-center">
+        <div class="row" style="min-height:6.5vh">
+            <h5 class="card-title">@Model.Name</h5>
+        </div>
+
         <small class="text-muted">
             <i class="fas fa-lira-sign"></i>@Model.Price
         </small>
     </div>
 
     <div class="card-footer d-flex justify-content-between px-1 mx-1">
-        <a asp-action="Details" asp-controller="Shop" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
+        <a asp-action="Details" asp-controller="Shop" asp-route-url="@Model.Url" class="btn btn-primary btn-sm">
             <i class="fa-solid fa-circle-info fa-lg"></i>
             </a>
         <a asp-action="AddToCart" asp-controller="Shop" asp-route-id="@Model.Id" class="btn btn-danger btn-sm">
