@@ -1,0 +1,44 @@
+﻿@model ProductDetailVM
+
+
+<div class="row">
+    <div class="col-md-3">
+        <img src="~/img/@Model.Product.ImageUrl" class="img-fluid">
+    </div>
+    <div class="col-md-9 mt-5 p-5">
+
+        <h1 class="card-title mb-3">@Model.Product.Name</h1> <hr />
+
+        @foreach (var category in Model.Categories)
+        {
+            <a asp-action="List" asp-controller="Shop" asp-route-category="@category.Url" class="btn btn-link p-0 mb-3">@category.Name </a>
+        }
+  
+        <div class="mb-3">
+
+            <h4 class="text-success mb-3">
+                @Model.Product.Price TL
+            </h4>
+
+            <button type="submit" class="btn btn-danger btn-lg">
+                Add To Cart
+                <i class="fa-solid fa-bag-shopping ml-2 fa-lg"></i>
+            </button>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="card-text p-3 mt-2">@Model.Product.Description</p>
+    </div>
+</div>
+
+
+
+
+
+
+

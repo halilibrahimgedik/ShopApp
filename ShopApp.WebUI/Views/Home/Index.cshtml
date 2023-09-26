@@ -1,34 +1,22 @@
-﻿@model ProductCategoriesVM
-
-@section _MessageBox{
-    <partial name="_MessageBox"></partial>
-}
-
+﻿@model ProductListVM
 
 @section Jumbotron{
-    <partial name="_Jumbotron"></partial>
+    @await Html.PartialAsync("_Jumbotron");
 }
 
 
-@{
-    var popularClass = Model.Products.Count > 2 ? "popular" : "";
-    var products = Model.Products;
-}
-
-
-
-
-@if (products.Count == 0)
+@if (Model.Products.Count == 0)
 {
-    @await Html.PartialAsync("_Noproduct")
+    @await Html.PartialAsync("_NoproductPartial")
 }
 else
 {
     <div class="row">
-        @foreach (var product in products)
+        @foreach (var product in Model.Products)
         {
             <div class="col-md-3">
-                @await Html.PartialAsync("_Product", product)
+                @* <partial name="_ProductPartial" model="product"></partial> *@
+                @await Html.PartialAsync("_ProductPartial", product)
             </div>
         }
     </div>

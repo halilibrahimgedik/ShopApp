@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface ICategoryService
     {
-        Category GetById(int? id);
+        Category GetById(int id);
 
         void Delete(Category t);
 

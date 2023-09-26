@@ -22,12 +22,12 @@ namespace ShopApp.WebUI.Controllers
 
         public IActionResult Index()
         {
-            var productCategoriesVM = new ProductCategoriesVM()
+            var productListVM = new ProductListVM()
             {
                 Products = _productService.GetAll()
             };
 
-            return View(productCategoriesVM);
+            return View(productListVM);
         }
 
         public IActionResult Details()

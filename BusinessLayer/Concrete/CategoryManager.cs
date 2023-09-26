@@ -35,7 +35,7 @@ namespace BusinessLayer.Concrete
             return _categoryRepository.GetAll();
         }
 
-        public Category GetById(int? id)
+        public Category GetById(int id)
         {
             return _categoryRepository.GetById(id);
         }

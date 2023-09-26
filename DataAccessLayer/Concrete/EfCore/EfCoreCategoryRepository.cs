@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreCategoryRepository : EfCoreGenericRepository<Category>, ICategoryRepository
     {
-
+   
 
     }
 }

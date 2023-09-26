@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ShopApp.WebUI</title>
+    <title>ShopApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShopApp.WebUI.styles.css" asp-append-version="true" />
@@ -12,46 +12,25 @@
 </head>
 <body>
     <header>
-        @if (IsSectionDefined("_MessageBox")) // eğer bir view sayfasında böyle bir tanımlama varsa ,MessageBox secrion'ını kullanıyorsa yani
+
+        <partial name="_NavbarPartial"></partial> @*! Navbar *@
+
+        @if (IsSectionDefined("Jumbotron"))
         {
-            @RenderSection("_MessageBox",false)
-        }
-        else
-        {
-            // eğer üsteki tanımlama yoksa view sayfalarında bu alert box ile uyarı mesajı gösterilir
-            <div class="alert alert-warning text-center mb-0">
-                Welcome !
-            </div>
+            @RenderSection("Jumbotron",false)
         }
 
-        <partial name="_Navbar"></partial>
-
-
-        @RenderSection("Jumbotron",false)
     </header>
 
 
     <main>
         <div class="container" style="margin-bottom:6rem;">
 
-            @if (IsSectionDefined("Categories"))
-            {
-                <div class="row mt-4">
-
-                    <div class="col-md-3">
-                        @RenderSection("Categories",false)
-                    </div>
-
-                    <div class="col-md-9">
-                        @RenderBody()
-                    </div>
-
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    @RenderBody()
                 </div>
-            }
-            else
-            {
-                @RenderBody()
-            }
+            </div>
 
         </div>
     </main>
@@ -66,6 +45,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @* Font awesome cdn *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

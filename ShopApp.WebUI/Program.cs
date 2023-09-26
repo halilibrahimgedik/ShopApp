@@ -3,6 +3,7 @@ using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.Concrete.EfCore;
+using shopapp.data.Concrete.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    //!Static sýnýf ile Data Seeding
+    //SeedDatabase.Seed();
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
@@ -32,6 +35,26 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+
+// localhost/about    
+app.MapControllerRoute(
+    name: "about",
+    pattern: "about",
+    defaults: new { controller = "Shop", action = "about" }
+);
+
+
+app.MapControllerRoute(
+    name: "products",
+    pattern: "products/{category?}", //
+    defaults: new { controller = "Shop", action = "list" });
+
+app.MapControllerRoute(
+    name: "productdetails",
+    pattern: "{url}", //
+    defaults: new { controller = "Shop", action = "details" });
 
 app.MapControllerRoute(
     name: "default",

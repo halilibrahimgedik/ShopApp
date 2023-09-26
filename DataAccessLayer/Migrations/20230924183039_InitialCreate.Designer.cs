@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ShopAppContext))]
-    partial class ShopAppContextModelSnapshot : ModelSnapshot
+    [Migration("20230924183039_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.22");
@@ -31,10 +33,6 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -44,36 +42,19 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             Description = "Telefon kategorisi",
-                            Name = "Telefon",
-                            Url = "telefon"
+                            Name = "Telefon"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Bilgisayar kategorisi",
-                            Name = "Bilgisayar",
-                            Url = "bilgisayar"
+                            Name = "Bilgisayar"
                         },
                         new
                         {
                             Id = 3,
                             Description = "Elektronik aletler",
-                            Name = "Elektronik",
-                            Url = "elektronik"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Kitap Okumak",
-                            Name = "Kitap",
-                            Url = "kitap"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Elektronik ev aletleri",
-                            Name = "Beyaz Eşya",
-                            Url = "beyaz-esya"
+                            Name = "Elektronik"
                         });
                 });
 
@@ -101,10 +82,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<double?>("Price")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
@@ -117,8 +94,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-green.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 55000.0,
-                            Url = "iphone15"
+                            Price = 55000.0
                         },
                         new
                         {
@@ -127,8 +103,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-blue.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 53000.0,
-                            Url = "iphone15"
+                            Price = 53000.0
                         },
                         new
                         {
@@ -137,8 +112,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-black.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 52000.0,
-                            Url = "iphone15"
+                            Price = 52000.0
                         },
                         new
                         {
@@ -147,8 +121,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-pink.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 51000.0,
-                            Url = "iphone15"
+                            Price = 51000.0
                         },
                         new
                         {
@@ -157,8 +130,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "iphone-yellow.jpg",
                             IsApproved = true,
                             Name = "Iphone 15",
-                            Price = 52000.0,
-                            Url = "iphone15"
+                            Price = 52000.0
                         },
                         new
                         {
@@ -167,8 +139,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "lenovo-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 55000.0,
-                            Url = ""
+                            Price = 55000.0
                         },
                         new
                         {
@@ -177,8 +148,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "lenovo-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 53000.0,
-                            Url = ""
+                            Price = 53000.0
                         },
                         new
                         {
@@ -187,8 +157,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
+                            Price = 52000.0
                         },
                         new
                         {
@@ -197,8 +166,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "hp-office.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 51000.0,
-                            Url = ""
+                            Price = 51000.0
                         },
                         new
                         {
@@ -207,8 +175,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "hp-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
+                            Price = 52000.0
                         },
                         new
                         {
@@ -217,58 +184,7 @@ namespace DataAccessLayer.Migrations
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             Name = "Bilgisayar",
-                            Price = 52000.0,
-                            Url = ""
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
-                            IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
-                            Price = 320.0,
-                            Url = ""
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
-                            IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
-                            Price = 340.0,
-                            Url = ""
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
-                            IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
-                            Price = 360.0,
-                            Url = ""
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Description = "Alttan Donduruculu Buzdolabı",
-                            ImageUrl = "asus-gaming.jpg",
-                            IsApproved = true,
-                            Name = "Bosch Buzdolabı",
-                            Price = 20250.0,
-                            Url = ""
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Description = "Düşük enerjili yüksek performanslı",
-                            ImageUrl = "asus-gaming.jpg",
-                            IsApproved = true,
-                            Name = "Arçelik Bulaşık Makinesi",
-                            Price = 15750.0,
-                            Url = ""
+                            Price = 52000.0
                         });
                 });
 
@@ -339,11 +255,6 @@ namespace DataAccessLayer.Migrations
                         },
                         new
                         {
-                            ProductId = 11,
-                            CategoryId = 2
-                        },
-                        new
-                        {
                             ProductId = 1,
                             CategoryId = 3
                         },
@@ -396,41 +307,6 @@ namespace DataAccessLayer.Migrations
                         {
                             ProductId = 11,
                             CategoryId = 3
-                        },
-                        new
-                        {
-                            ProductId = 12,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 13,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 14,
-                            CategoryId = 4
-                        },
-                        new
-                        {
-                            ProductId = 15,
-                            CategoryId = 5
-                        },
-                        new
-                        {
-                            ProductId = 15,
-                            CategoryId = 3
-                        },
-                        new
-                        {
-                            ProductId = 16,
-                            CategoryId = 3
-                        },
-                        new
-                        {
-                            ProductId = 16,
-                            CategoryId = 5
                         });
                 });
 

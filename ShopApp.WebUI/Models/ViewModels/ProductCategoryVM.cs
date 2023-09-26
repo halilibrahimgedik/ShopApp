@@ -2,10 +2,10 @@
 
 namespace ShopApp.WebUI.Models.ViewModels
 {
-    public class ProductCategoriesVM
+    public class ProductCategoryVM
     {
-        public List<Category> Categories { get; set; }
-
         public List<Product> Products { get; set; }
+
+        public List<Category> Categories { get; set; }
     }
 }

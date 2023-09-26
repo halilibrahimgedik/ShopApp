@@ -33,9 +33,26 @@ namespace BusinessLayer.Concrete
             return _productRepository.GetAll();
         }
 
-        public Product GetById(int? id)
+        public Product GetById(int id)
         {
             return _productRepository.GetById(id);
+        }
+
+        // Kategoriye göre kaç ürün varsa onu döndürecek metot
+        public int GetCountByCategory(string category)
+        {
+            return _productRepository.GetCountByCategory(category);
+        }
+
+        // ürünlerle birlikte kategorileride getirir
+        public Product GetProductDetails(string url)
+        {
+            return _productRepository.GetProductDetails(url);
+        }
+
+        public List<Product> ListProductsByCategory(string name, int page, int pageSize)
+        {
+            return _productRepository.ListProductsByCategory(name,page,pageSize);
         }
 
         public void Update(Product t)

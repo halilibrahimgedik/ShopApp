@@ -1,0 +1,61 @@
+﻿@model ProductListVM
+
+
+<style>
+    .active{
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+</style>
+
+@if (Model.Products.Count == 0)
+{
+    @await Html.PartialAsync("_NoproductPartial")
+}
+else
+{
+    <div class="row">
+        <div class="col-md-3">
+            @await Component.InvokeAsync("Categories")
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-md-4">
+                        @* <partial name="_ProductPartial" model="product"></partial> *@
+                        @await Html.PartialAsync("_ProductPartial", product)
+                    </div>
+                }
+
+                @* PAGiNG İşlemleri *@
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+
+                                <li class="page-item"> <a class="page-link" asp-action="List" asp-route-page=@(Model.PageInfo.CurrentPage>1 ? Model.PageInfo.CurrentPage-1:1)>Previous</a> </li>
+
+                               @for (int i = 1; i <= Model.PageInfo.TotalPages(); i++)
+                                {
+                                    <li class="page-item"> <a class="page-link @(Model.PageInfo.CurrentPage==i ? "active":"")" asp-action="List" asp-route-page=@i>@i</a> </li>
+                                }
+
+                                <li class="page-item"> <a class="page-link" asp-action="List" asp-route-page=@(Model.PageInfo.CurrentPage>Model.PageInfo.TotalPages() ? Model.PageInfo.CurrentPage+1:Model.PageInfo.CurrentPage)>Next</a> </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+               
+
+            </div>
+        </div>
+
+    </div>
+
+        
+    
+}

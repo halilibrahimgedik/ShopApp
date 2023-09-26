@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,49 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreProductRepository : EfCoreGenericRepository<Product>, IProductRepository
     {
+        public int GetCountByCategory(string category)
+        {
+            using var context = new ShopAppContext();
+            var products = context.Products.AsQueryable();
+            if (!string.IsNullOrEmpty(category))
+            {
+                products = products.Include(p => p.Categories).ThenInclude(pc => pc.Category)
+                .Where(p => p.Categories.Any(c => c.Category.Url == category));
+            }
+            return products.Count();
+        }
+
         public List<Product> GetPopulerProducts()
         {
             throw new NotImplementedException();
+        }
+
+        public Product GetProductDetails(string url)
+        {
+            using (var context = new ShopAppContext())
+            {
+                return context.Products
+                          .Where(p => p.Url == url)
+                          .Include(pc => pc.Categories)   // ProductCategori tablosuna geçtik
+                          .ThenInclude(c => c.Category) // Product Category'den Category.tablosuna geçiş yapıyoruz
+                          .FirstOrDefault();
+            };
+        }
+
+        public List<Product> ListProductsByCategory(string name, int page, int pageSize)
+        {
+            using (var context =new ShopAppContext())
+            {
+                var products = context.Products.AsQueryable();
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    products = products.Include(p => p.Categories).ThenInclude(pc => pc.Category)
+                                        .Where(p => p.Categories.Any(c => c.Category.Url == name));
+                }
+
+                return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
+            }
         }
     }
 }

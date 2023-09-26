@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Abstract;
+﻿using BusinessLayer.Abstract;
+using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
@@ -7,20 +8,20 @@ namespace ShopApp.WebUI.ViewComponents
 {
     public class CategoriesViewComponent : ViewComponent
     {
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoriesViewComponent(ICategoryRepository categoryRepository)
+        private readonly ICategoryService _categoryService;
+        public CategoriesViewComponent(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         public IViewComponentResult Invoke()
         {
-            if (RouteData.Values["action"].ToString().ToLower() == "list")
+            if (RouteData.Values["action"] != null)
             {
-                ViewBag.SelectedCategory = RouteData?.Values["id"]; // ? null olup olmadığınıda kontrol ediyor
+                ViewBag.SelectedCategory = RouteData.Values["category"];
             }
 
-            return View(_categoryRepository.GetAll());
+            return View(_categoryService.GetAll());
         }
     }
 }
