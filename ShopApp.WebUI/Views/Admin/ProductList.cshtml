@@ -1,0 +1,48 @@
+﻿@model ProductListVM
+<div class="row">
+    <div class="col-md-12">
+        <h1>Admin Products</h1>
+        <hr />
+
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th style="width:30px;">Id</th>
+                    <th style="width:150px;">Image</th>
+                     <th>Name</th>
+                    <th style="width:80px;">Price</th>
+                    <th style="width:180px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Products.Count() > 0)
+                {
+
+                    @foreach (var p in Model.Products)
+                    {
+                        <tr class="text-center">
+                            <td>@p.Id</td>
+                            <td><img src="~/img/@p.ImageUrl" width="90px" style="object-fit:scale-down;height:100px"/></td>
+                            <td class="text-left">@p.Name</td>
+                            <td>@p.Price</td>
+
+                            <td>
+                                <a href="/admin/products/@p.Id" class="btn btn-success btn-sm mr-3">Edit</a>
+                                <a href="/admin/products/@p.Id" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                                
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>No Products</h3>
+                    </div>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -38,6 +38,13 @@ app.UseAuthorization();
 
 
 
+// TODO admin Sayfalarý
+app.MapControllerRoute(
+    name:"adminproducts",
+    pattern:"admin/products",
+    defaults: new {controlerr="admin", action= "ProductList" }
+    );
+
 app.MapControllerRoute(
     name: "search",
     pattern: "search",
