@@ -1,5 +1,4 @@
-﻿@model ProductListVM
-
+﻿@model SearchListVM
 
 <style>
     .active{
@@ -7,7 +6,6 @@
         background-color: #dc3545;
         border-color: #dc3545;
     }
-
 </style>
 
 @if (Model.Products.Count == 0)
@@ -38,14 +36,14 @@ else
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
 
-                                <li class="page-item"> <a class="page-link" asp-action="List" asp-route-page=@(Model.PageInfo.CurrentPage>1 ? Model.PageInfo.CurrentPage-1:1)>Previous</a> </li>
+                                <li class="page-item"> <a class="page-link" asp-action="SearchProduct" asp-route-stringForSearch="@Model.SearchPageInfo.StringForSearch" asp-route-page=@(Model.SearchPageInfo.CurrentPage>1 ? Model.SearchPageInfo.CurrentPage-1:1)>Previous</a> </li>
 
-                               @for (int i = 1; i <= Model.PageInfo.TotalPages(); i++)
+                                @for (int i = 1; i <= Model.SearchPageInfo.TotalPages(); i++)
                                 {
-                                    <li class="page-item"> <a class="page-link @(Model.PageInfo.CurrentPage==i ? "active":"")" asp-action="List" asp-route-page=@i>@i</a> </li>
+                                    <li class="page-item"> <a class="page-link @(Model.SearchPageInfo.CurrentPage==i ? "active":"")" asp-action="SearchProduct" asp-route-stringForSearch="@Model.SearchPageInfo.StringForSearch" asp-route-page=@i>@i</a> </li>
                                 }
 
-                                <li class="page-item"> <a class="page-link" asp-action="List" asp-route-page=@(Model.PageInfo.CurrentPage<Model.PageInfo.TotalPages() ? Model.PageInfo.CurrentPage+1:Model.PageInfo.CurrentPage)>Next</a> </li>
+                                <li class="page-item"> <a class="page-link" asp-action="SearchProduct" asp-route-stringForSearch="@Model.SearchPageInfo.StringForSearch" asp-route-page=@(Model.SearchPageInfo.CurrentPage<Model.SearchPageInfo.TotalPages() ? (Model.SearchPageInfo.CurrentPage+1):Model.SearchPageInfo.CurrentPage)>Next</a> </li>
                             </ul>
                         </nav>
                     </div>

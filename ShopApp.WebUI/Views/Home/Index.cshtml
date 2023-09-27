@@ -1,23 +1,31 @@
 ﻿@model ProductListVM
 
-@section Jumbotron{
-    @await Html.PartialAsync("_Jumbotron");
+
+@section Jumbotron
+{
+    @await Html.PartialAsync("PartialViews/_JumbotronPartial");
 }
 
 
-@if (Model.Products.Count == 0)
-{
-    @await Html.PartialAsync("_NoproductPartial")
-}
-else
-{
-    <div class="row">
-        @foreach (var product in Model.Products)
-        {
-            <div class="col-md-3">
-                @* <partial name="_ProductPartial" model="product"></partial> *@
-                @await Html.PartialAsync("_ProductPartial", product)
-            </div>
-        }
+<div class="row">
+
+    <div class="col-md-3">
+        @await Component.InvokeAsync("Categories")
+        @await Html.PartialAsync("PartialViews/_SearchPartial")
     </div>
-}
+
+    <div class="col-md-9">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4">
+                    @* <partial name="_ProductPartial" model="product"></partial> *@
+                    @await Html.PartialAsync("PartialViews/_ProductPartial", product)
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+

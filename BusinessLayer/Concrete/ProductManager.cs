@@ -44,10 +44,25 @@ namespace BusinessLayer.Concrete
             return _productRepository.GetCountByCategory(category);
         }
 
+        public int GetCountBySearchResult(string stringForSearch)
+        {
+            return _productRepository.GetCountBySearchResult(stringForSearch);
+        }
+
+        public List<Product> GetHomePageProducts()
+        {
+            return _productRepository.GetHomePageProducts();
+        }
+
         // ürünlerle birlikte kategorileride getirir
         public Product GetProductDetails(string url)
         {
             return _productRepository.GetProductDetails(url);
+        }
+
+        public List<Product> GetSearchResult(string stringForSearch, int page, int PageSize)
+        {
+            return _productRepository.GetSearchResult(stringForSearch,page,PageSize);
         }
 
         public List<Product> ListProductsByCategory(string name, int page, int pageSize)

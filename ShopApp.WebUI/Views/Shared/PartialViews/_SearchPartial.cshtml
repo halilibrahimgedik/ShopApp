@@ -1,0 +1,20 @@
+﻿
+<div class="card bg-light mt-3">
+
+    <div class=" card-header">
+        <h5>Search</h5>
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="SearchProduct" asp-controller="Home" method="get">
+            <div class="form-group">
+                <input name="stringForSearch" type="text" class="form-control" placeholder="Search" />
+            </div>
+                
+            <button type="submit" class="btn btn-danger btn-sm btn-block ">Ara</button>
+        </form>
+
+    </div>
+   
+</div>

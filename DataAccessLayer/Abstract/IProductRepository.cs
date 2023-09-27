@@ -11,10 +11,14 @@ namespace DataAccessLayer.Abstract
     {
         Product GetProductDetails(string url);
 
-        List<Product> GetPopulerProducts();
+        List<Product> GetSearchResult(string stringForSearch, int page, int PageSize);
 
         List<Product> ListProductsByCategory(string name,int page,int pageSize);
 
         int GetCountByCategory(string category);
+
+        List<Product> GetHomePageProducts();
+
+        int GetCountBySearchResult(string stringForSearch);
     }
 }

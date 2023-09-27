@@ -24,5 +24,11 @@ namespace BusinessLayer.Abstract
         List<Product> ListProductsByCategory(string name, int page, int pageSize);
 
         int GetCountByCategory(string category);
+
+        List<Product> GetHomePageProducts();
+
+        List<Product> GetSearchResult(string stringForSearch, int page, int PageSize);
+
+        int GetCountBySearchResult(string stringForSearch);
     }
 }

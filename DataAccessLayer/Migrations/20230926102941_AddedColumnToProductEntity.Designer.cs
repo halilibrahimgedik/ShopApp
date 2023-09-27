@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ShopAppContext))]
-    partial class ShopAppContextModelSnapshot : ModelSnapshot
+    [Migration("20230926102941_AddedColumnToProductEntity")]
+    partial class AddedColumnToProductEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.22");
@@ -238,32 +240,32 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 12,
                             Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "atomik.jpg",
+                            ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             IsHome = true,
-                            Name = "Atomik Alışkanlıklar",
+                            Name = "Atomik Alıkanlıklar",
                             Price = 320.0,
                             Url = ""
                         },
                         new
                         {
                             Id = 13,
-                            Description = "Başarılı insanlar hakkında anlatılan bir hikaye vardır; onların zeki ve hırslı oldukları söylenir. Outliers’te Malcolm Gladwell başarının gerçek hikayesinin bundan çok farklı olduğunu ve bazı insanların neden başarılı olduğunu anlamak için, bunların çevrelerine daha dikkatli bakmamız gerektiğini iddia ediyor.",
-                            ImageUrl = "outliers.jpg",
+                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
+                            ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             IsHome = false,
-                            Name = "Outliers (Çizginin Dışındakiler)",
+                            Name = "Atomik Alıkanlıklar",
                             Price = 340.0,
                             Url = ""
                         },
                         new
                         {
                             Id = 14,
-                            Description = "Bu kitap, ağ iletişiminin temel kavramlarından, İnternette sayısı her geçen gün artan güncel uygulamalara; farklı haberleşme teknolojilerinden ağ programlama tekniklerine kadar farklı yelpazedeki konuları gerek genel konseptleri gerekse teknik detayları ile açıklamaktadır.",
-                            ImageUrl = "pc-network.jpg",
+                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
+                            ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             IsHome = false,
-                            Name = "Bilgisayar Ağları ve İnternet",
+                            Name = "Atomik Alıkanlıklar",
                             Price = 360.0,
                             Url = ""
                         },
@@ -271,7 +273,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 15,
                             Description = "Alttan Donduruculu Buzdolabı",
-                            ImageUrl = "bosch-buzdolap.jpg",
+                            ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             IsHome = true,
                             Name = "Bosch Buzdolabı",
@@ -282,10 +284,10 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 16,
                             Description = "Düşük enerjili yüksek performanslı",
-                            ImageUrl = "arcelik-camasir.jpg",
+                            ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
                             IsHome = true,
-                            Name = "Arçelik çamaşır Makinesi",
+                            Name = "Arçelik Bulaşık Makinesi",
                             Price = 15750.0,
                             Url = ""
                         });

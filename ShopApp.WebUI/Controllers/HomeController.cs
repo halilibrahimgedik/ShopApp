@@ -24,7 +24,7 @@ namespace ShopApp.WebUI.Controllers
         {
             var productListVM = new ProductListVM()
             {
-                Products = _productService.GetAll()
+                Products = _productService.GetHomePageProducts()
             };
 
             return View(productListVM);
@@ -34,6 +34,27 @@ namespace ShopApp.WebUI.Controllers
         {
 
             return View();
+        }
+
+        public IActionResult SearchProduct(string stringForSearch, int page =1)
+        {
+            const int pageSize = 3;
+
+            var p = _productService.GetSearchResult(stringForSearch,page,pageSize);
+
+            var searchListVm = new SearchListVM()
+            {
+                Products = p,
+                SearchPageInfo = new SearchPageInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    StringForSearch=stringForSearch,
+                    TotalItems = _productService.GetCountBySearchResult(stringForSearch)
+                }
+            };
+
+            return View(searchListVm);
         }
     }
 }

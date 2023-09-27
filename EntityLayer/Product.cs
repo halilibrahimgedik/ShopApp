@@ -27,6 +27,8 @@ namespace EntityLayer
 
         public bool IsApproved { get; set; }
 
+        public bool IsHome { get; set; }
+
         public List<ProductCategory> Categories { get; set; }
 
     }

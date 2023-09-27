@@ -38,13 +38,11 @@ app.UseAuthorization();
 
 
 
-// localhost/about    
 app.MapControllerRoute(
-    name: "about",
-    pattern: "about",
-    defaults: new { controller = "Shop", action = "about" }
+    name: "search",
+    pattern: "search",
+    defaults: new { controller = "Home", action = "SearchProduct" }
 );
-
 
 app.MapControllerRoute(
     name: "products",
