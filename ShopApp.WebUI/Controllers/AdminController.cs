@@ -1,6 +1,11 @@
 ﻿using BusinessLayer.Abstract;
+using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
+//using Newtonsoft.Json;
+using ShopApp.WebUI.Models;
 using ShopApp.WebUI.Models.ViewModels;
+using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
@@ -21,6 +26,118 @@ namespace ShopApp.WebUI.Controllers
             };
 
             return View(productVm);
+        }
+
+        [HttpGet]
+        public IActionResult CreateProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateProduct(ProductVM product)
+        {
+            var p = new Product()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                Description = product.Description,
+                Url = product.Url,
+            };
+
+            _productService.Add(p);
+
+            var msj = new AlertMessage()
+            {
+                AlertType="warning",
+                Message=$"{p.Name} adlı ürün eklendi"
+            };
+
+            TempData["message"] = JsonSerializer.Serialize(msj);
+
+            return RedirectToAction("ProductList");
+        }
+
+        [HttpGet]
+        public IActionResult EditProduct(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var p = _productService.GetById((int)id);
+
+            if (p == null)
+            {
+                return NotFound();
+            }
+
+            var productVM = new ProductVM()
+            {
+                Name = p.Name,
+                Price = p.Price,
+                ImageUrl = p.ImageUrl,
+                Description = p.Description,
+                Url = p.Url,
+            };
+            return View(productVM);
+        }
+
+        [HttpPost]
+        public IActionResult EditProduct(ProductVM product)
+        {
+
+            var p = _productService.GetById(product.Id);
+
+            if(p == null)
+            {
+                return NotFound();
+            }
+
+            p.Name = product.Name;
+            p.Price = product.Price;
+            p.ImageUrl = product.ImageUrl;
+            p.Description = product.Description;
+            p.Url = product.Url;
+
+            _productService.Update(p);
+
+            var msj = new AlertMessage()
+            {
+                AlertType = "warning",
+                Message = $"{p.Name} adlı ürün Güncellendi"
+            };
+
+            TempData["message"] = JsonSerializer.Serialize(msj);
+
+            return RedirectToAction("ProductList");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(int? deleteId)
+        {
+            if (deleteId == null)
+            {
+                return NotFound();
+            }
+            var p = _productService.GetById((int)deleteId);
+            if(p == null)
+            {
+                return NotFound();
+            }
+            _productService.Delete(p);
+
+            var msj = new AlertMessage()
+            {
+                AlertType="danger",
+                Message = $"{p.Name} adlı ürün silinmiştir"
+            };
+
+            TempData["message"] = JsonSerializer.Serialize(msj);
+
+            return RedirectToAction("ProductList");
         }
     }
 }

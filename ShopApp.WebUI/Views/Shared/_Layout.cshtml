@@ -28,6 +28,19 @@
 
             <div class="row mt-4">
                 <div class="col-md-12">
+                    @* Admin Controller - > CreateProduct,EditProduct,DeleteProduct action metodundan gelen mesaj *@
+                    @if (TempData["message"] != null)
+                    {
+                        var message = JsonSerializer.Deserialize<AlertMessage>(TempData["message"].ToString());
+                        <div class="row alert_box">
+                            <div class="col-md-12">
+                                <div class="alert alert-@message.AlertType">
+                                    @message.Message
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                     @RenderBody()
                 </div>
             </div>
@@ -48,5 +61,12 @@
     @* Font awesome cdn *@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+
+        setTimeout(() => {
+            document.querySelector(".alert_box").style.display = "none";
+        }, 2000);
+
+    </script>
 </body>
 </html>

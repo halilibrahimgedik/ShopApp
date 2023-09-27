@@ -1,0 +1,51 @@
+﻿@model ProductVM
+
+<h1 class="h3">Edit Product</h1>
+<hr />
+
+<form method="post" asp-action="EditProduct" asp-controller="admin">
+
+    <input type="hidden" asp-for="Id"/>
+
+    <div class="mb-3 row">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Name" />
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Url" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Url" />
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="4" asp-for="Description"> </textarea>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="ImageUrl" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="ImageUrl" />
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label asp-for="Price" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Price" />
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+
+</form>
