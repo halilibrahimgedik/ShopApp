@@ -28,10 +28,10 @@
 
             <div class="row mt-4">
                 <div class="col-md-12">
-                    @* Admin Controller - > CreateProduct,EditProduct,DeleteProduct action metodundan gelen mesaj *@
-                    @if (TempData["message"] != null)
+                    @* Admin Controller dan gelen kategori ve ürün için ekleme, silme, güncelleme mesajları *@
+                    @if (TempData["Message"] != null)
                     {
-                        var message = JsonSerializer.Deserialize<AlertMessage>(TempData["message"].ToString());
+                        var message = JsonSerializer.Deserialize<AlertMessage>(TempData["Message"].ToString());
                         <div class="row alert_box">
                             <div class="col-md-12">
                                 <div class="alert alert-@message.AlertType">

@@ -53,11 +53,11 @@ namespace ShopApp.WebUI.Controllers
 
             var msj = new AlertMessage()
             {
-                AlertType="warning",
+                AlertType= "success",
                 Message=$"{p.Name} adlı ürün eklendi"
             };
 
-            TempData["message"] = JsonSerializer.Serialize(msj);
+            TempData["Message"] = JsonSerializer.Serialize(msj);
 
             return RedirectToAction("ListProducts");
         }
@@ -113,7 +113,7 @@ namespace ShopApp.WebUI.Controllers
                 Message = $"{p.Name} adlı ürün Güncellendi"
             };
 
-            TempData["message"] = JsonSerializer.Serialize(msj);
+            TempData["Message"] = JsonSerializer.Serialize(msj);
 
             return RedirectToAction("ListProducts");
         }
@@ -138,7 +138,7 @@ namespace ShopApp.WebUI.Controllers
                 Message = $"{p.Name} adlı ürün silinmiştir"
             };
 
-            TempData["message"] = JsonSerializer.Serialize(msj);
+            TempData["Message"] = JsonSerializer.Serialize(msj);
 
             return RedirectToAction("ListProducts");
         }
@@ -182,7 +182,7 @@ namespace ShopApp.WebUI.Controllers
 
             var msj = new AlertMessage()
             {
-                AlertType = "warning",
+                AlertType = "success",
                 Message = $"{c.Name} adlı Kategori eklenmiştir"
             };
 
@@ -191,6 +191,87 @@ namespace ShopApp.WebUI.Controllers
             return RedirectToAction("ListCategories");
         }
 
+        [HttpGet]
+        public IActionResult EditCategory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var c = _categoryService.GetById((int)id);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            //view sayfası categoryVM istiyor, Category gönderirsen hata alırsın
+            var categoryVM = new CategoryVM()
+            {
+                Name= c.Name,
+                Description= c.Description,
+                Url= c.Url
+            };
+
+            ViewResult result = View(categoryVM);
+            return result;
+        }
+
+        [HttpPost]
+        public IActionResult EditCategory(CategoryVM category)
+        {
+            var c = _categoryService.GetById(category.Id);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                c.Name = category.Name;
+                c.Description = category.Description;
+                c.Url = category.Url;
+
+                _categoryService.Update(c);
+            }
+
+            var msj = new AlertMessage()
+            {
+                AlertType = "warning",
+                Message = $"{c.Name} adlı Kategori Güncellendi"
+            };
+
+            TempData["Message"] = JsonSerializer.Serialize(msj);
+
+            return RedirectToAction("ListCategories");
+
+        }
+
+        public IActionResult DeleteCategory(int? deleteId)
+        {
+            if (deleteId == null)
+            {
+                return NotFound();
+            }
+
+            var c = _categoryService.GetById((int)deleteId);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            _categoryService.Delete(c);
+
+            var msj = new AlertMessage()
+            {
+                AlertType = "danger",
+                Message = $"{c.Name} adlı Kategori silinmiştir"
+            };
+
+            TempData["Message"] = JsonSerializer.Serialize(msj);
+            return RedirectToAction("ListCategories");
+        }
     }
 }
