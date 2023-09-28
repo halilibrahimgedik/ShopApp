@@ -3,6 +3,7 @@ using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using DataAccessLayer.Concrete.EfCore;
+using Microsoft.AspNetCore.Mvc;
 using shopapp.data.Concrete.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,33 +38,48 @@ app.UseRouting();
 app.UseAuthorization();
 
 
-
-// TODO admin Route'larý
-// ürünleri listelemek için 
 app.MapControllerRoute(
-    name:"adminproducts",
+    name:"admincategorieslist",
+    pattern:"admin/categories",
+    defaults: new {controller="Admin",action="ListCategories"});
+
+app.MapControllerRoute(
+    name: "admincategorycreate",
+    pattern: "admin/categories/create",
+    defaults: new { controller = "Admin", action = "CreateCategory" });
+
+app.MapControllerRoute(
+    name: "adminproductedit",
+    pattern: "admin/categories/{id?}",
+    defaults: new { controller = "admin", action = "EditCategory" });
+
+
+app.MapControllerRoute(
+    name:"adminproductslist",
     pattern:"admin/products",
-    defaults: new {controlerr="admin", action= "ProductList" }
-    );
+    defaults: new { controller = "Admin", action= "ListProducts" });
 
-// ürünleri güncellemek için
 app.MapControllerRoute(
-    name: "adminproducts",
+    name: "adminproductcreate",
+    pattern: "admin/products/create",
+    defaults: new { controller = "Admin", action = "CreateProduct" });
+
+app.MapControllerRoute(
+    name: "adminproductedit",
     pattern: "admin/products/{id?}",
-    defaults: new { controlerr = "admin", action = "EditProduct" }
-    );
+    defaults: new { controller = "admin", action = "EditProduct" });
+
 
 // TODO Kullanýcý Route'larý
 app.MapControllerRoute(
     name: "search",
     pattern: "search",
-    defaults: new { controller = "Home", action = "SearchProduct" }
-);
+    defaults: new { controller = "Home", action = "SearchProduct" });
 
 app.MapControllerRoute(
     name: "products",
     pattern: "products/{category?}", //
-    defaults: new { controller = "Shop", action = "list" });
+    defaults: new { controller = "Shop", action = "List" });
 
 app.MapControllerRoute(
     name: "productdetails",

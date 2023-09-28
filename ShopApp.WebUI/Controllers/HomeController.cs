@@ -22,7 +22,7 @@ namespace ShopApp.WebUI.Controllers
 
         public IActionResult Index()
         {
-            var productListVM = new ProductListVM()
+            var productListVM = new ListProductsVM()
             {
                 Products = _productService.GetHomePageProducts()
             };

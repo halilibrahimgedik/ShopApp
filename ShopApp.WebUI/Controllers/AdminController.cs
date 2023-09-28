@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Abstract;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 //using Newtonsoft.Json;
 using ShopApp.WebUI.Models;
@@ -12,15 +13,17 @@ namespace ShopApp.WebUI.Controllers
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
-        public AdminController(IProductService productService)
+        private readonly ICategoryService _categoryService;
+        public AdminController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
-
-        public IActionResult ProductList()
+        // ! Product işlemleri
+        public IActionResult ListProducts()
         {
-            var productVm = new ProductListVM()
+            var productVm = new ListProductsVM()
             {
                 Products = _productService.GetAll() // onaylı onaysız tüm ürünler gelicek
             };
@@ -56,7 +59,7 @@ namespace ShopApp.WebUI.Controllers
 
             TempData["message"] = JsonSerializer.Serialize(msj);
 
-            return RedirectToAction("ProductList");
+            return RedirectToAction("ListProducts");
         }
 
         [HttpGet]
@@ -112,7 +115,7 @@ namespace ShopApp.WebUI.Controllers
 
             TempData["message"] = JsonSerializer.Serialize(msj);
 
-            return RedirectToAction("ProductList");
+            return RedirectToAction("ListProducts");
         }
 
         [HttpPost]
@@ -137,7 +140,57 @@ namespace ShopApp.WebUI.Controllers
 
             TempData["message"] = JsonSerializer.Serialize(msj);
 
-            return RedirectToAction("ProductList");
+            return RedirectToAction("ListProducts");
         }
+
+
+
+        // ! Kategori işlemleri
+        public IActionResult ListCategories()
+        {
+            var categories = _categoryService.GetAll();
+            if(categories== null)
+            {
+                return NotFound();
+            }
+
+            var listCategories = new ListCategoriesVM() 
+            {
+                Categories = categories
+            }; 
+            return View(listCategories);
+        }
+
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateCategory(CategoryVM category)
+        {
+            
+            var c = new Category()
+            {
+                Name= category.Name,
+                Description= category.Description,
+                Url= category.Url
+            };
+
+            _categoryService.Add(c);
+
+            var msj = new AlertMessage()
+            {
+                AlertType = "warning",
+                Message = $"{c.Name} adlı Kategori eklenmiştir"
+            };
+
+            TempData["Message"]= JsonSerializer.Serialize(msj);
+
+            return RedirectToAction("ListCategories");
+        }
+
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ShopApp.WebUI.Models.ViewModels
 {
-    public class ProductListVM
+    public class ListProductsVM
     {
         public List<Product> Products { get; set; }
 

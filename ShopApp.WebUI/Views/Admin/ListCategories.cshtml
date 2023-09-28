@@ -1,0 +1,61 @@
+﻿@model ListCategoriesVM
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h1>Admin Categories</h1>
+        <hr />
+        <a href="/admin/categories/create" class="btn btn-success"> Add Category </a>
+        <br />
+        <br />
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th style="width:30px;">Id</th>
+                    <th>Name</th>
+                    <th style="width:180px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Categories.Count() > 0)
+                {
+
+                    @foreach (var p in Model.Categories)
+                    {
+                        <tr class="text-center">
+                            <td>@p.Id</td>
+                            <td class="text-left">@p.Name</td>
+
+                            <td>
+                                <a asp-action="EditCategory" asp-controller="admin" asp-route-id="@p.Id" class="btn btn-warning btn-sm mr-3">Edit</a>
+                                @* <a href="/admin/products/@p.Id" class="btn btn-danger btn-sm">Delete</a> *@
+
+                                @* 2. yöntem *@
+                                <form method="post" action="/admin/DeleteCategory" style="display:inline;">
+                                    <input type="hidden" name="deleteId" value="@p.Id" />
+                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>No Category</h3>
+                    </div>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* alert box'ın kaybolması için *@
+<script>
+    setTimeout(() => {
+        document.querySelector(".alert_box").style.display = "none";
+    }, 2000);
+</script>

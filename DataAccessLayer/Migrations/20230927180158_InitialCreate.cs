@@ -15,6 +15,7 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -29,10 +30,12 @@ namespace DataAccessLayer.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
                     Price = table.Column<double>(type: "REAL", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    IsApproved = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsHome = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,73 +68,108 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { 1, "Telefon kategorisi", "Telefon" });
+                columns: new[] { "Id", "Description", "Name", "Url" },
+                values: new object[] { 1, "Telefon kategorisi", "Telefon", "telefon" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { 2, "Bilgisayar kategorisi", "Bilgisayar" });
+                columns: new[] { "Id", "Description", "Name", "Url" },
+                values: new object[] { 2, "Bilgisayar kategorisi", "Bilgisayar", "bilgisayar" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[] { 3, "Elektronik aletler", "Elektronik" });
+                columns: new[] { "Id", "Description", "Name", "Url" },
+                values: new object[] { 3, "Elektronik aletler", "Elektronik", "elektronik" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Name", "Url" },
+                values: new object[] { 4, "Kitap Okumak", "Kitap", "kitap" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Name", "Url" },
+                values: new object[] { 5, "Elektronik ev aletleri", "Beyaz Eşya", "beyaz-esya" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 1, "çok iyi telefon", "iphone-green.jpg", true, "Iphone 15", 55000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 1, "çok iyi telefon", "iphone-green.jpg", true, true, "Iphone 15", 55000.0, "iphone15" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 2, "çok iyi telefon", "iphone-blue.jpg", true, "Iphone 15", 53000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 2, "çok iyi telefon", "iphone-blue.jpg", true, true, "Iphone 15", 53000.0, "iphone15" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 3, "iyi telefon", "iphone-black.jpg", true, "Iphone 15", 52000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 3, "iyi telefon", "iphone-black.jpg", true, true, "Iphone 15", 52000.0, "iphone15" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 4, "çok iyi telefon", "iphone-pink.jpg", true, "Iphone 15", 51000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 4, "çok iyi telefon", "iphone-pink.jpg", true, true, "Iphone 15", 51000.0, "iphone15" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 5, "çok iyi telefon", "iphone-yellow.jpg", true, "Iphone 15", 52000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 5, "çok iyi telefon", "iphone-yellow.jpg", true, true, "Iphone 15", 52000.0, "iphone15" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 6, "çok iyi Bilgisayar", "lenovo-office.jpg", true, "Bilgisayar", 55000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 6, "çok iyi Bilgisayar", "lenovo-office.jpg", true, true, "Lenovo Creative", 55000.0, "" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 7, "çok iyi Bilgisayar", "lenovo-gaming.jpg", true, "Bilgisayar", 53000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 7, "çok iyi Bilgisayar", "lenovo-gaming.jpg", true, true, "Lenovo Ideapad", 53000.0, "" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 8, "iyi Bilgisayar", "asus-office.jpg", true, "Bilgisayar", 52000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 8, "iyi Bilgisayar", "asus-office.jpg", true, false, "Asus Vivobook", 52000.0, "" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 9, "çok iyi Bilgisayar", "hp-office.jpg", true, "Bilgisayar", 51000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 9, "çok iyi Bilgisayar", "hp-office.jpg", true, true, "Hp latitude", 51000.0, "" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 10, "çok iyi Bilgisayar", "hp-gaming.jpg", true, "Bilgisayar", 52000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 10, "çok iyi Bilgisayar", "hp-gaming.jpg", true, true, "Hp Victus", 52000.0, "" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "Name", "Price" },
-                values: new object[] { 11, "çok iyi Bilgisayar", "asus-gaming.jpg", true, "Bilgisayar", 52000.0 });
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 11, "çok iyi Bilgisayar", "asus-gaming.jpg", true, true, "Asus Tuf", 52000.0, "" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 12, "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz", "atomik.jpg", true, true, "Atomik Alışkanlıklar", 320.0, "" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 13, "Başarılı insanlar hakkında anlatılan bir hikaye vardır; onların zeki ve hırslı oldukları söylenir. Outliers’te Malcolm Gladwell başarının gerçek hikayesinin bundan çok farklı olduğunu ve bazı insanların neden başarılı olduğunu anlamak için, bunların çevrelerine daha dikkatli bakmamız gerektiğini iddia ediyor.", "outliers.jpg", true, false, "Outliers (Çizginin Dışındakiler)", 340.0, "" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 14, "Bu kitap, ağ iletişiminin temel kavramlarından, İnternette sayısı her geçen gün artan güncel uygulamalara; farklı haberleşme teknolojilerinden ağ programlama tekniklerine kadar farklı yelpazedeki konuları gerek genel konseptleri gerekse teknik detayları ile açıklamaktadır.", "pc-network.jpg", true, false, "Bilgisayar Ağları ve İnternet", 360.0, "" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 15, "Alttan Donduruculu Buzdolabı", "bosch-buzdolap.jpg", true, true, "Bosch Buzdolabı", 20250.0, "" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "ImageUrl", "IsApproved", "IsHome", "Name", "Price", "Url" },
+                values: new object[] { 16, "Düşük enerjili yüksek performanslı", "arcelik-camasir.jpg", true, true, "Arçelik çamaşır Makinesi", 15750.0, "" });
 
             migrationBuilder.InsertData(
                 table: "ProductCategory",
@@ -236,7 +274,47 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "ProductCategory",
                 columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 2, 11 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
                 values: new object[] { 3, 11 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 4, 12 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 4, 13 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 4, 14 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 15 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 5, 15 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 3, 16 });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 5, 16 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_CategoryId",

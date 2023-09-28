@@ -20,7 +20,7 @@ namespace ShopApp.WebUI.Controllers
         public IActionResult List(string category, int page = 1)
         {
             const int pageSize = 3; // bir sayfada kaç ürün gösterilecek onu tanımlayalım
-            var productListVM = new ProductListVM()
+            var productListVM = new ListProductsVM()
             {
                 PageInfo = new PageInfo() 
                 {   //TODO KAtegoriye göre kaç ürün var ben onu almak istiyorum

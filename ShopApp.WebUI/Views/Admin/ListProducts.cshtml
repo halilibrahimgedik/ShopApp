@@ -1,10 +1,10 @@
-﻿@model ProductListVM
+﻿@model ListProductsVM
 
 <div class="row">
     <div class="col-md-12">
         <h1>Admin Products</h1>
         <hr />
-
+        <a href="/admin/products/create" class="btn btn-success"> Add Product </a>
         <table class="table table-hover table-bordered">
             <thead>
                 <tr class="text-center">
@@ -50,12 +50,12 @@
                             </td>
                             <td>
                                 <a asp-action="EditProduct" asp-controller="admin" asp-route-id="@p.Id" class="btn btn-warning btn-sm mr-3">Edit</a>
-                                @* <a href="/admin/DeleteProduct/@p.Id" class="btn btn-danger btn-sm">Delete</a> *@
+                                @* <a href="/admin/products/@p.Id" class="btn btn-danger btn-sm">Delete</a> *@
+                                
                                 @* 2. yöntem *@
-                                <form method="post" asp-action="DeleteProduct" asp-controller="admin" style="display:inline;">
-                                    <input type="hidden" name="deleteId" value="@p.Id"/>
+                                <form method="post" action="/Admin/DeleteProduct" style="display:inline;">
+                                    <input type="hidden" name="deleteId" value="@p.Id" />
                                     <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-
                                 </form>
                             </td>
                                 
@@ -73,3 +73,10 @@
         </table>
     </div>
 </div>
+
+@* alert box'ın kaybolması için *@
+<script>
+    setTimeout(() => {
+        document.querySelector(".alert_box").style.display = "none";
+    }, 2000);
+</script>

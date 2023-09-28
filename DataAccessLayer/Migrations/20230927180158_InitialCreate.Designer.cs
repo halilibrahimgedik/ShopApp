@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ShopAppContext))]
-    [Migration("20230925091834_AddedProductAnUrl")]
-    partial class AddedProductAnUrl
+    [Migration("20230927180158_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,6 +96,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHome")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -118,6 +121,7 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-green.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Iphone 15",
                             Price = 55000.0,
                             Url = "iphone15"
@@ -128,6 +132,7 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-blue.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Iphone 15",
                             Price = 53000.0,
                             Url = "iphone15"
@@ -138,6 +143,7 @@ namespace DataAccessLayer.Migrations
                             Description = "iyi telefon",
                             ImageUrl = "iphone-black.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Iphone 15",
                             Price = 52000.0,
                             Url = "iphone15"
@@ -148,6 +154,7 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-pink.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Iphone 15",
                             Price = 51000.0,
                             Url = "iphone15"
@@ -158,6 +165,7 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-yellow.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Iphone 15",
                             Price = 52000.0,
                             Url = "iphone15"
@@ -168,7 +176,8 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "lenovo-office.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = true,
+                            Name = "Lenovo Creative",
                             Price = 55000.0,
                             Url = ""
                         },
@@ -178,7 +187,8 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "lenovo-gaming.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = true,
+                            Name = "Lenovo Ideapad",
                             Price = 53000.0,
                             Url = ""
                         },
@@ -188,7 +198,8 @@ namespace DataAccessLayer.Migrations
                             Description = "iyi Bilgisayar",
                             ImageUrl = "asus-office.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = false,
+                            Name = "Asus Vivobook",
                             Price = 52000.0,
                             Url = ""
                         },
@@ -198,7 +209,8 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "hp-office.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = true,
+                            Name = "Hp latitude",
                             Price = 51000.0,
                             Url = ""
                         },
@@ -208,7 +220,8 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "hp-gaming.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = true,
+                            Name = "Hp Victus",
                             Price = 52000.0,
                             Url = ""
                         },
@@ -218,7 +231,8 @@ namespace DataAccessLayer.Migrations
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
-                            Name = "Bilgisayar",
+                            IsHome = true,
+                            Name = "Asus Tuf",
                             Price = 52000.0,
                             Url = ""
                         },
@@ -226,29 +240,32 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 12,
                             Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
+                            ImageUrl = "atomik.jpg",
                             IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
+                            IsHome = true,
+                            Name = "Atomik Alışkanlıklar",
                             Price = 320.0,
                             Url = ""
                         },
                         new
                         {
                             Id = 13,
-                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
+                            Description = "Başarılı insanlar hakkında anlatılan bir hikaye vardır; onların zeki ve hırslı oldukları söylenir. Outliers’te Malcolm Gladwell başarının gerçek hikayesinin bundan çok farklı olduğunu ve bazı insanların neden başarılı olduğunu anlamak için, bunların çevrelerine daha dikkatli bakmamız gerektiğini iddia ediyor.",
+                            ImageUrl = "outliers.jpg",
                             IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
+                            IsHome = false,
+                            Name = "Outliers (Çizginin Dışındakiler)",
                             Price = 340.0,
                             Url = ""
                         },
                         new
                         {
                             Id = 14,
-                            Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
-                            ImageUrl = "asus-gaming.jpg",
+                            Description = "Bu kitap, ağ iletişiminin temel kavramlarından, İnternette sayısı her geçen gün artan güncel uygulamalara; farklı haberleşme teknolojilerinden ağ programlama tekniklerine kadar farklı yelpazedeki konuları gerek genel konseptleri gerekse teknik detayları ile açıklamaktadır.",
+                            ImageUrl = "pc-network.jpg",
                             IsApproved = true,
-                            Name = "Atomik Alıkanlıklar",
+                            IsHome = false,
+                            Name = "Bilgisayar Ağları ve İnternet",
                             Price = 360.0,
                             Url = ""
                         },
@@ -256,8 +273,9 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 15,
                             Description = "Alttan Donduruculu Buzdolabı",
-                            ImageUrl = "asus-gaming.jpg",
+                            ImageUrl = "bosch-buzdolap.jpg",
                             IsApproved = true,
+                            IsHome = true,
                             Name = "Bosch Buzdolabı",
                             Price = 20250.0,
                             Url = ""
@@ -266,9 +284,10 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 16,
                             Description = "Düşük enerjili yüksek performanslı",
-                            ImageUrl = "asus-gaming.jpg",
+                            ImageUrl = "arcelik-camasir.jpg",
                             IsApproved = true,
-                            Name = "Arçelik Bulaşık Makinesi",
+                            IsHome = true,
+                            Name = "Arçelik çamaşır Makinesi",
                             Price = 15750.0,
                             Url = ""
                         });
