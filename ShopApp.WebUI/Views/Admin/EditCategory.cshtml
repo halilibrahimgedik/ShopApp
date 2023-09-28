@@ -1,29 +1,91 @@
 ﻿@model CategoryVM
 
-<form method="post" asp-action="EditCategory" asp-controller="admin">
+<h1 class="h3">Edit Category</h1>
+<hr>
 
-    <input type="hidden" asp-for="Id"/>
+<div class="row">
 
-    <div class="row mb-3">
-        <label asp-for="Name"></label>
-        <div class="col-sm-10">
-            <input asp-for="Name" class="form-control"/>
-        </div>
+    <div class="col-md-4">
+        <form asp-controller="Admin" asp-action="EditCategory" method="POST">
+            <input type="hidden" name="CategoryId" value="@Model.Id">
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Url" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Url">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <div class="row mb-3">
-        <label asp-for="Url"></label>
-        <div class="col-sm-10">
-            <input asp-for="Url" class="form-control" />
+
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered table-sm">
+                    <thead class="text-center">
+                        <tr>
+                            <td style="width: 30px;">Id</td>
+                            <td style="width: 100px;">Image</td>
+                            <td>Name</td>
+                            <td style="width: 70px;">Price</td>
+                            <td style="width: 40px;">Approved</td>
+                            <td style="width: 130px;">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Products.Count > 0)
+                        {
+                            @foreach (var p in Model.Products)
+                            {
+                                <tr class="text-center">
+                                    <td>@p.Id</td>
+                                    <td><img src="~/img/@p.ImageUrl" width="80"></td>
+                                    <td class="text-left">@p.Name</td>
+                                    <td>@p.Price</td>
+                                    <td>
+                                        @if (p.IsApproved)
+                                        {
+                                            <i class="fa-solid fa-circle-check fa-lg text-success"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-circle-xmark fa-lg text-danger"></i>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="/admin/products/@p.Id" class="btn btn-primary btn-sm mr-2">Edit</a>
+
+                                        <form action="/admin/DeleteProductFromCategories" method="POST" style="display: inline;">
+                                            <input type="hidden" name="productId" value="@p.Id"> @* productId *@
+                                            <input type="hidden" name="categoryId" value="@Model.Id">  @* categoryID *@
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">
+                                <h3>No Products</h3>
+                            </div>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-    <div class="row mb-3">
-        <label asp-for="Description"></label>
-        <div class="col-sm-10">
-            <textarea asp-for="Description" class="form-control"> </textarea>
-        </div>
-    </div>
-
-    <button class="btn btn-success">Submit</button>
-</form>
+</div>

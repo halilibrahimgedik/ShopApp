@@ -5,6 +5,10 @@ namespace ShopApp.WebUI.Models.ViewModels
 {
     public class ProductVM
     {
+        public ProductVM()
+        {
+            SelectedCategories = new List<Category>();
+        }
         public int Id { get; set; }
 
         [Display(Name="Product Name",Prompt ="Enter a product name")]
@@ -22,6 +26,6 @@ namespace ShopApp.WebUI.Models.ViewModels
 
         public bool IsHome { get; set; }
 
-
+        public List<Category> SelectedCategories { get; set; }
     }
 }

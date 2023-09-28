@@ -30,5 +30,9 @@ namespace BusinessLayer.Abstract
         List<Product> GetSearchResult(string stringForSearch, int page, int PageSize);
 
         int GetCountBySearchResult(string stringForSearch);
+
+        Product GetProductByIdWithCategories(int id);
+
+        void Update(Product p, int[] categoryIds);
     }
 }

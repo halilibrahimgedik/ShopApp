@@ -20,5 +20,9 @@ namespace DataAccessLayer.Abstract
         List<Product> GetHomePageProducts();
 
         int GetCountBySearchResult(string stringForSearch);
+
+        Product GetProductByIdWithCategories(int id);
+
+        void Update(Product p, int[] categoryIds);
     }
 }

@@ -4,48 +4,71 @@
 <hr />
 
 <form method="post" asp-action="EditProduct" asp-controller="admin">
+    <div class="row">
 
-    <input type="hidden" asp-for="Id"/>
+        <div class="col-md-8">
 
-    <div class="mb-3 row">
-        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="Name" />
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3 row">
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Name" />
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="Url" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Url" />
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="4" asp-for="Description"> </textarea>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="ImageUrl" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="ImageUrl" />
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label asp-for="Price" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Price" />
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <h3>Categories</h3>
+            <hr />
+
+            @foreach (var category in (List<Category>)ViewBag.AllCategories)
+            {
+                <div class="custom-control custom-checkbox">
+
+                    <input type="checkbox" class="custom-control-input" id="category_@(category.Id)"
+                        name="categoryIds"
+                        value="@category.Id"
+                        @(Model.SelectedCategories.Any(c => c.Id == category.Id) ? "checked" : "")>  @* any true yada false döndürür *@
+
+                    <label class="custom-control-label" for="category_@(category.Id)"> @category.Name </label>
+                </div>
+            }
         </div>
     </div>
-
-    <div class="mb-3 row">
-        <label asp-for="Url" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="Url" />
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <textarea class="form-control" rows="4" asp-for="Description"> </textarea>
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-        <label asp-for="ImageUrl" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="ImageUrl" />
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-        <label asp-for="Price" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input class="form-control" asp-for="Price" />
-        </div>
-    </div>
-
-    <div class="mb-3 row">
-        <div class="col-sm-10 offset-sm-2">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
-
 </form>

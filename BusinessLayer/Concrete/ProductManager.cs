@@ -54,6 +54,11 @@ namespace BusinessLayer.Concrete
             return _productRepository.GetHomePageProducts();
         }
 
+        public Product GetProductByIdWithCategories(int id)
+        {
+            return _productRepository.GetProductByIdWithCategories(id);
+        }
+
         // ürünlerle birlikte kategorileride getirir
         public Product GetProductDetails(string url)
         {
@@ -73,6 +78,11 @@ namespace BusinessLayer.Concrete
         public void Update(Product t)
         {
             _productRepository.Update(t);
+        }
+
+        public void Update(Product p, int[] categoryIds)
+        {
+            _productRepository.Update(p, categoryIds);
         }
     }
 }

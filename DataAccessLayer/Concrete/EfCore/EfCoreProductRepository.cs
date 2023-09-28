@@ -49,14 +49,22 @@ namespace DataAccessLayer.Concrete.EfCore
             throw new NotImplementedException();
         }
 
+        public Product GetProductByIdWithCategories(int id)
+        {
+            using (var context = new ShopAppContext())
+            {
+                return context.Products.Where(p => p.Id == id).Include(p => p.Categories).ThenInclude(pc => pc.Category).FirstOrDefault();
+            };
+        }
+
         public Product GetProductDetails(string url)
         {
             using (var context = new ShopAppContext())
             {
                 return context.Products
                           .Where(p => p.Url == url)
-                          .Include(pc => pc.Categories)   // ProductCategori tablosuna geçtik
-                          .ThenInclude(c => c.Category) // Product Category'den Category.tablosuna geçiş yapıyoruz
+                          .Include(p => p.Categories)   // ProductCategori tablosuna geçtik
+                          .ThenInclude(pc => pc.Category) // Product Category'den Category.tablosuna geçiş yapıyoruz
                           .FirstOrDefault();
             };
         }
@@ -90,6 +98,37 @@ namespace DataAccessLayer.Concrete.EfCore
 
                 return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
             }
+        }
+
+        public void Update(Product p, int[] categoryIds)
+        {
+            using (var context = new ShopAppContext())
+            {
+                //var product = context.Products
+                //    .Include(p => p.Categories)
+                //    .FirstOrDefault(i=>i.Id == p.Id);
+
+                var product = context.Products.Where(pr=>pr.Id ==p.Id)
+                                              .Include(p => p.Categories)
+                                              .FirstOrDefault();
+
+                if (product != null)
+                {
+                    product.Name= p.Name;
+                    product.Description= p.Description;
+                    product.Price= p.Price;
+                    product.ImageUrl= p.ImageUrl;
+                    product.Url= p.Url;
+
+                    product.Categories = categoryIds.Select(catId => new ProductCategory()
+                    {
+                        ProductId = p.Id,
+                        CategoryId = catId,
+                    }).ToList();
+
+                    context.SaveChanges();
+                }
+            };
         }
     }
 }

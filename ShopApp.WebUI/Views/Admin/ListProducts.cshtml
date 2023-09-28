@@ -12,8 +12,8 @@
                     <th style="width:150px;">Image</th>
                      <th>Name</th>
                     <th style="width:80px;">Price</th>
-                    <th style="width:120px;">Home ?</th>
                     <th style="width:120px;">Approved ?</th>
+                    <th style="width:120px;">Home ?</th>
                     <th style="width:180px;">Action</th>
                 </tr>
             </thead>
@@ -30,7 +30,8 @@
                             <td class="text-left">@p.Name</td>
                             <td>@p.Price</td>
                             <td>
-                                @if(p.IsHome){
+                                @if (p.IsApproved)
+                                {
                                     <i class="fa-solid fa-circle-check fa-lg text-success"></i>
                                 }
                                 else
@@ -39,7 +40,7 @@
                                 }
                             </td>
                             <td>
-                                @if (p.IsApproved)
+                                @if (p.IsHome)
                                 {
                                     <i class="fa-solid fa-circle-check fa-lg text-success"></i>
                                 }

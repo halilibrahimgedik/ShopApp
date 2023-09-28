@@ -9,7 +9,9 @@ namespace DataAccessLayer.Abstract
 {
     public interface ICategoryRepository : IRepository<Category>
     {
+        void DeleteProductFromCategories(int productId, int categoryId);
 
+        Category GetByIdWithProducts(int categoryId);
     }
 
 

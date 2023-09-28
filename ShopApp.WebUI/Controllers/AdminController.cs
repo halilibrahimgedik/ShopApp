@@ -70,7 +70,7 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
 
-            var p = _productService.GetById((int)id);
+            var p = _productService.GetProductByIdWithCategories((int)id);
 
             if (p == null)
             {
@@ -79,17 +79,21 @@ namespace ShopApp.WebUI.Controllers
 
             var productVM = new ProductVM()
             {
+                Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
                 ImageUrl = p.ImageUrl,
                 Description = p.Description,
                 Url = p.Url,
+                SelectedCategories = p.Categories.Select(pc => pc.Category).ToList() // ürüne ait kategriler
             };
+
+            ViewBag.AllCategories = _categoryService.GetAll(); // tüm kategoriler
             return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductVM product)
+        public IActionResult EditProduct(ProductVM product, int[] categoryIds)
         {
 
             var p = _productService.GetById(product.Id);
@@ -104,8 +108,9 @@ namespace ShopApp.WebUI.Controllers
             p.ImageUrl = product.ImageUrl;
             p.Description = product.Description;
             p.Url = product.Url;
-
-            _productService.Update(p);
+            
+            // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
+            _productService.Update(p,categoryIds);
 
             var msj = new AlertMessage()
             {
@@ -199,7 +204,7 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
 
-            var c = _categoryService.GetById((int)id);
+            var c = _categoryService.GetByIdWithProducts((int)id);
 
             if (c == null)
             {
@@ -209,9 +214,11 @@ namespace ShopApp.WebUI.Controllers
             //view sayfası categoryVM istiyor, Category gönderirsen hata alırsın
             var categoryVM = new CategoryVM()
             {
-                Name= c.Name,
-                Description= c.Description,
-                Url= c.Url
+                Id=c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                Url = c.Url,
+                Products = c.Products.Select(pc => pc.Product).ToList()
             };
 
             ViewResult result = View(categoryVM);
@@ -272,6 +279,14 @@ namespace ShopApp.WebUI.Controllers
 
             TempData["Message"] = JsonSerializer.Serialize(msj);
             return RedirectToAction("ListCategories");
+        }
+        
+        public IActionResult DeleteProductFromCategories(int productId,int categoryId)
+        {
+            _categoryService.DeleteProductFromCategories(productId,categoryId);
+
+            return RedirectToAction("EditCategories");
+            //return Redirect("/admin/categories/" + categoryId);
         }
     }
 }
