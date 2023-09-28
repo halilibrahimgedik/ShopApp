@@ -23,6 +23,11 @@ namespace BusinessLayer.Concrete
             _productRepository.Add(t);
         }
 
+        public void Add(Product p, int[] categoryIds)
+        {
+            _productRepository.Add(p,categoryIds);
+        }
+
         public void Delete(Product t)
         {
             _productRepository.Delete(t);

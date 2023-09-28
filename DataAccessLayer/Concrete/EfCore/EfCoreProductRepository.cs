@@ -11,6 +11,22 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreProductRepository : EfCoreGenericRepository<Product>, IProductRepository
     {
+        public void Add(Product p, int[] categoryIds)
+        {
+            using(var context = new ShopAppContext())
+            {
+                context.Products.Add(p);
+
+                p.Categories = categoryIds.Select(catId => new ProductCategory()
+                {
+                    CategoryId = catId,
+                    ProductId = p.Id
+                }).ToList();
+
+                context.SaveChanges();
+            };
+        }
+
         public int GetCountByCategory(string category)
         {
             using var context = new ShopAppContext();

@@ -34,11 +34,12 @@ namespace ShopApp.WebUI.Controllers
         [HttpGet]
         public IActionResult CreateProduct()
         {
+            ViewBag.AllCategories=_categoryService.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(ProductVM product)
+        public IActionResult CreateProduct(ProductVM product,int[] categoryIds)
         {
             var p = new Product()
             {
@@ -47,9 +48,11 @@ namespace ShopApp.WebUI.Controllers
                 ImageUrl = product.ImageUrl,
                 Description = product.Description,
                 Url = product.Url,
+                IsApproved = product.IsApproved,
+                IsHome = product.IsHome
             };
 
-            _productService.Add(p);
+            _productService.Add(p, categoryIds);
 
             var msj = new AlertMessage()
             {
