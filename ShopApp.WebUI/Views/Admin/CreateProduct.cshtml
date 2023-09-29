@@ -4,7 +4,7 @@
 <hr />
 
 
-<form method="post" asp-action="CreateProduct" asp-controller="admin">
+<form method="post" asp-action="CreateProduct" asp-controller="admin" enctype="multipart/form-data">
     <div class="row">
 
         <div class="col-md-8">
@@ -32,7 +32,8 @@
             <div class="mb-3 row">
                 <label asp-for="ImageUrl" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
-                    <input class="form-control" asp-for="ImageUrl" />
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <input type="file" name="file"/>
                 </div>
             </div>
 

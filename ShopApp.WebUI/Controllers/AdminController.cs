@@ -34,30 +34,45 @@ namespace ShopApp.WebUI.Controllers
         [HttpGet]
         public IActionResult CreateProduct()
         {
-            ViewBag.AllCategories=_categoryService.GetAll();
+            ViewBag.AllCategories = _categoryService.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(ProductVM product,int[] categoryIds)
+        public async Task<IActionResult> CreateProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
             var p = new Product()
             {
                 Name = product.Name,
                 Price = product.Price,
-                ImageUrl = product.ImageUrl,
                 Description = product.Description,
                 Url = product.Url,
                 IsApproved = product.IsApproved,
                 IsHome = product.IsHome
             };
 
+            if (file != null)
+            {
+                var imageExtension = Path.GetExtension(file.FileName);
+
+                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                p.ImageUrl = randomName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+
             _productService.Add(p, categoryIds);
 
             var msj = new AlertMessage()
             {
-                AlertType= "success",
-                Message=$"{p.Name} adlı ürün eklendi"
+                AlertType = "success",
+                Message = $"{p.Name} adlı ürün eklendi"
             };
 
             TempData["Message"] = JsonSerializer.Serialize(msj);
@@ -96,24 +111,38 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductVM product, int[] categoryIds)
+        public async Task<IActionResult> EditProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
 
             var p = _productService.GetById(product.Id);
 
-            if(p == null)
+            if (p == null)
             {
                 return NotFound();
             }
 
             p.Name = product.Name;
             p.Price = product.Price;
-            p.ImageUrl = product.ImageUrl;
             p.Description = product.Description;
             p.Url = product.Url;
-            
+
+            if (file != null)
+            {
+                var imageExtension = Path.GetExtension(file.FileName);
+
+                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                p.ImageUrl = randomName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
             // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
-            _productService.Update(p,categoryIds);
+            _productService.Update(p, categoryIds);
 
             var msj = new AlertMessage()
             {
@@ -134,7 +163,7 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
             var p = _productService.GetById((int)deleteId);
-            if(p == null)
+            if (p == null)
             {
                 return NotFound();
             }
@@ -142,7 +171,7 @@ namespace ShopApp.WebUI.Controllers
 
             var msj = new AlertMessage()
             {
-                AlertType="danger",
+                AlertType = "danger",
                 Message = $"{p.Name} adlı ürün silinmiştir"
             };
 
@@ -157,15 +186,15 @@ namespace ShopApp.WebUI.Controllers
         public IActionResult ListCategories()
         {
             var categories = _categoryService.GetAll();
-            if(categories== null)
+            if (categories == null)
             {
                 return NotFound();
             }
 
-            var listCategories = new ListCategoriesVM() 
+            var listCategories = new ListCategoriesVM()
             {
                 Categories = categories
-            }; 
+            };
             return View(listCategories);
         }
 
@@ -178,12 +207,12 @@ namespace ShopApp.WebUI.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CategoryVM category)
         {
-            
+
             var c = new Category()
             {
-                Name= category.Name,
-                Description= category.Description,
-                Url= category.Url
+                Name = category.Name,
+                Description = category.Description,
+                Url = category.Url
             };
 
             _categoryService.Add(c);
@@ -194,7 +223,7 @@ namespace ShopApp.WebUI.Controllers
                 Message = $"{c.Name} adlı Kategori eklenmiştir"
             };
 
-            TempData["Message"]= JsonSerializer.Serialize(msj);
+            TempData["Message"] = JsonSerializer.Serialize(msj);
 
             return RedirectToAction("ListCategories");
         }
@@ -217,7 +246,7 @@ namespace ShopApp.WebUI.Controllers
             //view sayfası categoryVM istiyor, Category gönderirsen hata alırsın
             var categoryVM = new CategoryVM()
             {
-                Id=c.Id,
+                Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
                 Url = c.Url,
@@ -283,13 +312,13 @@ namespace ShopApp.WebUI.Controllers
             TempData["Message"] = JsonSerializer.Serialize(msj);
             return RedirectToAction("ListCategories");
         }
-        
-        public IActionResult DeleteProductFromCategories(int productId,int categoryId)
-        {
-            _categoryService.DeleteProductFromCategories(productId,categoryId);
 
-            return RedirectToAction("EditCategories");
-            //return Redirect("/admin/categories/" + categoryId);
+        public IActionResult DeleteProductFromCategories(int productId, int categoryId)
+        {
+            _categoryService.DeleteProductFromCategories(productId, categoryId);
+
+            //return RedirectToAction("/admin/categories/" + categoryId);
+            return Redirect("/admin/categories/" + categoryId);
         }
     }
 }
