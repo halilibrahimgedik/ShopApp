@@ -69,13 +69,7 @@ namespace ShopApp.WebUI.Controllers
 
             _productService.Add(p, categoryIds);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "success",
-                Message = $"{p.Name} adlı ürün eklendi"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("success", $"{p.Name} adlı ürün eklendi");
 
             return RedirectToAction("ListProducts");
         }
@@ -144,13 +138,7 @@ namespace ShopApp.WebUI.Controllers
             // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
             _productService.Update(p, categoryIds);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "warning",
-                Message = $"{p.Name} adlı ürün Güncellendi"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("warning", $"{p.Name} adlı ürün Güncellendi");
 
             return RedirectToAction("ListProducts");
         }
@@ -169,13 +157,7 @@ namespace ShopApp.WebUI.Controllers
             }
             _productService.Delete(p);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "danger",
-                Message = $"{p.Name} adlı ürün silinmiştir"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("danger", $"{p.Name} adlı ürün silinmiştir");
 
             return RedirectToAction("ListProducts");
         }
@@ -217,13 +199,7 @@ namespace ShopApp.WebUI.Controllers
 
             _categoryService.Add(c);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "success",
-                Message = $"{c.Name} adlı Kategori eklenmiştir"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("success", $"{c.Name} adlı Kategori eklenmiştir");
 
             return RedirectToAction("ListCategories");
         }
@@ -275,16 +251,9 @@ namespace ShopApp.WebUI.Controllers
                 _categoryService.Update(c);
             }
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "warning",
-                Message = $"{c.Name} adlı Kategori Güncellendi"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("warning", $"{c.Name} adlı Kategori Güncellendi");
 
             return RedirectToAction("ListCategories");
-
         }
 
         public IActionResult DeleteCategory(int? deleteId)
@@ -303,13 +272,8 @@ namespace ShopApp.WebUI.Controllers
 
             _categoryService.Delete(c);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "danger",
-                Message = $"{c.Name} adlı Kategori silinmiştir"
-            };
+            CreateMessage("danger", $"{c.Name} adlı Kategori silinmiştir");
 
-            TempData["Message"] = JsonSerializer.Serialize(msj);
             return RedirectToAction("ListCategories");
         }
 
@@ -319,6 +283,17 @@ namespace ShopApp.WebUI.Controllers
 
             //return RedirectToAction("/admin/categories/" + categoryId);
             return Redirect("/admin/categories/" + categoryId);
+        }
+
+        // AlertBox oluşturma metodu
+        private void CreateMessage(string alertType, string message)
+        {
+            var msj = new AlertMessage()
+            {
+                AlertType = alertType,
+                Message = message
+            };
+            TempData["Message"]= JsonSerializer.Serialize(msj);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BusinessLayer.Concrete
 
         public void Add(Product p, int[] categoryIds)
         {
-            _productRepository.Add(p,categoryIds);
+            _productRepository.Add(p, categoryIds);
         }
 
         public void Delete(Product t)
@@ -72,12 +72,12 @@ namespace BusinessLayer.Concrete
 
         public List<Product> GetSearchResult(string stringForSearch, int page, int PageSize)
         {
-            return _productRepository.GetSearchResult(stringForSearch,page,PageSize);
+            return _productRepository.GetSearchResult(stringForSearch, page, PageSize);
         }
 
         public List<Product> ListProductsByCategory(string name, int page, int pageSize)
         {
-            return _productRepository.ListProductsByCategory(name,page,pageSize);
+            return _productRepository.ListProductsByCategory(name, page, pageSize);
         }
 
         public void Update(Product t)
