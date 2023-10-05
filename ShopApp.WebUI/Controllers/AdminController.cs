@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using EntityLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
@@ -10,6 +11,7 @@ using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
@@ -34,30 +36,42 @@ namespace ShopApp.WebUI.Controllers
         [HttpGet]
         public IActionResult CreateProduct()
         {
+            ViewBag.AllCategories = _categoryService.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(ProductVM product)
+        public async Task<IActionResult> CreateProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
             var p = new Product()
             {
                 Name = product.Name,
                 Price = product.Price,
-                ImageUrl = product.ImageUrl,
                 Description = product.Description,
                 Url = product.Url,
+                IsApproved = product.IsApproved,
+                IsHome = product.IsHome
             };
 
-            _productService.Add(p);
-
-            var msj = new AlertMessage()
+            if (file != null)
             {
-                AlertType= "success",
-                Message=$"{p.Name} adlı ürün eklendi"
-            };
+                var imageExtension = Path.GetExtension(file.FileName);
 
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                p.ImageUrl = randomName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+
+            _productService.Add(p, categoryIds);
+
+            CreateMessage("success", $"{p.Name} adlı ürün eklendi");
 
             return RedirectToAction("ListProducts");
         }
@@ -93,32 +107,40 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(ProductVM product, int[] categoryIds)
+        public async Task<IActionResult> EditProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
 
             var p = _productService.GetById(product.Id);
 
-            if(p == null)
+            if (p == null)
             {
                 return NotFound();
             }
 
             p.Name = product.Name;
             p.Price = product.Price;
-            p.ImageUrl = product.ImageUrl;
             p.Description = product.Description;
             p.Url = product.Url;
-            
-            // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
-            _productService.Update(p,categoryIds);
 
-            var msj = new AlertMessage()
+            if (file != null)
             {
-                AlertType = "warning",
-                Message = $"{p.Name} adlı ürün Güncellendi"
-            };
+                var imageExtension = Path.GetExtension(file.FileName);
 
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                p.ImageUrl = randomName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
+            _productService.Update(p, categoryIds);
+
+            CreateMessage("warning", $"{p.Name} adlı ürün Güncellendi");
 
             return RedirectToAction("ListProducts");
         }
@@ -131,19 +153,13 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
             var p = _productService.GetById((int)deleteId);
-            if(p == null)
+            if (p == null)
             {
                 return NotFound();
             }
             _productService.Delete(p);
 
-            var msj = new AlertMessage()
-            {
-                AlertType="danger",
-                Message = $"{p.Name} adlı ürün silinmiştir"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("danger", $"{p.Name} adlı ürün silinmiştir");
 
             return RedirectToAction("ListProducts");
         }
@@ -154,15 +170,15 @@ namespace ShopApp.WebUI.Controllers
         public IActionResult ListCategories()
         {
             var categories = _categoryService.GetAll();
-            if(categories== null)
+            if (categories == null)
             {
                 return NotFound();
             }
 
-            var listCategories = new ListCategoriesVM() 
+            var listCategories = new ListCategoriesVM()
             {
                 Categories = categories
-            }; 
+            };
             return View(listCategories);
         }
 
@@ -175,23 +191,17 @@ namespace ShopApp.WebUI.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CategoryVM category)
         {
-            
+
             var c = new Category()
             {
-                Name= category.Name,
-                Description= category.Description,
-                Url= category.Url
+                Name = category.Name,
+                Description = category.Description,
+                Url = category.Url
             };
 
             _categoryService.Add(c);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "success",
-                Message = $"{c.Name} adlı Kategori eklenmiştir"
-            };
-
-            TempData["Message"]= JsonSerializer.Serialize(msj);
+            CreateMessage("success", $"{c.Name} adlı Kategori eklenmiştir");
 
             return RedirectToAction("ListCategories");
         }
@@ -214,7 +224,7 @@ namespace ShopApp.WebUI.Controllers
             //view sayfası categoryVM istiyor, Category gönderirsen hata alırsın
             var categoryVM = new CategoryVM()
             {
-                Id=c.Id,
+                Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
                 Url = c.Url,
@@ -243,16 +253,9 @@ namespace ShopApp.WebUI.Controllers
                 _categoryService.Update(c);
             }
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "warning",
-                Message = $"{c.Name} adlı Kategori Güncellendi"
-            };
-
-            TempData["Message"] = JsonSerializer.Serialize(msj);
+            CreateMessage("warning", $"{c.Name} adlı Kategori Güncellendi");
 
             return RedirectToAction("ListCategories");
-
         }
 
         public IActionResult DeleteCategory(int? deleteId)
@@ -271,22 +274,28 @@ namespace ShopApp.WebUI.Controllers
 
             _categoryService.Delete(c);
 
-            var msj = new AlertMessage()
-            {
-                AlertType = "danger",
-                Message = $"{c.Name} adlı Kategori silinmiştir"
-            };
+            CreateMessage("danger", $"{c.Name} adlı Kategori silinmiştir");
 
-            TempData["Message"] = JsonSerializer.Serialize(msj);
             return RedirectToAction("ListCategories");
         }
-        
-        public IActionResult DeleteProductFromCategories(int productId,int categoryId)
-        {
-            _categoryService.DeleteProductFromCategories(productId,categoryId);
 
-            return RedirectToAction("EditCategories");
-            //return Redirect("/admin/categories/" + categoryId);
+        public IActionResult DeleteProductFromCategories(int productId, int categoryId)
+        {
+            _categoryService.DeleteProductFromCategories(productId, categoryId);
+
+            //return RedirectToAction("/admin/categories/" + categoryId);
+            return Redirect("/admin/categories/" + categoryId);
+        }
+
+        // AlertBox oluşturma metodu
+        private void CreateMessage(string alertType, string message)
+        {
+            var msj = new AlertMessage()
+            {
+                AlertType = alertType,
+                Message = message
+            };
+            TempData["Message"]= JsonSerializer.Serialize(msj);
         }
     }
 }

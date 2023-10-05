@@ -34,5 +34,7 @@ namespace BusinessLayer.Abstract
         Product GetProductByIdWithCategories(int id);
 
         void Update(Product p, int[] categoryIds);
+
+        void Add(Product p, int[] categoryIds);
     }
 }
