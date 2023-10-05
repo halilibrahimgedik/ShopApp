@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using EntityLayer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
@@ -10,6 +11,7 @@ using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;

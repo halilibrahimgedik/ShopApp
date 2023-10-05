@@ -19,17 +19,18 @@ builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<Appli
 builder.Services.Configure<IdentityOptions>(options =>
 {
     //!Password
-    options.Password.RequireDigit = true;       // þifrede rakam olmalý
-    options.Password.RequireLowercase = true;   // þifrede Küçük harf olmalý
-    options.Password.RequireUppercase = true;   // þifrede Büyük harf olmalý  
-    options.Password.RequiredLength = 6;        // þifre en az 6 karakter uzunluðunda olmalý
+    options.Password.RequireDigit = true;               // þifrede rakam olmalý
+    options.Password.RequireLowercase = true;           // þifrede Küçük harf olmalý
+    options.Password.RequireUppercase = true;           // þifrede Büyük harf olmalý  
+    options.Password.RequiredLength = 6;                // þifre en az 6 karakter uzunluðunda olmalý
+    options.Password.RequireNonAlphanumeric = false;    // þifrede ( ., +, -, ~, @,<,>,*,/ gibi iþaretler zorunlu olarak olmalý mý?)
 
     //!Lockout (kullanýcýnýn hesabýnýn kilitlenip kilitlenmemesi ayarý)
     options.Lockout.MaxFailedAccessAttempts = 5;                        // Kullancý Yanlýþ bir parolayý max 5 kere girebilir ve sonra hesap kilitlenir. 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);   // 5 dakika boyunca hesap kilitlenecek
     options.Lockout.AllowedForNewUsers = true;
 
-    // options.User.AllowedUserNameCharacters = "";                 // Username içerisinde olmasýný istediðimiz karakterler
+    //options.User.AllowedUserNameCharacters = "";                  // Username içerisinde olmasýný istediðimiz karakterler
     options.User.RequireUniqueEmail = true;                 //? ayný Mail adresi ile kayýt yapan 2 kullanýcý olamaz
     options.SignIn.RequireConfirmedEmail = false;           //? Kulanýcý üye olduktan sonra MUTLAKA hesabýný  Onaylamalý 
     options.SignIn.RequireConfirmedPhoneNumber = false;     //? Telefon için onay istiyorsak kullanabiliriz
