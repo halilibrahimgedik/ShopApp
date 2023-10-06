@@ -35,6 +35,14 @@
             </div>
 
             <div class="mb-3 row">
+                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="email" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
                 <label asp-for="Password" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <input class="form-control" type="password" asp-for="Password" />
@@ -51,21 +59,11 @@
             </div>
 
             <div class="mb-3 row">
-                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="email" asp-for="Email" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-success">register</button>
                 </div>
             </div>
-            
-
         </div>
 
     </div>

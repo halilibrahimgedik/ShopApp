@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shopapp.data.Concrete.EfCore;
+using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(@"Data Source=Shop.db"));
-builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -32,7 +33,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     //options.User.AllowedUserNameCharacters = "";                  // Username içerisinde olmasýný istediðimiz karakterler
     options.User.RequireUniqueEmail = true;                 //? ayný Mail adresi ile kayýt yapan 2 kullanýcý olamaz
-    options.SignIn.RequireConfirmedEmail = false;           //? Kulanýcý üye olduktan sonra MUTLAKA hesabýný  Onaylamalý 
+    options.SignIn.RequireConfirmedEmail = true;           //? Kulanýcý üye olduktan sonra MUTLAKA hesabýný  Onaylamalý 
     options.SignIn.RequireConfirmedPhoneNumber = false;     //? Telefon için onay istiyorsak kullanabiliriz
 });
 
@@ -48,17 +49,25 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie = new CookieBuilder
     {
         HttpOnly = true,    //? Cookie bilgisi tarayýcýdan sadece bir http isteði ile alýnabilsin, scriptler alamasýn
-        Name = ".ShopApp.Security.Cookie"
+        Name = ".ShopApp.Security.Cookie",
+        SameSite = SameSiteMode.Strict
     };
 });
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IProductService,ProductManager>();
+builder.Services.AddScoped<IProductService, ProductManager>();
 builder.Services.AddScoped<IProductRepository, EfCoreProductRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
 builder.Services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
+
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
+                                                                builder.Configuration["EmailSender:Host"],
+                                                                builder.Configuration.GetValue<int>("EmailSender:Port"),
+                                                                builder.Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                                                                builder.Configuration["EmailSender:UserName"],
+                                                                builder.Configuration["EmailSender:Password"]) );
 
 var app = builder.Build();
 
@@ -83,9 +92,9 @@ app.UseAuthorization();
 
 
 app.MapControllerRoute(
-    name:"admincategorieslist",
-    pattern:"admin/categories",
-    defaults: new {controller="Admin",action="ListCategories"});
+    name: "admincategorieslist",
+    pattern: "admin/categories",
+    defaults: new { controller = "Admin", action = "ListCategories" });
 
 app.MapControllerRoute(
     name: "admincategorycreate",
@@ -99,9 +108,9 @@ app.MapControllerRoute(
 
 
 app.MapControllerRoute(
-    name:"adminproductslist",
-    pattern:"admin/products",
-    defaults: new { controller = "Admin", action= "ListProducts" });
+    name: "adminproductslist",
+    pattern: "admin/products",
+    defaults: new { controller = "Admin", action = "ListProducts" });
 
 app.MapControllerRoute(
     name: "adminproductcreate",

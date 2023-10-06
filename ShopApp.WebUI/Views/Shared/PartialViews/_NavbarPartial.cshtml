@@ -5,26 +5,53 @@
         <a href="/" class="navbar-brand">ShopApp</a>
 
         <ul class="navbar-nav mr-auto">
-
             <li class="nav-item">
                 <a href="/products" class="nav-link">Products</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link">Cart</a>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link">Cart</a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link">Orders</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link">Orders</a>
+                </li>
 
-            <li class="nav-item">
-                <a href="/admin/products" class="nav-link">Admin Products</a>
-            </li>
+                <li class="nav-item">
+                    <a href="/admin/products" class="nav-link">Admin Products</a>
+                </li>
 
-            <li class="nav-item">
-                <a asp-action="ListCategories" asp-controller="admin" class="nav-link">Admin Categories</a>
-            </li>
+                <li class="nav-item">
+                    <a asp-action="ListCategories" asp-controller="admin" class="nav-link">Admin Categories</a>
+                </li>
+            }
+
+        </ul>
+
+
+        <ul class="navbar-nav ml-auto">
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a href="/account/manage" class="nav-link"> @User.Identity.Name </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/account/logout" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i></a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="/account/login" class="nav-link">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/account/register" class="nav-link">Register</a>
+                </li>
+            }
 
         </ul>
 

@@ -1,1 +1,40 @@
-﻿<h1>Login Page</h1>
+﻿@model LoginVM
+
+<h1 class="h3">Login Page</h1>
+<hr />
+
+
+<form method="post" asp-action="Login" asp-controller="Account">
+    <div class="row">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl"/>
+
+        <div class="mb-3 row">
+            <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input class="form-control" type="email" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label asp-for="Password" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" asp-for="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-success">register</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</form>
