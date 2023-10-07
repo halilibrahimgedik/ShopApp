@@ -1,0 +1,58 @@
+﻿@model IEnumerable<IdentityRole>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h3 class="h1 text-center my-4">Role List</h3>
+        <hr />
+        <a href="/admin/role/create" class="btn btn-success"> Add Role </a>
+        <br />
+        <br />
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th style="width:250px;">Id</th>
+                    <th>Role Name</th>
+                    <th style="width:180px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Count() > 0)
+                {
+
+                    @foreach (var role in Model)
+                    {
+                        <tr class="text-center">
+                            <td>@role.Id</td>
+                            <td>@role.Name</td>
+
+                            <td>
+                                <a href="/admin/role/edit/@role.Id" class="btn btn-warning btn-sm mr-3">Edit</a>
+
+                                <form method="post" action="/admin/role/delete" style="display:inline;">
+                                    <input type="hidden" name="roleId" value="@role.Id" />
+                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>No Roles</h3>
+                    </div>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => {
+        document.querySelector(".alert_box").style.display = "none";
+    }, 3000);
+</script>

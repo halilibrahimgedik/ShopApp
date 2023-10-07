@@ -1,9 +1,11 @@
 ﻿using BusinessLayer.Abstract;
 using EntityLayer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
+using ShopApp.WebUI.Identity;
 //using Newtonsoft.Json;
 using ShopApp.WebUI.Models;
 using ShopApp.WebUI.Models.ViewModels;
@@ -16,10 +18,15 @@ namespace ShopApp.WebUI.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        public AdminController(IProductService productService, ICategoryService categoryService)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+
+        public AdminController(IProductService productService, ICategoryService categoryService,RoleManager<IdentityRole> roleManager,UserManager<User> userManager)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // ! Product işlemleri
@@ -286,6 +293,47 @@ namespace ShopApp.WebUI.Controllers
             //return RedirectToAction("/admin/categories/" + categoryId);
             return Redirect("/admin/categories/" + categoryId);
         }
+
+
+
+        // ! Role işlemleri
+        public IActionResult ListRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+
+            return View(roles);
+        }
+        [HttpGet]
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(RoleVM model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _roleManager.CreateAsync(new IdentityRole(model.Name));
+
+            if(result.Succeeded)
+            {
+                CreateMessage("success","Yeni role Eklenmiştir.");
+
+                return RedirectToAction("ListRoles");
+            }
+
+            //!  Eğer role oluşturulamadıysa error vermeliyiz => bu kullanımı da bil diye bunu yapıyoruz
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
 
         // AlertBox oluşturma metodu
         private void CreateMessage(string alertType, string message)

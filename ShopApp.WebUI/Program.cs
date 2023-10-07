@@ -91,6 +91,28 @@ app.UseRouting();
 app.UseAuthorization();
 
 
+//? Admin Role Route settings
+app.MapControllerRoute(
+    name: "adminroles",
+    pattern: "admin/role/list",
+    defaults: new { controller = "Admin", action = "ListRoles" });
+
+app.MapControllerRoute(
+    name: "adminrolecreate",
+    pattern: "admin/role/create",
+    defaults: new { controller = "Admin", action = "CreateRole" });
+
+//app.MapControllerRoute(
+//    name: "adminrolecreate",
+//    pattern: "admin/role/edit/{id?}",
+//    defaults: new { controller = "Admin", action = "EditRole" });
+
+//app.MapControllerRoute(
+//    name: "adminrolecreate",
+//    pattern: "admin/role/delete/{id?}",
+//    defaults: new { controller = "Admin", action = "DeleteRole" });
+
+//? Admin Category Route settings
 app.MapControllerRoute(
     name: "admincategorieslist",
     pattern: "admin/categories",
@@ -106,7 +128,7 @@ app.MapControllerRoute(
     pattern: "admin/categories/{id?}",
     defaults: new { controller = "admin", action = "EditCategory" });
 
-
+//? Admin Product Route settings
 app.MapControllerRoute(
     name: "adminproductslist",
     pattern: "admin/products",
@@ -123,7 +145,7 @@ app.MapControllerRoute(
     defaults: new { controller = "admin", action = "EditProduct" });
 
 
-// TODO Kullanýcý Route'larý
+//? User Pages Route settings
 app.MapControllerRoute(
     name: "search",
     pattern: "search",

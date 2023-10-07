@@ -1,0 +1,24 @@
+﻿@model RoleVM
+
+<h3 class="h1 text-center my-4">Create Role</h3>
+<hr />
+
+
+<form method="post" asp-action="CreateRole" asp-controller="Admin">
+
+    <div asp-validation-summary="All"></div>
+
+    <div class="mb-3 row">
+        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Name" />
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-success">Save Role</button>
+        </div>
+    </div>
+
+</form>
