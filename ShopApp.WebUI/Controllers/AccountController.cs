@@ -4,6 +4,7 @@ using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
 using ShopApp.WebUI.Models;
 using ShopApp.WebUI.Models.ViewModels;
+using System;
 using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
@@ -79,6 +80,7 @@ namespace ShopApp.WebUI.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM register)
@@ -98,7 +100,7 @@ namespace ShopApp.WebUI.Controllers
             };
 
             // mail adresi önceden eklenmiş mi kontrol edelim
-            var isMailAdressUsedBefore= await _userManager.FindByEmailAsync(user.Email);
+            var isMailAdressUsedBefore = await _userManager.FindByEmailAsync(user.Email);
 
             if (isMailAdressUsedBefore != null)
             {
@@ -159,6 +161,87 @@ namespace ShopApp.WebUI.Controllers
             }
             // kullanıcı yoksa
             CreateMessage("danger", "Hesabınız Onaylanmadı.");
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string Email)
+        {
+            if (string.IsNullOrEmpty(Email))
+            {
+                CreateMessage("warning", "Lütfen mail adresinizi giriniz.");
+                return View();
+            }
+
+            var user = await _userManager.FindByEmailAsync(Email);
+
+            if (user == null)
+            {
+                CreateMessage("danger", "Bu mail adresine kayıtlı bir kullanıcı yok.");
+                return View();
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var url = Url.Action("ResetPassword", "Account", new
+            {
+                token = token,
+                UserId = user.Id
+            });
+
+            await _emailSender.SendEmailAsync(Email, "Parola Sıfırlama", $"Lütfen <a href='https://localhost:7037{url}'>linke tıklayarak </a> parlanızı sıfırlayınız");
+
+            CreateMessage("success", "Parola sıfırlama isteğiniz mail olarak gönderilmiştir.Lütfen mailinizi kontrol ediniz.");
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                CreateMessage("warning", "İşlemnizi gerçekleştirilemedi");
+                return RedirectToAction("Index","Home");
+            }
+
+            var model = new ResetPasswordVM()
+            {
+                Token = token
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if(user == null)
+            {
+                CreateMessage("danger","Girdiğiniz mail adresine ait bir kullanıcı yoktur.");
+                return View(model);
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (result.Succeeded)
+            {
+                CreateMessage("success", "Şifreniz başarıyla sıfırlanmıştır.");
+                return RedirectToAction("Login", "Account");
+            }
 
             return View();
         }
