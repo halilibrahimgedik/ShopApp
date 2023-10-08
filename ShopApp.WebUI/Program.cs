@@ -98,6 +98,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Admin", action = "ListRoles" });
 
 app.MapControllerRoute(
+    name: "adminroles",
+    pattern: "admin/user/list",
+    defaults: new { controller = "Admin", action = "ListUsers" });
+
+app.MapControllerRoute(
     name: "adminrolecreate",
     pattern: "admin/role/create",
     defaults: new { controller = "Admin", action = "CreateRole" });

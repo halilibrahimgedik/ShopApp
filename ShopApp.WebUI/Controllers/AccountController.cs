@@ -246,6 +246,11 @@ namespace ShopApp.WebUI.Controllers
             return View();
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         // AlertBox oluşturma metodu
         private void CreateMessage(string alertType, string message)
         {

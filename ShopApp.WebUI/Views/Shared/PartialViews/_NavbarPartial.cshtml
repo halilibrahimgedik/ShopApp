@@ -19,15 +19,25 @@
                     <a class="nav-link">Orders</a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="/admin/products" class="nav-link">Admin Products</a>
-                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a href="/admin/products" class="nav-link">Admin Products</a>
+                    </li>
 
-                <li class="nav-item">
-                    <a asp-action="ListCategories" asp-controller="admin" class="nav-link">Admin Categories</a>
-                </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">Admin Categories</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/admin/role/list" class="nav-link">Roles</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/admin/user/list" class="nav-link">Users</a>
+                    </li>
+                }
             }
-
         </ul>
 
 

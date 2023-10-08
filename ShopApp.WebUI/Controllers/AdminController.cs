@@ -13,7 +13,7 @@ using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
@@ -343,7 +343,7 @@ namespace ShopApp.WebUI.Controllers
 
             foreach (var user in _userManager.Users)
             {
-                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers; 
+                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
                 // listlerin referans tipli olmasını kullanabiliriz burda, true dönerse list => stack de members 'ı işaret edicek ve ekleme yaparken(list.Add(user) derken) members 'a eklemiş olacağız, false dönerse list stackde nonMembers'ı işaret edicek ve list.Add(user) dediğimizde bu sefer nonMembers'a user eklenecek
                 list.Add(user);
             }
@@ -352,7 +352,7 @@ namespace ShopApp.WebUI.Controllers
             {
                 Role = role,
                 NonMembers = nonMembers,
-                Members = members 
+                Members = members
             };
 
             return View(model);
@@ -368,7 +368,7 @@ namespace ShopApp.WebUI.Controllers
                 {
                     var user = await _userManager.FindByIdAsync(userId);
 
-                    if(user != null)
+                    if (user != null)
                     {
                         var result = await _userManager.AddToRoleAsync(user, model.RoleName);
 
@@ -376,10 +376,10 @@ namespace ShopApp.WebUI.Controllers
                         {
                             foreach (var error in result.Errors)
                             {
-                                ModelState.AddModelError("",error.Description);
+                                ModelState.AddModelError("", error.Description);
                             }
                         }
-                    }                   
+                    }
                 }
 
                 // Role'den silinecek UserId'ler
