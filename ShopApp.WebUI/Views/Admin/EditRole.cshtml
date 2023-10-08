@@ -1,0 +1,77 @@
+﻿@model RoleDetails
+
+<h3 class="my-4 text-center">Edit Role</h3>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+
+        <form asp-controller="Admin" asp-action="EditRole">
+
+            <input type="hidden" name="RoleId" value="@Model.Role.Id">
+            <input type="hidden" name="RoleName" value="@Model.Role.Name">
+            <h6 class="bg-info text-white p-2">Add to @Model.Role.Name</h6>
+
+            <table class="table table-bordered table-sm">
+                <tr class="text-center">
+                    <th>Username</th>
+                    <th>User Email</th>
+                    <th>Action</th>
+                </tr>
+                @if (Model.NonMembers.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="2">Bütün kullanıcılar role ait</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var user in Model.NonMembers)
+                    {
+                        <tr class="text-center">
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td style="width: 150px;">
+                                <input type="checkbox" name="IdsToAdd" value="@user.Id">
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+            <hr class="my-4">
+
+            <h6 class="bg-info text-white p-2">Remove from @Model.Role.Name</h6>
+            <table class="table table-bordered table-sm">
+                <tr class="text-center">
+                    <th>Username</th>
+                    <th>User Email</th>
+                    <th>Action</th>
+                </tr>
+                @if (Model.Members.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="2">Role ait kullanıcı yok.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var user in Model.Members)
+                    {
+                        <tr class="text-center">
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td style="width: 150px;" class="text-center">
+                                <input type="checkbox" name="IdsToDelete" value="@user.Id">
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+
+        </form>
+
+
+    </div>
+</div>

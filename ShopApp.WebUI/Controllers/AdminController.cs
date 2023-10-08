@@ -21,7 +21,7 @@ namespace ShopApp.WebUI.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        public AdminController(IProductService productService, ICategoryService categoryService,RoleManager<IdentityRole> roleManager,UserManager<User> userManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _productService = productService;
             _categoryService = categoryService;
@@ -311,16 +311,16 @@ namespace ShopApp.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleVM model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
             var result = await _roleManager.CreateAsync(new IdentityRole(model.Name));
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
-                CreateMessage("success","Yeni role Eklenmiştir.");
+                CreateMessage("success", "Yeni role Eklenmiştir.");
 
                 return RedirectToAction("ListRoles");
             }
@@ -334,8 +334,81 @@ namespace ShopApp.WebUI.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            var members = new List<User>();
+            var nonMembers = new List<User>();
 
-        // AlertBox oluşturma metodu
+            foreach (var user in _userManager.Users)
+            {
+                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers; 
+                // listlerin referans tipli olmasını kullanabiliriz burda, true dönerse list => stack de members 'ı işaret edicek ve ekleme yaparken(list.Add(user) derken) members 'a eklemiş olacağız, false dönerse list stackde nonMembers'ı işaret edicek ve list.Add(user) dediğimizde bu sefer nonMembers'a user eklenecek
+                list.Add(user);
+            }
+
+            var model = new RoleDetails()
+            {
+                Role = role,
+                NonMembers = nonMembers,
+                Members = members 
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(RoleEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Role Eklenecek UserId'ler
+                foreach (var userId in model.IdsToAdd)
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+
+                    if(user != null)
+                    {
+                        var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("",error.Description);
+                            }
+                        }
+                    }                   
+                }
+
+                // Role'den silinecek UserId'ler
+                foreach (var userId in model.IdsToDelete)
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+
+                    if (user != null)
+                    {
+                        var result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                }
+
+                CreateMessage("success", "işlemleriniz başarıyla gerçekleştirilmiştir");
+            }
+
+            return Redirect("/admin/role/edit/" + model.RoleId);
+        }
+
+
+
         private void CreateMessage(string alertType, string message)
         {
             var msj = new AlertMessage()
@@ -343,7 +416,7 @@ namespace ShopApp.WebUI.Controllers
                 AlertType = alertType,
                 Message = message
             };
-            TempData["Message"]= JsonSerializer.Serialize(msj);
+            TempData["Message"] = JsonSerializer.Serialize(msj);
         }
     }
 }

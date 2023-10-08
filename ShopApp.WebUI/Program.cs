@@ -102,15 +102,10 @@ app.MapControllerRoute(
     pattern: "admin/role/create",
     defaults: new { controller = "Admin", action = "CreateRole" });
 
-//app.MapControllerRoute(
-//    name: "adminrolecreate",
-//    pattern: "admin/role/edit/{id?}",
-//    defaults: new { controller = "Admin", action = "EditRole" });
-
-//app.MapControllerRoute(
-//    name: "adminrolecreate",
-//    pattern: "admin/role/delete/{id?}",
-//    defaults: new { controller = "Admin", action = "DeleteRole" });
+app.MapControllerRoute(
+    name: "adminrolecreate",
+    pattern: "admin/role/edit/{id?}",
+    defaults: new { controller = "Admin", action = "EditRole" });
 
 //? Admin Category Route settings
 app.MapControllerRoute(
