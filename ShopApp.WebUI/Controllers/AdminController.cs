@@ -29,6 +29,7 @@ namespace ShopApp.WebUI.Controllers
             _userManager = userManager;
         }
 
+
         // ! Product işlemleri
         public IActionResult ListProducts()
         {
@@ -172,7 +173,6 @@ namespace ShopApp.WebUI.Controllers
         }
 
 
-
         // ! Kategori işlemleri
         public IActionResult ListCategories()
         {
@@ -295,7 +295,6 @@ namespace ShopApp.WebUI.Controllers
         }
 
 
-
         // ! Role işlemleri
         public IActionResult ListRoles()
         {
@@ -408,6 +407,92 @@ namespace ShopApp.WebUI.Controllers
         }
 
 
+        //! User İşlemleri
+        public IActionResult ListUsers()
+        {
+            return View(_userManager.Users.ToList());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string userId)
+        {
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            // ilgili user'a ait role bilgilerini bize döndüren metod
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            //tüm rolleri çekelim
+            var roles = _roleManager.Roles.Select(role=>role.Name);
+            ViewBag.Roles = roles;
+
+            if (user != null)
+            {
+                var model = new UserDetailVM()
+                {
+                    UserId = user.Id,
+                    Username = user.UserName,
+                    Firstname = user.FirstName,
+                    Lastname = user.LastName,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    UserRoles = userRoles,
+                };
+
+                return View(model);
+            }
+
+            return Redirect("/admin/user/list");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(UserDetailVM model, string[] selectedRoles)
+        {
+            if (!ModelState.IsValid)
+            {
+                CreateMessage("danger", "Validation hatasından dolayı user bilgileri güncellenemedi");
+                var roles = _roleManager.Roles.Select(role => role.Name);
+                ViewBag.Roles = roles;
+
+                var user2 = await _userManager.FindByIdAsync(model.UserId);
+                var userRoles = await _userManager.GetRolesAsync(user2);
+
+                model.UserRoles = userRoles;
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user != null)
+            {
+                user.FirstName = model.Firstname;
+                user.LastName = model.Lastname;
+                user.Email = model.Email;
+                user.EmailConfirmed = model.EmailConfirmed;
+                user.UserName = model.Username;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+
+                    // eğer kullanıcı hiç rol seçmez ise null referance hatası almayalım
+                    selectedRoles = selectedRoles?? new string[] { };
+
+                    await _userManager.AddToRolesAsync(user,selectedRoles.Except(userRoles).ToArray());
+                    await _userManager.RemoveFromRolesAsync(user,userRoles.Except(selectedRoles).ToArray());
+
+                    return Redirect("/admin/user/list/");
+                }
+            }
+
+            return View(model);
+        }
 
         private void CreateMessage(string alertType, string message)
         {

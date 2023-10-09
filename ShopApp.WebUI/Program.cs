@@ -90,17 +90,27 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//? Admin User Route settings
+app.MapControllerRoute(
+    name: "adminusers",
+    pattern: "admin/user/list",
+    defaults: new { controller = "Admin", action = "ListUsers" });
+
+app.MapControllerRoute(
+    name: "adminusercreate",
+    pattern: "admin/user/create",
+    defaults: new { controller = "Admin", action = "CreateUser" });
+
+app.MapControllerRoute(
+    name: "adminrolecreate",
+    pattern: "admin/user/edit/{userId?}",
+    defaults: new { controller = "Admin", action = "EditUser" });
 
 //? Admin Role Route settings
 app.MapControllerRoute(
     name: "adminroles",
     pattern: "admin/role/list",
     defaults: new { controller = "Admin", action = "ListRoles" });
-
-app.MapControllerRoute(
-    name: "adminroles",
-    pattern: "admin/user/list",
-    defaults: new { controller = "Admin", action = "ListUsers" });
 
 app.MapControllerRoute(
     name: "adminrolecreate",
