@@ -71,6 +71,22 @@
                     <label class="custom-control-label" for="category_@(category.Id)"> @category.Name </label>
                 </div>
             }
+
+            <hr class="mt-4" />
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="" asp-for="IsApproved">  @* name="IsApproved" value="@Model.IsApproved" *@
+
+                <label class="form-check-label" asp-for="IsApproved">
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="" asp-for="IsHome">  @* name="IsApproved" value="@Model.IsApproved" *@
+
+                <label class="form-check-label" asp-for="IsHome">
+                </label>
+            </div>
+
         </div>
     </div>
 </form>

@@ -33,7 +33,7 @@
                 <label asp-for="ImageUrl" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     <input type="hidden" asp-for="ImageUrl" />
-                    <input type="file" name="file"/>
+                    <input type="file" name="file" />
                 </div>
             </div>
 
@@ -44,20 +44,7 @@
                 </div>
             </div>
 
-             @* checkboxlar *@
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="" asp-for="IsApproved">  @* name="IsApproved" value="@Model.IsApproved" *@
 
-                <label class="form-check-label" asp-for="IsApproved">
-                </label>
-            </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="" asp-for="IsHome">  @* name="IsApproved" value="@Model.IsApproved" *@
-
-                <label class="form-check-label" asp-for="IsHome">
-                </label>
-            </div>
 
             <div class="mb-3 row">
                 <div class="col-sm-10 offset-sm-2">
@@ -81,6 +68,21 @@
                     <label class="custom-control-label" for="category_@(category.Id)"> @category.Name </label>
                 </div>
             }
+
+            <hr class="mt-4" />
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="" asp-for="IsApproved">  @* name="IsApproved" value="@Model.IsApproved" *@
+
+                <label class="form-check-label" asp-for="IsApproved">
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="" asp-for="IsHome">  @* name="IsApproved" value="@Model.IsApproved" *@
+
+                <label class="form-check-label" asp-for="IsHome">
+                </label>
+            </div>
         </div>
 
     </div>

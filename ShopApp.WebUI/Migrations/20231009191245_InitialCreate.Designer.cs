@@ -11,8 +11,8 @@ using ShopApp.WebUI.Identity;
 namespace ShopApp.WebUI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231005103324_AddedUserTables")]
-    partial class AddedUserTables
+    [Migration("20231009191245_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -204,7 +204,6 @@ namespace ShopApp.WebUI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 

@@ -5,6 +5,7 @@ using ShopApp.WebUI.Identity;
 using ShopApp.WebUI.Models;
 using ShopApp.WebUI.Models.ViewModels;
 using System;
+using System.Data;
 using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
@@ -111,6 +112,9 @@ namespace ShopApp.WebUI.Controllers
 
             if (result.Succeeded)
             {
+                // oluşan user hesabını direkt "customer" rolüne atayalım.
+                await _userManager.AddToRoleAsync(user, "customer");
+
                 //TODO Token Bilgisi oluşturulmalı burada ve mail ile gönderilmeli
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); // bizden bir user bilgisi alarak token oluşturuyor,oluşturulan token veri tabanına kaydediliyor ve daha sonra token bilgisi ile onaylama yapacağız.
 

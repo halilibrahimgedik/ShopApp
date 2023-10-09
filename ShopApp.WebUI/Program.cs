@@ -1,12 +1,9 @@
 using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
-using DataAccessLayer.Concrete;
 using DataAccessLayer.Concrete.EfCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using shopapp.data.Concrete.EfCore;
 using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
 
@@ -57,6 +54,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProductService, ProductManager>();
+
 builder.Services.AddScoped<IProductRepository, EfCoreProductRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
@@ -67,7 +65,7 @@ builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSend
                                                                 builder.Configuration.GetValue<int>("EmailSender:Port"),
                                                                 builder.Configuration.GetValue<bool>("EmailSender:EnableSSL"),
                                                                 builder.Configuration["EmailSender:UserName"],
-                                                                builder.Configuration["EmailSender:Password"]) );
+                                                                builder.Configuration["EmailSender:Password"]));
 
 var app = builder.Build();
 
@@ -80,6 +78,13 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+////IdentityUser Seed 
+//SeedIdentity.Seed(
+//    app.Services.GetRequiredService<UserManager<User>>(),
+//    app.Services.GetRequiredService<RoleManager<IdentityRole>>(),
+//    app.Configuration)
+//    .Wait();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -174,5 +179,14 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    await SeedIdentity.Seed(userManager, roleManager, app.Configuration);
+}
 
 app.Run();

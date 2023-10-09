@@ -13,7 +13,7 @@ namespace DataAccessLayer.Concrete.EfCore
     {
         public void Add(Product p, int[] categoryIds)
         {
-            using(var context = new ShopAppContext())
+            using (var context = new ShopAppContext())
             {
                 context.Products.Add(p);
 
@@ -30,7 +30,7 @@ namespace DataAccessLayer.Concrete.EfCore
         public int GetCountByCategory(string category)
         {
             using var context = new ShopAppContext();
-            var products = context.Products.Where(p=>p.IsApproved==true).AsQueryable();
+            var products = context.Products.Where(p => p.IsApproved == true).AsQueryable();
             if (!string.IsNullOrEmpty(category))
             {
                 products = products.Include(p => p.Categories).ThenInclude(pc => pc.Category)
@@ -85,7 +85,7 @@ namespace DataAccessLayer.Concrete.EfCore
             };
         }
 
-        public List<Product> GetSearchResult(string stringForSearch,int page,int PageSize)
+        public List<Product> GetSearchResult(string stringForSearch, int page, int PageSize)
         {
             using (var context = new ShopAppContext())
             {
@@ -93,16 +93,16 @@ namespace DataAccessLayer.Concrete.EfCore
 
                 if (!string.IsNullOrEmpty(stringForSearch))
                 {
-                    p = p.Where(i=>i.Name.ToLower().Contains(stringForSearch) || i.Description.ToLower().Contains(stringForSearch));
+                    p = p.Where(i => i.Name.ToLower().Contains(stringForSearch) || i.Description.ToLower().Contains(stringForSearch));
                 }
 
-                return p.Skip((page-1)*PageSize).Take(PageSize).ToList(); 
+                return p.Skip((page - 1) * PageSize).Take(PageSize).ToList();
             };
         }
 
         public List<Product> ListProductsByCategory(string name, int page, int pageSize)
         {
-            using (var context =new ShopAppContext())
+            using (var context = new ShopAppContext())
             {
                 var products = context.Products.Where(p => p.IsApproved == true).AsQueryable();
 
@@ -112,7 +112,7 @@ namespace DataAccessLayer.Concrete.EfCore
                                         .Where(p => p.Categories.Any(c => c.Category.Url == name));
                 }
 
-                return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
+                return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
         }
 
@@ -120,21 +120,19 @@ namespace DataAccessLayer.Concrete.EfCore
         {
             using (var context = new ShopAppContext())
             {
-                //var product = context.Products
-                //    .Include(p => p.Categories)
-                //    .FirstOrDefault(i=>i.Id == p.Id);
-
-                var product = context.Products.Where(pr=>pr.Id ==p.Id)
+                var product = context.Products.Where(pr => pr.Id == p.Id)
                                               .Include(p => p.Categories)
                                               .FirstOrDefault();
 
                 if (product != null)
                 {
-                    product.Name= p.Name;
-                    product.Description= p.Description;
-                    product.Price= p.Price;
-                    product.ImageUrl= p.ImageUrl;
-                    product.Url= p.Url;
+                    product.Name = p.Name;
+                    product.Description = p.Description;
+                    product.Price = p.Price;
+                    product.ImageUrl = p.ImageUrl;
+                    product.Url = p.Url;
+                    product.IsApproved = p.IsApproved;
+                    product.IsHome = p.IsHome;
 
                     product.Categories = categoryIds.Select(catId => new ProductCategory()
                     {

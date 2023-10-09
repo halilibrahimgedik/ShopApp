@@ -13,7 +13,7 @@ using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
@@ -107,6 +107,8 @@ namespace ShopApp.WebUI.Controllers
                 ImageUrl = p.ImageUrl,
                 Description = p.Description,
                 Url = p.Url,
+                IsApproved = p.IsApproved,
+                IsHome = p.IsHome,
                 SelectedCategories = p.Categories.Select(pc => pc.Category).ToList() // ürüne ait kategriler
             };
 
@@ -129,6 +131,8 @@ namespace ShopApp.WebUI.Controllers
             p.Price = product.Price;
             p.Description = product.Description;
             p.Url = product.Url;
+            p.IsApproved = product.IsApproved;
+            p.IsHome = product.IsHome;
 
             if (file != null)
             {

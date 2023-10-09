@@ -6,9 +6,7 @@
 <form method="post" asp-action="EditUser" asp-controller="Admin">
 
     <div class="row">
-
         <div class="col-md-8">
-
             <div asp-validation-summary="All" class="text-danger col-md-12"></div>
 
             <input type="hidden" asp-for="UserId" />
@@ -53,13 +51,11 @@
                     <button type="submit" class="btn btn-success">Save Changes</button>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-4">
             <h3>Roles</h3>
             <hr />
-
             @foreach (var roleName in ViewBag.Roles)
             {
                 <div class="custom-control custom-checkbox">
@@ -72,9 +68,7 @@
                     <label class="custom-control-label" for="@roleName"> @roleName </label>
                 </div>
             }
-
             <hr />
-
             <div class="custom-control custom-checkbox">
 
                 <input type="checkbox" class="custom-control-input" id="EmailConfirmed"
@@ -83,11 +77,6 @@
 
                 <label class="custom-control-label" for="EmailConfirmed"> emailConfirmed </label>
             </div>
-
-
-
         </div>
     </div>
-
-
 </form>
