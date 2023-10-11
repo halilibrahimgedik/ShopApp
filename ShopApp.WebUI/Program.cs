@@ -60,6 +60,9 @@ builder.Services.AddScoped<IProductRepository, EfCoreProductRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
 builder.Services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
 
+builder.Services.AddScoped<ICartService, CartManager>();
+builder.Services.AddScoped<ICartRepository, EfCoreCartRepository>();
+
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
                                                                 builder.Configuration["EmailSender:Host"],
                                                                 builder.Configuration.GetValue<int>("EmailSender:Port"),

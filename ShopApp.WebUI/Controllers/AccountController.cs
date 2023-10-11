@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BusinessLayer.Abstract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
@@ -16,12 +17,14 @@ namespace ShopApp.WebUI.Controllers
         private readonly UserManager<User> _userManager; //! Kullanıcak olduğumuz user sınıfını veriyoruz ve kullanıcı oluşturma temel login işlemlerini barındırıyor
         private readonly SignInManager<User> _signInManager;     //! Cookie Olaylarını yönetiyor
         private readonly IEmailSender _emailSender;              //! Mail gönderme işlemlerimizi yapacağız
+        private readonly ICartService _cartService;              //! kullanıcı alışveriş sepeti işlemleri
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, IConfiguration configuration)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, IConfiguration configuration, ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _cartService = cartService;
         }
 
 
@@ -106,6 +109,7 @@ namespace ShopApp.WebUI.Controllers
             if (isMailAdressUsedBefore != null)
             {
                 CreateMessage("warning", "Bu Mail adresi ile önceden bir hesap oluşturulmuştur. Lütfen başka bir mail adresi giriniz.");
+                return View(register);
             }
 
             var result = await _userManager.CreateAsync(user, register.Password);
@@ -113,7 +117,7 @@ namespace ShopApp.WebUI.Controllers
             if (result.Succeeded)
             {
                 // oluşan user hesabını direkt "customer" rolüne atayalım.
-                await _userManager.AddToRoleAsync(user, "customer");
+                //await _userManager.AddToRoleAsync(user, "customer");
 
                 //TODO Token Bilgisi oluşturulmalı burada ve mail ile gönderilmeli
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); // bizden bir user bilgisi alarak token oluşturuyor,oluşturulan token veri tabanına kaydediliyor ve daha sonra token bilgisi ile onaylama yapacağız.
@@ -159,6 +163,8 @@ namespace ShopApp.WebUI.Controllers
 
                 if (result.Succeeded)
                 {
+                    //? kullanıcının hesabı doğrulandığında hesaba cart objesi oluşturmalıyız
+                    _cartService.InitializeCart(user.Id);
                     CreateMessage("success", "Hesabınız Başarıyla Onaylanmıştır");
                     return View();
                 }
