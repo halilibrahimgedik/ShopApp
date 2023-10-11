@@ -16,6 +16,12 @@ namespace BusinessLayer.Concrete
         {
             _cartRepository = cartRepository;
         }
+
+        public Cart GetCartByUserId(string userId)
+        {
+            return _cartRepository.GetCartByUserId(userId);
+        }
+
         public void InitializeCart(string userId)
         {
             _cartRepository.Add(new Cart() { UserId = userId });

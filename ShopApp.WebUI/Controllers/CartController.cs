@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BusinessLayer.Abstract;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShopApp.WebUI.Identity;
+using ShopApp.WebUI.Models.ViewModels;
 
 namespace ShopApp.WebUI.Controllers
 {
@@ -7,9 +11,35 @@ namespace ShopApp.WebUI.Controllers
     [AutoValidateAntiforgeryToken]
     public class CartController : Controller
     {
-        public IActionResult Index()
+        private readonly ICartService _cartService;
+        private readonly UserManager<User> _userManager;
+
+        public CartController(ICartService cartService,UserManager<User> userManager)
         {
-            return View();
+            _cartService = cartService;
+            _userManager = userManager;
+        }
+
+        public IActionResult ShowCart()
+        {
+            var cart = _cartService.GetCartByUserId(_userManager.GetUserId(User));
+
+            var cartVm = new CartVM()
+            {
+                CartId = cart.Id,
+                CartItems = cart.CartItems.Select(cartItem=> new CartItemVM()
+                {
+                    CartItemId = cartItem.Id,
+                    Name = cartItem.Product.Name,
+                    ImageUrl = cartItem.Product.ImageUrl,
+                    Price = (double)cartItem.Product.Price,
+                    ProductId = cartItem.ProductId,
+                    Quantity = cartItem.Quantity,
+                    
+                }).ToList(),
+            };
+
+            return View(cartVm);
         }
 
         [HttpPost]

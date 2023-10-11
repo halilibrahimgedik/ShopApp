@@ -82,12 +82,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-////IdentityUser Seed 
-//SeedIdentity.Seed(
-//    app.Services.GetRequiredService<UserManager<User>>(),
-//    app.Services.GetRequiredService<RoleManager<IdentityRole>>(),
-//    app.Configuration)
-//    .Wait();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -97,6 +91,14 @@ app.UseAuthentication();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+//? Cart Route settings 
+app.MapControllerRoute(
+    name: "cart",
+    pattern: "mycart",
+    defaults: new { controller = "Cart", action = "ShowCart" }
+    );
 
 //? Admin User Route settings
 app.MapControllerRoute(

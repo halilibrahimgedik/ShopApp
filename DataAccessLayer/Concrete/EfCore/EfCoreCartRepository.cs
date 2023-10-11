@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Abstract;
 using EntityLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,14 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreCartRepository : EfCoreGenericRepository<Cart>, ICartRepository
     {
-       
+        public Cart GetCartByUserId(string userId)
+        {
+            using (var context = new ShopAppContext())
+            {
+                return context.Carts
+                                .Include(c => c.CartItems)
+                                .ThenInclude(cı => cı.Product).FirstOrDefault(c => c.UserId == userId);
+            }
+        }
     }
 }

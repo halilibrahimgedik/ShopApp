@@ -9,6 +9,6 @@ namespace DataAccessLayer.Abstract
 {
     public interface ICartRepository : IRepository<Cart>
     {
-        
+        Cart GetCartByUserId(string userId);
     }
 }
