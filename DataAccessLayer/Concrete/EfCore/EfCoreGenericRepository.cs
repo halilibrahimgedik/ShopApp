@@ -43,7 +43,7 @@ namespace DataAccessLayer.Concrete.EfCore
             }
         }
 
-        public void Update(T t)
+        public virtual void Update(T t)
         {
             using (var context = new ShopAppContext())
             {

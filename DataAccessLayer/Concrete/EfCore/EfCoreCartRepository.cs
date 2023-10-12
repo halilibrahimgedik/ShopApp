@@ -20,5 +20,14 @@ namespace DataAccessLayer.Concrete.EfCore
                                 .ThenInclude(cı => cı.Product).FirstOrDefault(c => c.UserId == userId);
             }
         }
+
+        public override void Update(Cart cart)
+        {
+            using (var context = new ShopAppContext())
+            {
+                context.Carts.Update(cart);
+                context.SaveChanges();
+            }
+        }
     }
 }
