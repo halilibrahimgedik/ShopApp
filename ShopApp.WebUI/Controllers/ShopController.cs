@@ -19,7 +19,7 @@ namespace ShopApp.WebUI.Controllers
         //! localhost/products/telefon?page=1  => page parametresini QueryString olarak alabiliriz route'a atamaya gerek yok
         public IActionResult List(string category, int page = 1)
         {
-            const int pageSize = 3; // bir sayfada kaç ürün gösterilecek onu tanımlayalım
+            const int pageSize = 6; // bir sayfada kaç ürün gösterilecek onu tanımlayalım
             var productListVM = new ListProductsVM()
             {
                 PageInfo = new PageInfo() 

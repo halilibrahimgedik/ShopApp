@@ -16,9 +16,9 @@ namespace ShopApp.WebUI.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            if (RouteData.Values["action"] != null)
+            if (RouteData.Values["category"] != null)
             {
-                ViewBag.SelectedCategory = RouteData.Values["category"];
+                ViewBag.SelectedCategory = RouteData?.Values["category"];
             }
 
             return View(_categoryService.GetAll());

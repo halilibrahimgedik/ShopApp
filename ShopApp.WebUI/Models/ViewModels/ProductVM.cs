@@ -16,7 +16,7 @@ namespace ShopApp.WebUI.Models.ViewModels
 
         public string Url { get; set; }
 
-        public double? Price { get; set; }
+        public double Price { get; set; }
 
         public string Description { get; set; }
 

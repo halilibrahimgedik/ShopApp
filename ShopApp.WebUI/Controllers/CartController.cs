@@ -43,14 +43,14 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int productId, int quantity)
+        public IActionResult AddToCart(int productId, int quantity, string? returnUrl)
         {
             var userId = _userManager.GetUserId(User);
 
             if (userId != null)
             {
                 _cartService.AddToCart(userId,productId,quantity);
-                return RedirectToAction("Index", "Home");
+                return Redirect("/products");
             }
            
             return View();
