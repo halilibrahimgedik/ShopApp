@@ -11,6 +11,24 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreCartRepository : EfCoreGenericRepository<Cart>, ICartRepository
     {
+        public void DeleteCartItemFromCart(string userId, int cartItemId)
+        {
+            using(var context = new ShopAppContext())
+            {
+                var cart = context.Carts.Where(c => c.UserId == userId).Include(c => c.CartItems).ThenInclude(cı=>cı.Product).FirstOrDefault();
+                if(cart != null)
+                {
+                    var cartItem = cart.CartItems.Where(cı => cı.Id == cartItemId).FirstOrDefault();
+
+                    if (cartItem != null)
+                    {
+                        cart.CartItems.Remove(cartItem);
+                        context.SaveChanges();
+                    }              
+                }
+            }
+        }
+
         public Cart GetCartByUserId(string userId)
         {
             using (var context = new ShopAppContext())

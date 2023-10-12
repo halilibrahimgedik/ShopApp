@@ -55,5 +55,14 @@ namespace ShopApp.WebUI.Controllers
            
             return View();
         }
+
+        [HttpPost]
+        public IActionResult DeleteCartItemFromCart(int cartItemId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            _cartService.DeleteCartItemFromCart(userId,cartItemId);
+            return RedirectToAction("ShowCart");
+        }
     }
 }
