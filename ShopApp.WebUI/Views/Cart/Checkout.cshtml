@@ -1,0 +1,65 @@
+﻿@model OrderVM
+
+<h1>Checkout</h1>
+<hr>
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="mb-3">Sipariş Detayı</h4>
+        <form method="POST" asp-action="Checkout" asp-controller="Cart">
+            <input type="hidden" name="cartId" value="0"/>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="@Model.FirstName"></label>
+                    <input asp-for="@Model.FirstName" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="@Model.LastName"></label>
+                    <input asp-for="@Model.LastName" class="form-control">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Address"></label>
+                <textarea asp-for="@Model.Address" class="form-control"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="@Model.City"></label>
+                    <input asp-for="@Model.City" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="@Model.Phone"></label>
+                    <input asp-for="@Model.Phone" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="@Model.Email"></label>
+                    <input asp-for="@Model.Email" class="form-control">
+                </div>
+            </div>
+            <hr class="mb-3">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h4 class="mb-3">
+            <span>Özet Bilgiler</span>
+        </h4>
+        <ul class="list-group mb-3">
+
+            @foreach (var item in Model.CartModel.CartItems)
+            {
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6>@item.Name</h6>
+                    </div>
+                    <span class="text-muted">@item.Price.ToString("c")</span>
+                </li>
+            }
+
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Toplam (TL)</span>
+                <strong>@Model.CartModel.TotalPrice().ToString("c")</strong>
+            </li>
+        </ul>
+
+    </div>
+</div>

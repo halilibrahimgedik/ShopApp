@@ -100,6 +100,12 @@ app.MapControllerRoute(
     defaults: new { controller = "Cart", action = "ShowCart" }
     );
 
+app.MapControllerRoute(
+    name: "checkout",
+    pattern: "checkout",
+    defaults: new { controller = "Cart", action = "Checkout" }
+    );
+
 //? Admin User Route settings
 app.MapControllerRoute(
     name: "adminusers",
