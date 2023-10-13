@@ -5,40 +5,70 @@
 <div class="row">
     <div class="col-md-8">
         <h4 class="mb-3">Sipariş Detayı</h4>
-        <form method="POST" asp-action="Checkout" asp-controller="Cart">
-            <input type="hidden" name="cartId" value="0"/>
+        <form method="POST" asp-controller="Cart" asp-action="Checkout">
+            <input type="hidden" name="cartId" value="0">
+            <input type="hidden" asp-for="CartModel.CartItems"/>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label asp-for="@Model.FirstName"></label>
-                    <input asp-for="@Model.FirstName" class="form-control">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control">
                 </div>
                 <div class="col-md-6">
-                    <label asp-for="@Model.LastName"></label>
-                    <input asp-for="@Model.LastName" class="form-control">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control">
                 </div>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.Address"></label>
-                <textarea asp-for="@Model.Address" class="form-control"></textarea>
+                <label asp-for="Address"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label asp-for="@Model.City"></label>
-                    <input asp-for="@Model.City" class="form-control">
+                    <label asp-for="City"></label>
+                    <input asp-for="City" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <label asp-for="@Model.Phone"></label>
-                    <input asp-for="@Model.Phone" class="form-control">
+                    <label asp-for="Phone"></label>
+                    <input asp-for="Phone" class="form-control">
                 </div>
                 <div class="col-md-4">
-                    <label asp-for="@Model.Email"></label>
-                    <input asp-for="@Model.Email" class="form-control">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control">
                 </div>
             </div>
+
+            <h4 class="mb-3 mt-5">Ödeme Bilgileri</h4>
             <hr class="mb-3">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="CardName"></label>
+                    <input asp-for="CardName" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CardNumber"></label>
+                    <input asp-for="CardNumber" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="ExpirationMonth"></label>
+                    <input asp-for="ExpirationMonth" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ExpirationYear"></label>
+                    <input asp-for="ExpirationYear" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Cv"></label>
+                    <input asp-for="Cv" class="form-control">
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+           
         </form>
     </div>
+
     <div class="col-md-4">
         <h4 class="mb-3">
             <span>Özet Bilgiler</span>
@@ -62,4 +92,5 @@
         </ul>
 
     </div>
+    
 </div>

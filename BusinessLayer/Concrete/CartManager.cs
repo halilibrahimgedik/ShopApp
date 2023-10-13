@@ -42,6 +42,11 @@ namespace BusinessLayer.Concrete
             }
         }
 
+        public void ClearCart(int cartId)
+        {
+            _cartRepository.ClearCart(cartId);
+        }
+
         public void DeleteCartItemFromCart(string userId, int cartItemId)
         {
             _cartRepository.DeleteCartItemFromCart(userId,cartItemId);

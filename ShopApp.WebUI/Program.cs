@@ -54,7 +54,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProductService, ProductManager>();
-
 builder.Services.AddScoped<IProductRepository, EfCoreProductRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
@@ -62,6 +61,11 @@ builder.Services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
 
 builder.Services.AddScoped<ICartService, CartManager>();
 builder.Services.AddScoped<ICartRepository, EfCoreCartRepository>();
+
+
+builder.Services.AddScoped<IOrderService, OrderManager>();
+builder.Services.AddScoped<IOrderRepository, EfCoreOrderRepository>();
+
 
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
                                                                 builder.Configuration["EmailSender:Host"],

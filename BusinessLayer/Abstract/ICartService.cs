@@ -16,5 +16,7 @@ namespace BusinessLayer.Abstract
         void AddToCart(string userId, int productId,int quantity);
 
         void DeleteCartItemFromCart(string userId, int cartItemId);
+
+        void ClearCart(int cartId);
     }
 }
