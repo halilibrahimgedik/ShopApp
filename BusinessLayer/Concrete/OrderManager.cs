@@ -22,5 +22,10 @@ namespace BusinessLayer.Concrete
         {
             _orderRepository.Add(Entity);
         }
+
+        public List<Order> GetOrders(string userId)
+        {
+            return _orderRepository.GetOrders(userId);
+        }
     }
 }

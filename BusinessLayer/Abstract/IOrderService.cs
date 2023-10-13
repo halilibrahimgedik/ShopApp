@@ -10,5 +10,7 @@ namespace BusinessLayer.Abstract
     public interface IOrderService
     {
         void Create(Order Entity);
+
+        List<Order> GetOrders(string userId);
     }
 }

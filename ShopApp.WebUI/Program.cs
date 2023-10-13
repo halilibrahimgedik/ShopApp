@@ -97,6 +97,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 
+app.MapControllerRoute(
+    name: "orders",
+    pattern: "orders",
+    defaults: new { controller = "Order", action = "GetOrders" }
+    );
+
 //? Cart Route settings 
 app.MapControllerRoute(
     name: "cart",
