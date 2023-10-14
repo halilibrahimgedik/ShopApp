@@ -3,6 +3,7 @@ using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete.EfCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
@@ -11,7 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(@"Data Source=Shop.db"));
+builder.Services.AddDbContext<ShopAppContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
+
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -62,10 +65,8 @@ builder.Services.AddScoped<ICategoryRepository, EfCoreCategoryRepository>();
 builder.Services.AddScoped<ICartService, CartManager>();
 builder.Services.AddScoped<ICartRepository, EfCoreCartRepository>();
 
-
 builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IOrderRepository, EfCoreOrderRepository>();
-
 
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
                                                                 builder.Configuration["EmailSender:Host"],

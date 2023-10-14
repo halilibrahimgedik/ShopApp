@@ -11,25 +11,26 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreCategoryRepository : EfCoreGenericRepository<Category>, ICategoryRepository
     {
+        private readonly ShopAppContext shopAppContext;
+
+        public EfCoreCategoryRepository(ShopAppContext context) : base(context)
+        {
+            shopAppContext = context;
+        }
+
         public void DeleteProductFromCategories(int productId, int categoryId)
         {
-            using (var context = new ShopAppContext())
-            {
-                var cmd = "Delete from ProductCategory where ProductId=@p0 and CategoryId=@p1";
-                context.Database.ExecuteSqlRaw(cmd,productId,categoryId);
-            }
+            var cmd = "Delete from ProductCategory where ProductId=@p0 and CategoryId=@p1";
+            shopAppContext.Database.ExecuteSqlRaw(cmd, productId, categoryId);
         }
 
         public Category GetByIdWithProducts(int categoryId)
         {
-            using (var context = new ShopAppContext())
-            {
-                return context.Categories
-                                .Where(c => c.Id == categoryId)
-                                .Include(c => c.Products)   // burada productCategory tablosuna geçtik
-                                .ThenInclude(pc => pc.Product) // product category tablosundan Category tablosuna geçtik
-                                .FirstOrDefault();
-            }
+            return shopAppContext.Categories
+                            .Where(c => c.Id == categoryId)
+                            .Include(c => c.Products)   // burada productCategory tablosuna geçtik
+                            .ThenInclude(pc => pc.Product) // product category tablosundan Category tablosuna geçtik
+                            .FirstOrDefault();
         }
     }
 }

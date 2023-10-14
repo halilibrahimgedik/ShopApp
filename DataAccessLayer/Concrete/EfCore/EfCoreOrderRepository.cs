@@ -11,21 +11,25 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreOrderRepository : EfCoreGenericRepository<Order>, IOrderRepository
     {
+        private readonly ShopAppContext shopAppContext;
+        public EfCoreOrderRepository(ShopAppContext context) : base(context)
+        {
+            shopAppContext = context;
+        }
+
+
         public List<Order> GetOrders(string userId)
         {
-            using(var context = new ShopAppContext())
+            var orders = shopAppContext.Orders.Include(o => o.OrderItems)
+                                        .ThenInclude(oı => oı.Product)
+                                        .AsQueryable();
+
+            if (string.IsNullOrEmpty(userId))
             {
-                var orders = context.Orders.Include(o => o.OrderItems)
-                                            .ThenInclude(oı => oı.Product)
-                                            .AsQueryable();
-
-                if (string.IsNullOrEmpty(userId))
-                {
-                    orders = orders.Where(o=>o.UserId == userId);
-                }
-
-                return orders.ToList();
+                orders = orders.Where(o => o.UserId == userId);
             }
+
+            return orders.ToList();
         }
     }
 }

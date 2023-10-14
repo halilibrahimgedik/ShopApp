@@ -11,50 +11,44 @@ namespace DataAccessLayer.Concrete.EfCore
 {
     public class EfCoreCartRepository : EfCoreGenericRepository<Cart>, ICartRepository
     {
+        private readonly ShopAppContext shopAppContext;
+        public EfCoreCartRepository(ShopAppContext context) : base(context)
+        {
+            shopAppContext = context;
+        }
+
         public void ClearCart(int cartId)
         {
-            using (var context = new ShopAppContext())
-            {
-                var cmd = @" delete from CartItems where CartId=@p0";
-                context.Database.ExecuteSqlRaw(cmd,cartId);
-            }   
+            var cmd = @" delete from CartItems where CartId=@p0";
+            shopAppContext.Database.ExecuteSqlRaw(cmd, cartId);
         }
 
         public void DeleteCartItemFromCart(string userId, int cartItemId)
         {
-            using(var context = new ShopAppContext())
+            var cart = shopAppContext.Carts.Where(c => c.UserId == userId).Include(c => c.CartItems).ThenInclude(cı => cı.Product).FirstOrDefault();
+            if (cart != null)
             {
-                var cart = context.Carts.Where(c => c.UserId == userId).Include(c => c.CartItems).ThenInclude(cı=>cı.Product).FirstOrDefault();
-                if(cart != null)
-                {
-                    var cartItem = cart.CartItems.Where(cı => cı.Id == cartItemId).FirstOrDefault();
+                var cartItem = cart.CartItems.Where(cı => cı.Id == cartItemId).FirstOrDefault();
 
-                    if (cartItem != null)
-                    {
-                        cart.CartItems.Remove(cartItem);
-                        context.SaveChanges();
-                    }              
+                if (cartItem != null)
+                {
+                    cart.CartItems.Remove(cartItem);
+                    shopAppContext.SaveChanges();
                 }
             }
         }
 
         public Cart GetCartByUserId(string userId)
         {
-            using (var context = new ShopAppContext())
-            {
-                return context.Carts
-                                .Include(c => c.CartItems)
-                                .ThenInclude(cı => cı.Product).FirstOrDefault(c => c.UserId == userId);
-            }
+            return shopAppContext.Carts
+                            .Include(c => c.CartItems)
+                            .ThenInclude(cı => cı.Product).FirstOrDefault(c => c.UserId == userId);
         }
 
         public override void Update(Cart cart)
         {
-            using (var context = new ShopAppContext())
-            {
-                context.Carts.Update(cart);
-                context.SaveChanges();
-            }
+            shopAppContext.Carts.Update(cart);
+            shopAppContext.SaveChanges();
         }
     }
 }
