@@ -29,6 +29,8 @@ namespace EntityLayer
 
         public bool IsHome { get; set; }
 
+        public DateTime AddedDate { get; set; }
+
         public List<ProductCategory> Categories { get; set; }
 
     }

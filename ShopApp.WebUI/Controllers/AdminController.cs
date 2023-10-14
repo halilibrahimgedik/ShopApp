@@ -58,7 +58,8 @@ namespace ShopApp.WebUI.Controllers
                 Description = product.Description,
                 Url = product.Url,
                 IsApproved = product.IsApproved,
-                IsHome = product.IsHome
+                IsHome = product.IsHome,
+                AddedDate = product.AddedDate
             };
 
             if (file != null)

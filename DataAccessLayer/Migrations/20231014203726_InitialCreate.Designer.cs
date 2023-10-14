@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ShopAppContext))]
-    [Migration("20231013061508_AddedColumnToOrderEntity")]
-    partial class AddedColumnToOrderEntity
+    [Migration("20231014203726_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -149,7 +149,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("OrderDate")
@@ -215,6 +214,11 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("AddedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -231,6 +235,7 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Price")
@@ -248,6 +253,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-green.jpg",
                             IsApproved = true,
@@ -259,6 +265,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 2,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-blue.jpg",
                             IsApproved = true,
@@ -270,6 +277,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 3,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "iyi telefon",
                             ImageUrl = "iphone-black.jpg",
                             IsApproved = true,
@@ -281,6 +289,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 4,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-pink.jpg",
                             IsApproved = true,
@@ -292,6 +301,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 5,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi telefon",
                             ImageUrl = "iphone-yellow.jpg",
                             IsApproved = true,
@@ -303,6 +313,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 6,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "lenovo-office.jpg",
                             IsApproved = true,
@@ -314,6 +325,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 7,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "lenovo-gaming.jpg",
                             IsApproved = true,
@@ -325,6 +337,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 8,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "iyi Bilgisayar",
                             ImageUrl = "asus-office.jpg",
                             IsApproved = true,
@@ -336,6 +349,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 9,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "hp-office.jpg",
                             IsApproved = true,
@@ -347,6 +361,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 10,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "hp-gaming.jpg",
                             IsApproved = true,
@@ -358,6 +373,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 11,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "çok iyi Bilgisayar",
                             ImageUrl = "asus-gaming.jpg",
                             IsApproved = true,
@@ -369,6 +385,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 12,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Küçük değişimler ile neler yapabileceğinizi tahmin bile edemezsiniz",
                             ImageUrl = "atomik.jpg",
                             IsApproved = true,
@@ -380,6 +397,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 13,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Başarılı insanlar hakkında anlatılan bir hikaye vardır; onların zeki ve hırslı oldukları söylenir. Outliers’te Malcolm Gladwell başarının gerçek hikayesinin bundan çok farklı olduğunu ve bazı insanların neden başarılı olduğunu anlamak için, bunların çevrelerine daha dikkatli bakmamız gerektiğini iddia ediyor.",
                             ImageUrl = "outliers.jpg",
                             IsApproved = true,
@@ -391,6 +409,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 14,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Bu kitap, ağ iletişiminin temel kavramlarından, İnternette sayısı her geçen gün artan güncel uygulamalara; farklı haberleşme teknolojilerinden ağ programlama tekniklerine kadar farklı yelpazedeki konuları gerek genel konseptleri gerekse teknik detayları ile açıklamaktadır.",
                             ImageUrl = "pc-network.jpg",
                             IsApproved = true,
@@ -402,6 +421,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 15,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Alttan Donduruculu Buzdolabı",
                             ImageUrl = "bosch-buzdolap.jpg",
                             IsApproved = true,
@@ -413,6 +433,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 16,
+                            AddedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Düşük enerjili yüksek performanslı",
                             ImageUrl = "arcelik-camasir.jpg",
                             IsApproved = true,

@@ -26,6 +26,8 @@ namespace ShopApp.WebUI.Models.ViewModels
 
         public bool IsHome { get; set; }
 
+        public DateTime AddedDate { get; set; }
+
         public List<Category> SelectedCategories { get; set; }
     }
 }
