@@ -11,21 +11,22 @@ namespace BusinessLayer.Concrete
 {
     public class OrderManager : IOrderService
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public OrderManager(IOrderRepository orderRepository)
+        public OrderManager(IUnitOfWork unitOfWork)
         {
-            _orderRepository = orderRepository;
+           this.unitOfWork = unitOfWork;
         }
 
         public void Create(Order Entity)
         {
-            _orderRepository.Add(Entity);
+            unitOfWork.OrderRepository.Add(Entity);
+            unitOfWork.Save();
         }
 
         public List<Order> GetOrders(string userId)
         {
-            return _orderRepository.GetOrders(userId);
+            return unitOfWork.OrderRepository.GetOrders(userId);
         }
     }
 }

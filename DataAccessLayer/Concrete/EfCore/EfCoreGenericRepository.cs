@@ -21,13 +21,11 @@ namespace DataAccessLayer.Concrete.EfCore
         public void Add(T t)
         {
             context.Set<T>().Add(t);
-            context.SaveChanges();
         }
 
         public void Delete(T t)
         {
             context.Set<T>().Remove(t);
-            context.SaveChanges();
         }
 
         public List<T> GetAll()
@@ -44,7 +42,6 @@ namespace DataAccessLayer.Concrete.EfCore
         {
             context.Set<T>().Update(t);
             //context.Entry(t).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
         }
     }
 }

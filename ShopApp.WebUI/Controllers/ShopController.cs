@@ -8,11 +8,9 @@ namespace ShopApp.WebUI.Controllers
     public class ShopController : Controller
     {
         private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
 
-        public ShopController(IProductService productService, ICategoryService categoryService)
+        public ShopController(IProductService productService)
         {
-            _categoryService = categoryService;
             _productService = productService;
         }
 

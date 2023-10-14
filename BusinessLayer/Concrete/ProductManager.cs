@@ -11,83 +11,86 @@ namespace BusinessLayer.Concrete
 {
     public class ProductManager : IProductService
     {
-        private readonly IProductRepository _productRepository;
-        public ProductManager(IProductRepository productRepository)
+        private readonly IUnitOfWork unitOfWork;
+        public ProductManager(IUnitOfWork unitOfWork)
         {
-            _productRepository = productRepository;
+            this.unitOfWork = unitOfWork;
         }
 
 
         public void Add(Product t)
         {
-            _productRepository.Add(t);
+            unitOfWork.ProductRepository.Add(t);
+            unitOfWork.Save();
         }
 
         public void Add(Product p, int[] categoryIds)
         {
-            _productRepository.Add(p, categoryIds);
+            unitOfWork.ProductRepository.Add(p, categoryIds);
         }
 
         public void Delete(Product t)
         {
-            _productRepository.Delete(t);
+            unitOfWork.ProductRepository.Delete(t);
+            unitOfWork.Save();
         }
 
         public List<Product> GetAll()
         {
-            return _productRepository.GetAll();
+            return unitOfWork.ProductRepository.GetAll();
         }
 
         public Product GetById(int id)
         {
-            return _productRepository.GetById(id);
+            return unitOfWork.ProductRepository.GetById(id);
         }
 
         // Kategoriye göre kaç ürün varsa onu döndürecek metot
         public int GetCountByCategory(string category)
         {
-            return _productRepository.GetCountByCategory(category);
+            return unitOfWork.ProductRepository.GetCountByCategory(category);
         }
 
         public int GetCountBySearchResult(string stringForSearch)
         {
-            return _productRepository.GetCountBySearchResult(stringForSearch);
+            return unitOfWork.ProductRepository.GetCountBySearchResult(stringForSearch);
         }
 
         public List<Product> GetHomePageProducts()
         {
-            return _productRepository.GetHomePageProducts();
+            return unitOfWork.ProductRepository.GetHomePageProducts();
         }
 
         public Product GetProductByIdWithCategories(int id)
         {
-            return _productRepository.GetProductByIdWithCategories(id);
+            return unitOfWork.ProductRepository.GetProductByIdWithCategories(id);
         }
 
         // ürünlerle birlikte kategorileride getirir
         public Product GetProductDetails(string url)
         {
-            return _productRepository.GetProductDetails(url);
+            return unitOfWork.ProductRepository.GetProductDetails(url);
         }
 
         public List<Product> GetSearchResult(string stringForSearch, int page, int PageSize)
         {
-            return _productRepository.GetSearchResult(stringForSearch, page, PageSize);
+            return unitOfWork.ProductRepository.GetSearchResult(stringForSearch, page, PageSize);
         }
 
         public List<Product> ListProductsByCategory(string name, int page, int pageSize)
         {
-            return _productRepository.ListProductsByCategory(name, page, pageSize);
+            return unitOfWork.ProductRepository.ListProductsByCategory(name, page, pageSize);
         }
 
         public void Update(Product t)
         {
-            _productRepository.Update(t);
+            unitOfWork.ProductRepository.Update(t);
+            unitOfWork.Save();
         }
 
         public void Update(Product p, int[] categoryIds)
         {
-            _productRepository.Update(p, categoryIds);
+            unitOfWork.ProductRepository.Update(p, categoryIds);
         }
     }
 }
