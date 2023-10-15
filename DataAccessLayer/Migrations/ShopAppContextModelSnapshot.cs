@@ -215,7 +215,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("AddedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("date('now')");
 
                     b.Property<string>("Description")
                         .IsRequired()

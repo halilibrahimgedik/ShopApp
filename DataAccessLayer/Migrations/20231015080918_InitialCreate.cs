@@ -76,7 +76,7 @@ namespace DataAccessLayer.Migrations
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: false),
                     IsApproved = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsHome = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AddedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    AddedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "date('now')")
                 },
                 constraints: table =>
                 {
