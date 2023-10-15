@@ -181,8 +181,8 @@ namespace ShopApp.WebUI.Controllers
         private Payment PaymentProcess(OrderVM model)
         {
             Iyzipay.Options options = new Iyzipay.Options();
-            options.ApiKey = "sandbox-pG1IXNky5JEfu5jamGt3stAnSfiSegv8";
-            options.SecretKey = "sandbox-xvnnT156quyRwGlCAdmsnUXwblcbAAoz";
+            options.ApiKey = "sandbox-r3G2IVVeqEPx3RrvVvxQwyiOmYFhIjKb";
+            options.SecretKey = "sandbox-jewy4wX4K5maq94zhnFLdVQGTVCNlz7c";
             options.BaseUrl = "https://sandbox-api.iyzipay.com";
 
             CreatePaymentRequest request = new CreatePaymentRequest();
