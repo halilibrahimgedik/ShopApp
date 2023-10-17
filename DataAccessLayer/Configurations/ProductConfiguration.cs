@@ -41,7 +41,8 @@ namespace DataAccessLayer.Configurations
              new Product { Id = 15, Name = "Bosch Buzdolabı", Url = "", IsHome = true, Price = 20250, Description = "Alttan Donduruculu Buzdolabı", ImageUrl = "bosch-buzdolap.jpg", IsApproved = true },
              new Product { Id = 16, Name = "Arçelik çamaşır Makinesi", Url = "", IsHome = true, Price = 15750, Description = "Düşük enerjili yüksek performanslı", ImageUrl = "arcelik-camasir.jpg", IsApproved = true });
 
-            builder.Property(p => p.AddedDate).HasDefaultValueSql("date('now')"); //? Sqlite için
+            //builder.Property(p => p.AddedDate).HasDefaultValueSql("date('now')"); //? Sqlite için
+            builder.Property(p => p.AddedDate).HasDefaultValueSql("FORMAT(GETDATE(), 'yyyy-MM-dd')");
         }
     }
 }

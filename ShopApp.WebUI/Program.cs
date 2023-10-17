@@ -12,9 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<ShopAppContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
+builder.Services.AddDbContext<ShopAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
