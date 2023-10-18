@@ -3,9 +3,11 @@ using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete;
 using EntityLayer;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ShopApp.WebUI.Models;
 using ShopApp.WebUI.Models.ViewModels;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
 {
@@ -28,6 +30,22 @@ namespace ShopApp.WebUI.Controllers
             };
 
             return View(productListVM);
+        }
+
+        public async Task<IActionResult> GetProductsFromRestApi()
+        {
+            var products = new List<Product>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using(var response = await httpClient.GetAsync("https://localhost:7136/api/products"))
+                {
+                   string apiResponse = await response.Content.ReadAsStringAsync();
+                    products = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                }
+            }
+
+            return View(products);
         }
 
         public IActionResult Details()

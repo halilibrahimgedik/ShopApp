@@ -2,6 +2,7 @@
 using EntityLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopApp.WebAPI.DTO;
 
 namespace ShopApp.WebAPI.Controllers
 {
@@ -21,25 +22,34 @@ namespace ShopApp.WebAPI.Controllers
         {
             var products = await _productService.GetAll();
 
-            return Ok(products);
+            var productDto = new List<ProductDTO>();
+
+            foreach (var product in products)
+            {
+                productDto.Add(productToDTO(product));
+            }
+
+            return Ok(productDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
             var p = await _productService.GetById(id);
+
             if (p == null)
             {
                 return NotFound(); //! 404 hatası
             }
-            return Ok(p);   //! 200 başarılı
+
+            return Ok(productToDTO(p));   //! 200 başarılı
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product p)
         {
             await _productService.AddAsync(p);
-            return CreatedAtAction(nameof(GetProduct), new { id = p.Id }, p);
+            return CreatedAtAction(nameof(GetProduct), new { id = p.Id }, productToDTO(p));
         }
 
         [HttpPut("{id}")]
@@ -75,6 +85,21 @@ namespace ShopApp.WebAPI.Controllers
             await _productService.DeleteAsync(product);
 
             return NoContent(); //! 204 status kodu
+        }
+
+        private static ProductDTO productToDTO(Product product)
+        {
+            var productDto = new ProductDTO()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Url = product.Url,
+                ImageUrl = product.ImageUrl,
+                Description = product.Description
+            };
+
+            return productDto;
         }
     }
 }

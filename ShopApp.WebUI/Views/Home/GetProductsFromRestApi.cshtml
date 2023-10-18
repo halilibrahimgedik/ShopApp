@@ -1,0 +1,9 @@
+﻿@model List<Product>
+
+@foreach(var p in Model)
+{
+    <div>
+        <p>@p.Name</p>
+        <p>@p.Price</p>
+    </div>
+}
