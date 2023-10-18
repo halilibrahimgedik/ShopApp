@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface IProductService
     {
-        Product GetById(int id);
+        Task<Product> GetById(int id);
 
         void Delete(Product t);
 
@@ -17,7 +17,9 @@ namespace BusinessLayer.Abstract
 
         void Add(Product t);
 
-        List<Product> GetAll();
+        Task<Product>AddAsync(Product t);
+
+        Task<List<Product>> GetAll();
 
         Product GetProductDetails(string url);
 

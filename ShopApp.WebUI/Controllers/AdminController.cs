@@ -31,20 +31,21 @@ namespace ShopApp.WebUI.Controllers
 
 
         // ! Product işlemleri
-        public IActionResult ListProducts()
+        public async Task<IActionResult> ListProducts()
         {
+            var products = await _productService.GetAll();
             var productVm = new ListProductsVM()
             {
-                Products = _productService.GetAll() // onaylı onaysız tüm ürünler gelicek
+                Products = products // onaylı onaysız tüm ürünler gelicek
             };
 
             return View(productVm);
         }
 
         [HttpGet]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            ViewBag.AllCategories = _categoryService.GetAll();
+            ViewBag.AllCategories =  await _categoryService.GetAll();
             return View();
         }
 
@@ -86,7 +87,7 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditProduct(int? id)
+        public async Task<IActionResult> EditProduct(int? id)
         {
             if (id == null)
             {
@@ -113,7 +114,7 @@ namespace ShopApp.WebUI.Controllers
                 SelectedCategories = p.Categories.Select(pc => pc.Category).ToList() // ürüne ait kategriler
             };
 
-            ViewBag.AllCategories = _categoryService.GetAll(); // tüm kategoriler
+            ViewBag.AllCategories = await _categoryService.GetAll(); // tüm kategoriler
             return View(productVM);
         }
 
@@ -121,7 +122,7 @@ namespace ShopApp.WebUI.Controllers
         public async Task<IActionResult> EditProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
 
-            var p = _productService.GetById(product.Id);
+            var p = await _productService.GetById(product.Id);
 
             if (p == null)
             {
@@ -159,13 +160,13 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct(int? deleteId)
+        public async Task<IActionResult> DeleteProduct(int? deleteId)
         {
             if (deleteId == null)
             {
                 return NotFound();
             }
-            var p = _productService.GetById((int)deleteId);
+            var p = await _productService.GetById((int)deleteId);
             if (p == null)
             {
                 return NotFound();
@@ -179,9 +180,9 @@ namespace ShopApp.WebUI.Controllers
 
 
         // ! Kategori işlemleri
-        public IActionResult ListCategories()
+        public async Task<IActionResult> ListCategories()
         {
-            var categories = _categoryService.GetAll();
+            var categories = await _categoryService.GetAll();
             if (categories == null)
             {
                 return NotFound();
@@ -248,9 +249,9 @@ namespace ShopApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCategory(CategoryVM category)
+        public async Task<IActionResult> EditCategory(CategoryVM category)
         {
-            var c = _categoryService.GetById(category.Id);
+            var c = await _categoryService.GetById(category.Id);
 
             if (c == null)
             {
@@ -270,14 +271,14 @@ namespace ShopApp.WebUI.Controllers
             return RedirectToAction("ListCategories");
         }
 
-        public IActionResult DeleteCategory(int? deleteId)
+        public async Task<IActionResult> DeleteCategory(int? deleteId)
         {
             if (deleteId == null)
             {
                 return NotFound();
             }
 
-            var c = _categoryService.GetById((int)deleteId);
+            var c = await _categoryService.GetById((int)deleteId);
 
             if (c == null)
             {

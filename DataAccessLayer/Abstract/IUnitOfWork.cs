@@ -17,5 +17,7 @@ namespace DataAccessLayer.Abstract
         IOrderRepository OrderRepository { get; }
 
         void Save();
+
+        Task<int> SaveAsync();
     }
 }

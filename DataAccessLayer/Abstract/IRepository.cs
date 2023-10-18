@@ -8,7 +8,7 @@ namespace DataAccessLayer.Abstract
 {
     public interface IRepository<T> where T : class
     {
-        T GetById(int id);
+        Task<T> GetById(int id);
 
         void Delete(T t);
 
@@ -16,6 +16,8 @@ namespace DataAccessLayer.Abstract
 
         void Add(T t);
 
-        List<T> GetAll();
+        Task AddAsync(T t);
+
+        Task<List<T>> GetAll();
     }
 }

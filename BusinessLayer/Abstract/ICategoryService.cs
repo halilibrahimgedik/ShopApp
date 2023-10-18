@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface ICategoryService
     {
-        Category GetById(int id);
+        Task<Category> GetById(int id);
 
         void Delete(Category t);
 
@@ -17,7 +17,9 @@ namespace BusinessLayer.Abstract
 
         void Add(Category t);
 
-        List<Category> GetAll();
+        Task<Category> AddAsync(Category t);
+
+        Task<List<Category>> GetAll();
 
         Category GetByIdWithProducts(int categoryId);
 

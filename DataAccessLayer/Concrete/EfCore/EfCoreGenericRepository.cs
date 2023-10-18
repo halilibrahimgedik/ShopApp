@@ -23,19 +23,24 @@ namespace DataAccessLayer.Concrete.EfCore
             context.Set<T>().Add(t);
         }
 
+        public async Task AddAsync(T t)
+        {
+            await context.Set<T>().AddAsync(t);
+        }
+
         public void Delete(T t)
         {
             context.Set<T>().Remove(t);
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return context.Set<T>().ToList();
+            return await context.Set<T>().ToListAsync();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return context.Set<T>().Find(id);
+            return await context.Set<T>().FindAsync(id);
         }
 
         public virtual void Update(T t)

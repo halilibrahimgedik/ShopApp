@@ -17,17 +17,17 @@ namespace ShopApp.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = _productService.GetAll();
+            var products = await _productService.GetAll();
 
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            var p = _productService.GetById(id);
+            var p = await _productService.GetById(id);
             if (p == null)
             {
                 return NotFound(); //! 404 hatası

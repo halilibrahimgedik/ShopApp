@@ -26,7 +26,15 @@ namespace BusinessLayer.Concrete
 
         public void Add(Product p, int[] categoryIds)
         {
-            unitOfWork.ProductRepository.Add(p, categoryIds);
+            unitOfWork.ProductRepository.Add(p,categoryIds);
+            unitOfWork.Save();
+        }
+
+        public async Task<Product> AddAsync(Product t)
+        {
+            await unitOfWork.ProductRepository.AddAsync(t);
+            await unitOfWork.SaveAsync();
+            return t;
         }
 
         public void Delete(Product t)
@@ -35,14 +43,14 @@ namespace BusinessLayer.Concrete
             unitOfWork.Save();
         }
 
-        public List<Product> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            return unitOfWork.ProductRepository.GetAll();
+            return await unitOfWork.ProductRepository.GetAll();
         }
 
-        public Product GetById(int id)
+        public async Task<Product> GetById(int id)
         {
-            return unitOfWork.ProductRepository.GetById(id);
+            return await unitOfWork.ProductRepository.GetById(id);
         }
 
         // Kategoriye göre kaç ürün varsa onu döndürecek metot

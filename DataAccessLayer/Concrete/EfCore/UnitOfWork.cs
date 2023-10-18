@@ -39,5 +39,10 @@ namespace DataAccessLayer.Concrete.EfCore
         {
             shopAppContext.SaveChanges();
         }
+
+        public async Task<int> SaveAsync()
+        {
+           return await shopAppContext.SaveChangesAsync();
+        }
     }
 }

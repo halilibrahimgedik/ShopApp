@@ -27,6 +27,13 @@ namespace BusinessLayer.Concrete
             unitOfWork.Save();
         }
 
+        public async Task<Category> AddAsync(Category t)
+        {
+            await unitOfWork.CategoryRepository.AddAsync(t);
+            await unitOfWork.SaveAsync();
+            return t;
+        }
+
         public void Delete(Category t)
         {
             unitOfWork.CategoryRepository.Delete(t);
@@ -38,14 +45,14 @@ namespace BusinessLayer.Concrete
             unitOfWork.CategoryRepository.DeleteProductFromCategories(productId,categoryId);
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAll()
         {
-            return unitOfWork.CategoryRepository.GetAll();
+            return await unitOfWork.CategoryRepository.GetAll();
         }
 
-        public Category GetById(int id)
+        public async Task<Category> GetById(int id)
         {
-            return unitOfWork.CategoryRepository.GetById(id);
+            return await unitOfWork.CategoryRepository.GetById(id);
         }
 
         public Category GetByIdWithProducts(int categoryId)
