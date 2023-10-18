@@ -13,6 +13,8 @@ namespace BusinessLayer.Abstract
 
         void Delete(Product t);
 
+        Task DeleteAsync(Product t);
+
         void Update(Product t);
 
         void Add(Product t);
@@ -38,5 +40,7 @@ namespace BusinessLayer.Abstract
         void Update(Product p, int[] categoryIds);
 
         void Add(Product p, int[] categoryIds);
+
+        Task UpdateAsync(Product entityToUpdate,Product entity);
     }
 }

@@ -34,5 +34,48 @@ namespace ShopApp.WebAPI.Controllers
             }
             return Ok(p);   //! 200 başarılı
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(Product p)
+        {
+            await _productService.AddAsync(p);
+            return CreatedAtAction(nameof(GetProduct), new { id = p.Id }, p);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id,Product entity)
+        {
+            if (id != entity.Id)
+            {
+                return BadRequest(); //! 400 lü hata 
+            }
+
+            var product = await _productService.GetById(id);
+
+            if(product == null)
+            {
+                return NotFound(); //! 404 hatası
+            }
+
+            await _productService.UpdateAsync(product,entity);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _productService.GetById(id);
+
+            if( product == null)
+            {
+                return NotFound();
+            }
+
+            await _productService.DeleteAsync(product);
+
+            return NoContent(); //! 204 status kodu
+        }
     }
 }
+

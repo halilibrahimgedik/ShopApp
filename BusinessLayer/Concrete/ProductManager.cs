@@ -43,6 +43,12 @@ namespace BusinessLayer.Concrete
             unitOfWork.Save();
         }
 
+        public async Task DeleteAsync(Product t)
+        {
+            unitOfWork.ProductRepository.Delete(t);
+            await unitOfWork.SaveAsync();
+        }
+
         public async Task<List<Product>> GetAll()
         {
             return await unitOfWork.ProductRepository.GetAll();
@@ -99,6 +105,15 @@ namespace BusinessLayer.Concrete
         public void Update(Product p, int[] categoryIds)
         {
             unitOfWork.ProductRepository.Update(p, categoryIds);
+        }
+
+        public async Task UpdateAsync(Product entityToUpdate, Product entity)
+        {
+            entityToUpdate.Name= entity.Name;
+            entityToUpdate.Price= entity.Price;
+            entityToUpdate.Description= entity.Description;
+
+            await unitOfWork.SaveAsync();
         }
     }
 }
