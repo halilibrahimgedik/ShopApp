@@ -2,6 +2,8 @@ using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
 using DataAccessLayer.Abstract;
 using DataAccessLayer.Concrete.EfCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<ShopAppContext>(options => options.UseSqlServer(bu
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+
+// Toplu FLUENT VALIDATION
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -125,6 +130,11 @@ app.MapControllerRoute(
     name: "adminrolecreate",
     pattern: "admin/user/edit/{userId?}",
     defaults: new { controller = "Admin", action = "EditUser" });
+
+app.MapControllerRoute(
+    name: "adminuserdelete",
+    pattern: "admin/user/delete",
+    defaults: new { controller = "Admin", action = "DeleteUser" });
 
 //? Admin Role Route settings
 app.MapControllerRoute(

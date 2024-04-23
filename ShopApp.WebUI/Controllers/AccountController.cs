@@ -97,10 +97,10 @@ namespace ShopApp.WebUI.Controllers
             // girilen bilgiler validation kurallarını geçtiyse user oluşturmalıyız
             var user = new User()
             {
-                FirstName = register.FirstName,
-                LastName = register.LastName,
+                FirstName = register.FirstName!,
+                LastName = register.LastName!,
                 Email = register.Email,
-                UserName = register.UserName,
+                UserName = register.UserName?.Replace(" ", "").Trim(),
             };
 
             // mail adresi önceden eklenmiş mi kontrol edelim

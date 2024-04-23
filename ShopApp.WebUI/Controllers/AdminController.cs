@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
+using Microsoft.Win32;
+using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
 //using Newtonsoft.Json;
 using ShopApp.WebUI.Models;
@@ -20,13 +22,16 @@ namespace ShopApp.WebUI.Controllers
         private readonly ICategoryService _categoryService;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IEmailSender emailSender)
         {
             _productService = productService;
             _categoryService = categoryService;
             _roleManager = roleManager;
             _userManager = userManager;
+            _emailSender = emailSender;
+
         }
 
 
@@ -346,10 +351,14 @@ namespace ShopApp.WebUI.Controllers
             var members = new List<User>();
             var nonMembers = new List<User>();
 
-            foreach (var user in _userManager.Users)
+            var users = await _userManager.Users.ToListAsync();
+
+            foreach (var user in users)
             {
-                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                var list  = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+
                 // listlerin referans tipli olmasını kullanabiliriz burda, true dönerse list => stack de members 'ı işaret edicek ve ekleme yaparken(list.Add(user) derken) members 'a eklemiş olacağız, false dönerse list stackde nonMembers'ı işaret edicek ve list.Add(user) dediğimizde bu sefer nonMembers'a user eklenecek
+
                 list.Add(user);
             }
 
@@ -412,11 +421,92 @@ namespace ShopApp.WebUI.Controllers
             return Redirect("/admin/role/edit/" + model.RoleId);
         }
 
+        public async Task<IActionResult> DeleteRole(string roleId)
+        {
+            if (string.IsNullOrEmpty(roleId))
+            {
+                CreateMessage("danger", "Silmeye Çalıştığınız Rolün Id bilgisi Hatalı ");
+                return RedirectToAction("ListRoles");
+            }
+
+            try
+            {
+                IdentityRole role = await _roleManager.FindByIdAsync(roleId);
+                await _roleManager.DeleteAsync(role);
+            }
+            catch (Exception e)
+            {
+                CreateMessage("danger", "bir hata meydana geldi, Rol silinemedi.");
+                Console.WriteLine(e.Message);
+            }
+
+            return RedirectToAction("ListRoles");
+        }
+
 
         //! User İşlemleri
         public IActionResult ListUsers()
         {
             return View(_userManager.Users.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(RegisterVM register)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(register);
+            }
+
+            // girilen bilgiler validation kurallarını geçtiyse user oluşturmalıyız
+            var user = new User()
+            {
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                Email = register.Email,
+                UserName = register.UserName,
+            };
+
+            // mail adresi önceden eklenmiş mi kontrol edelim
+            var isMailAdressUsedBefore = await _userManager.FindByEmailAsync(user.Email);
+
+            if (isMailAdressUsedBefore != null)
+            {
+                CreateMessage("warning", "Bu Mail adresi ile önceden bir hesap oluşturulmuştur. Lütfen başka bir mail adresi giriniz.");
+                return View(register);
+            }
+
+            var result = await _userManager.CreateAsync(user, register.Password);
+
+            if (result.Succeeded)
+            {
+                // oluşan user hesabını direkt "customer" rolüne atayalım.
+                //await _userManager.AddToRoleAsync(user, "customer");
+
+                //TODO Token Bilgisi oluşturulmalı burada ve mail ile gönderilmeli
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); // bizden bir user bilgisi alarak token oluşturuyor,oluşturulan token veri tabanına kaydediliyor ve daha sonra token bilgisi ile onaylama yapacağız.
+
+                var url = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userId = user.Id,
+                    token = token
+                });
+                //TODO Url oluşturulduktan sonra bu url kullanıcıya mail ile gönderilmeli
+
+                await _emailSender.SendEmailAsync(register.Email, "Hesabınızı Onaylayınız", $"Lütfen ShopApp uygulamasından size gönderilen <a href='https://localhost:7037{url}'>linke tıklayarak </a> hesabınızı onaylayınız.");
+
+                return RedirectToAction("ListUsers");
+            }
+
+            // eğer hata farklı bir şeyden kaynaklanıyorsa ModelState içine hata mesajı ekleyebiliriz yada alertBox ile de yapabiliriz
+            ModelState.AddModelError("", "Bilinmeyen Bir hata meydana geldi, lütfen daha sonra tekrar deneyiniz");
+            return View(register);
         }
 
         [HttpGet]
@@ -498,6 +588,28 @@ namespace ShopApp.WebUI.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> DeleteUser(string UserId)
+        {
+            if (string.IsNullOrEmpty(UserId))
+            {
+                CreateMessage("warning", "Silmek İstediğiniz user bulunamadı");
+                return RedirectToAction("ListUsers");
+            }
+
+            try
+            {
+                var user = await _userManager.FindByIdAsync(UserId);
+                await _userManager.DeleteAsync(user);
+            }
+            catch (Exception ex)
+            {
+                CreateMessage("danger", "Bilinmeyen bir hata oluştu");
+                Console.WriteLine(ex.Message);
+            }
+            
+            return RedirectToAction("ListUsers");
         }
 
         private void CreateMessage(string alertType, string message)
