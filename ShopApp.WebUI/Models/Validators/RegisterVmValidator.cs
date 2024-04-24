@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace ShopApp.WebUI.Models.Validators
 {
-    public class RegisterValidator : AbstractValidator<RegisterVM>
+    public class RegisterVmValidator : AbstractValidator<RegisterVM>
     {
-        public RegisterValidator()
+        public RegisterVmValidator()
         {
             RuleFor(x => x.FirstName).NotNull().WithMessage("Lütfen FirstName alanını doldurunuz.");
             RuleFor(x => x.LastName).NotNull().WithMessage("Lütfen LastName alanını doldurunuz.");

@@ -1,9 +1,8 @@
 ﻿using EntityLayer;
-using System.ComponentModel.DataAnnotations;
 
 namespace ShopApp.WebUI.Models.ViewModels
 {
-    public class ProductVM
+    public class UpdateProductVM
     {
         public int Id { get; set; }
 
@@ -20,8 +19,6 @@ namespace ShopApp.WebUI.Models.ViewModels
         public bool IsApproved { get; set; }
 
         public bool IsHome { get; set; }
-
-        public DateTime AddedDate { get; set; }
 
         public List<Category> SelectedCategories { get; set; } = new List<Category>();
     }

@@ -10,7 +10,9 @@ using ShopApp.WebUI.EmailServices;
 using ShopApp.WebUI.Identity;
 //using Newtonsoft.Json;
 using ShopApp.WebUI.Models;
+using ShopApp.WebUI.Models.Validators;
 using ShopApp.WebUI.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace ShopApp.WebUI.Controllers
@@ -57,36 +59,52 @@ namespace ShopApp.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductVM product, int[] categoryIds, IFormFile file)
         {
-            var p = new Product()
+            if (!ModelState.IsValid)
             {
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                Url = product.Url,
-                IsApproved = product.IsApproved,
-                IsHome = product.IsHome,
-                AddedDate = product.AddedDate
-            };
-
-            if (file != null)
-            {
-                var imageExtension = Path.GetExtension(file.FileName);
-
-                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
-
-                p.ImageUrl = randomName;
-
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+                Console.WriteLine(ModelState.ErrorCount);
+                ViewBag.AllCategories = await _categoryService.GetAll();
+                return View(product);
             }
 
-            _productService.Add(p, categoryIds);
+            try
+            {
+                var p = new Product()
+                {
+                    Name = product.Name!,
+                    Price = product.Price!,
+                    Description = product.Description!,
+                    Url = product.Url!,
+                    IsApproved = product.IsApproved,
+                    IsHome = product.IsHome,
+                    AddedDate = product.AddedDate,
+                };
 
-            CreateMessage("success", $"{p.Name} adlı ürün eklendi");
+                if (file != null)
+                {
+                    var imageExtension = Path.GetExtension(file.FileName);
+
+                    var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                    p.ImageUrl = randomName;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+
+                _productService.Add(p, categoryIds);
+
+                CreateMessage("success", $"{p.Name} adlı ürün eklendi");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CreateMessage("danger", " Ürün Eklenirken Bir hata meydana geldi");
+            }
+            
 
             return RedirectToAction("ListProducts");
         }
@@ -106,7 +124,7 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
 
-            var productVM = new ProductVM()
+            var updateProductVM = new UpdateProductVM()
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -120,11 +138,11 @@ namespace ShopApp.WebUI.Controllers
             };
 
             ViewBag.AllCategories = await _categoryService.GetAll(); // tüm kategoriler
-            return View(productVM);
+            return View(updateProductVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(ProductVM product, int[] categoryIds, IFormFile file)
+        public async Task<IActionResult> EditProduct(UpdateProductVM product, int[] categoryIds, IFormFile file)
         {
 
             var p = await _productService.GetById(product.Id);
@@ -134,33 +152,50 @@ namespace ShopApp.WebUI.Controllers
                 return NotFound();
             }
 
-            p.Name = product.Name;
-            p.Price = product.Price;
-            p.Description = product.Description;
-            p.Url = product.Url;
-            p.IsApproved = product.IsApproved;
-            p.IsHome = product.IsHome;
+            ViewBag.UploadedFile = file;
 
-            if (file != null)
+            if (!ModelState.IsValid)
             {
-                var imageExtension = Path.GetExtension(file.FileName);
-
-                var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
-
-                p.ImageUrl = randomName;
-
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+                ViewBag.AllCategories = await _categoryService.GetAll();
+                return View(product);
             }
-            // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
-            _productService.Update(p, categoryIds);
 
-            CreateMessage("warning", $"{p.Name} adlı ürün Güncellendi");
+            try
+            {
+                if (file != null)
+                {
+                    var imageExtension = Path.GetExtension(file.FileName);
 
+                    var randomName = string.Format($"{Guid.NewGuid()}{imageExtension}");
+
+                    p.ImageUrl = randomName;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+
+                p.Name = product.Name!;
+                p.Price = product.Price;
+                p.Description = product.Description!;
+                p.Url = product.Url!;
+                p.IsApproved = product.IsApproved;
+                p.IsHome = product.IsHome;
+
+                // ? Gelen checkbox daki kategori bilgilerini categoryIds sayesinde taşıyoruz ve update metodu ile vt aktarıyoruz
+                _productService.Update(p, categoryIds);
+
+                CreateMessage("warning", $"{p.Name} adlı ürün Güncellendi");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                CreateMessage("danger", "Ürün GÜncellenirken Bir hata meydana geldi");
+            }
+           
             return RedirectToAction("ListProducts");
         }
 
@@ -209,6 +244,10 @@ namespace ShopApp.WebUI.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CategoryVM category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
 
             var c = new Category()
             {
@@ -262,16 +301,27 @@ namespace ShopApp.WebUI.Controllers
             {
                 return NotFound();
             }
-            else
+
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
+
+            try
             {
                 c.Name = category.Name;
                 c.Description = category.Description;
                 c.Url = category.Url;
 
                 _categoryService.Update(c);
-            }
 
-            CreateMessage("warning", $"{c.Name} adlı Kategori Güncellendi");
+                CreateMessage("warning", $"{c.Name} adlı Kategori Güncellendi");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                CreateMessage("danger", "Kategori güncellenirken bİr Hata Meydana Geldi");
+            }
 
             return RedirectToAction("ListCategories");
         }

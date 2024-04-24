@@ -7,6 +7,9 @@
 <form method="post">
 
     <div class="mb-3 row">
+        <div asp-validation-summary="All" class="text-danger">
+        </div>
+
         <label asp-for="Name" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input class="form-control" asp-for="Name" />

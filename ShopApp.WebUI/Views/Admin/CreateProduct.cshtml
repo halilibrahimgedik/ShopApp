@@ -7,6 +7,9 @@
 <form method="post" asp-action="CreateProduct" asp-controller="admin" enctype="multipart/form-data">
     <div class="row">
 
+        <div asp-validation-summary="All" class="text-danger">
+        </div>
+
         <input type="hidden" name="AddedDate" value="@DateTime.Now"/>
 
         <div class="col-md-8">
