@@ -1,8 +1,7 @@
 
 # ShopApp
 
-Bu projenin ne yaptığı ve kimin için olduğu hakkında kısa bir açıklama
-Bu proje C# ve Asp.Net Core 6.0 ile geliştrilmiş bir e-ticaret sitesidir.
+Bu proje Udemy, Youtube gibi platformlardan öğrendiklerimi uygulamak amacıyla C# ve Asp.Net Core 6.0 teknolojileri kullanılarak geliştrilmiş bir bir mini e-ticaret sitesidir.
 
 
 
